@@ -1,13 +1,13 @@
 
 CPP=g++
-INCLUDE=include/
+CPP_FLAGS:=
 
-SOURCES=src/main.o src/Automaton.o
-
+CPP_FILES := $(wildcard src/*.cpp)
+OBJ_FILES := $(addprefix src/,$(notdir $(CPP_FILES:.cpp=.o)))
 
 .PHONY: all clean
-all: $(SOURCES)
-	$(CPP) -o automaton $(SOURCES)
+all: $(OBJ_FILES)
+	$(CPP) -o automaton $(OBJ_FILES)
 
 clean:
 	rm -fv `find -name *.o` automaton
