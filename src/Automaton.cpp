@@ -22,3 +22,7 @@ Automaton::~Automaton()
         // TODO Auto-generated destructor stub
 }
 
+int Automaton::parse(string* line, int max_depth = 5)
+{
+	return 0;
+}

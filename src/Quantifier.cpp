@@ -6,13 +6,30 @@
  */
 
 #include "include/Quantifier.h"
+#include <iostream>
 
 using namespace std;
 
 Quantifier::Quantifier(string* rule) : Automaton (rule)
 {
-        // TODO Auto-generated constructor stub
-
+	char c = rule->at(0);
+	switch (c)
+	{
+	case '*':
+		start_at = START_NULL;
+		stop_at = END_INFINITE;
+		break;
+	case '+':
+		start_at = START_ONE;
+		stop_at = END_INFINITE;
+		break;
+	case '?':
+		start_at = START_NULL;
+		stop_at = END_ONE;
+		break;
+	default:
+		break;
+	}
 }
 
 Quantifier::~Quantifier()

@@ -9,11 +9,16 @@
 #define SRC_CAPTURE_H_
 
 #include "Automaton.h"
+#include "Quantifier.h"
 #include <string>
+
 
 class Capture : Automaton {
 private:
         std::string* internal_string;
+		Automaton* nodes;
+		Quantifier* quantifier;
+
 public:
         Capture(std::string* rule);
         virtual ~Capture();
