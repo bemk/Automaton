@@ -6,8 +6,9 @@
  */
 
 #include "include/Capture.h"
+using namespace std;
 
-Capture::Capture()
+Capture::Capture(string* rule) : Automaton(rule)
 {
         // TODO Auto-generated constructor stub
 

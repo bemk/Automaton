@@ -14,7 +14,7 @@ class Automaton {
 private:
         std::string rule;
 public:
-        Automaton(std::string rule);
+        Automaton(std::string* rule);
         virtual ~Automaton();
 };
 

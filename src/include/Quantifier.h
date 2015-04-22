@@ -8,9 +8,11 @@
 #ifndef SRC_QUANTIFIER_H_
 #define SRC_QUANTIFIER_H_
 
-class Quantifier {
+#include "Automaton.h"
+
+class Quantifier : Automaton{
 public:
-        Quantifier();
+        Quantifier(std::string* rule);
         virtual ~Quantifier();
 };
 

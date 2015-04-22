@@ -8,9 +8,11 @@
 #ifndef SRC_CAPTURE_H_
 #define SRC_CAPTURE_H_
 
-class Capture {
+#include "Automaton.h"
+
+class Capture : Automaton {
 public:
-        Capture();
+        Capture(std::string* rule);
         virtual ~Capture();
 };
 

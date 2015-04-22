@@ -7,14 +7,14 @@
 
 #include "include/Or.h"
 
-Or::Or()
+using namespace std;
+
+Or::Or(string* rule) : Automaton(rule)
 {
-        // TODO Auto-generated constructor stub
 
 }
 
 Or::~Or()
 {
-        // TODO Auto-generated destructor stub
 }
 

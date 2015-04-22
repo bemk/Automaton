@@ -7,7 +7,9 @@
 
 #include "include/Quantifier.h"
 
-Quantifier::Quantifier()
+using namespace std;
+
+Quantifier::Quantifier(string* rule) : Automaton (rule)
 {
         // TODO Auto-generated constructor stub
 

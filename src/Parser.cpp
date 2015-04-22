@@ -11,13 +11,11 @@ using namespace std;
 
 Parser::Parser(string* rule)
 {
-        // TODO Auto-generated constructor stub
 
 }
 
 Parser::~Parser()
 {
-        // TODO Auto-generated destructor stub
 }
 
 int Parser::parse(string* line)

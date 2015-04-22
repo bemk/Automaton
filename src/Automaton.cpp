@@ -11,7 +11,7 @@ using namespace std;
 
 
 
-Automaton::Automaton(string rule)
+Automaton::Automaton(string* rule)
 {
         // TODO Auto-generated constructor stub
 

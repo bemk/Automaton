@@ -8,9 +8,11 @@
 #ifndef SRC_OR_H_
 #define SRC_OR_H_
 
-class Or {
+#include "Automaton.h"
+
+class Or : Automaton{
 public:
-        Or();
+        Or(std::string* rule);
         virtual ~Or();
 };
 
