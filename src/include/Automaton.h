@@ -13,11 +13,13 @@
 class Automaton {
 private:
         std::string rule;
+protected:
+        std::string* internal_string;
 public:
         Automaton(std::string* rule);
         virtual ~Automaton();
 
-		int parse(std::string* line, int max_depth);
+        int parse(std::string* line, int max_depth);
 };
 
 #endif /* SRC_AUTOMATON_H_ */

@@ -10,11 +10,9 @@
 using namespace std;
 
 
-
 Automaton::Automaton(string* rule)
 {
-        // TODO Auto-generated constructor stub
-
+        this->internal_string = new string();
 }
 
 Automaton::~Automaton()

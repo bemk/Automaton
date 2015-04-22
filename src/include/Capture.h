@@ -12,16 +12,16 @@
 #include "Quantifier.h"
 #include <string>
 
-
-class Capture : Automaton {
+class Capture: public Automaton {
 private:
-        std::string* internal_string;
-		Automaton* nodes;
-		Quantifier* quantifier;
+        Automaton* nodes;
+        Quantifier* quantifier;
+        size_t a_length;
 
 public:
         Capture(std::string* rule);
         virtual ~Capture();
+        size_t length();
 };
 
 #endif /* SRC_CAPTURE_H_ */
