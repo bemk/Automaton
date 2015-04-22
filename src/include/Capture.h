@@ -9,8 +9,11 @@
 #define SRC_CAPTURE_H_
 
 #include "Automaton.h"
+#include <string>
 
 class Capture : Automaton {
+private:
+        std::string* internal_string;
 public:
         Capture(std::string* rule);
         virtual ~Capture();
