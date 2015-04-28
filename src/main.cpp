@@ -23,10 +23,12 @@ int main(int argc, char** argv)
         cout << argv[2] << endl;
         cout << argv[3] << endl;
 
-        Parser* p = new Parser(new string(argv[1]));
-        p->parse(new string(argv[2]));
+        Parser* p = new Parser();
+        p->build_grammar(new string(argv[1]));
+        p->enforceGrammar(new string(argv[2]));
 
-        Capture* c = new Capture(new string(argv[2]));
+        Capture* c = new Capture();
+        c->build_grammar(new string(argv[2]));
         delete c;
 
         /*

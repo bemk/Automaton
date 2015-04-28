@@ -7,10 +7,18 @@
 
 #include "include/Capture.h"
 #include <iostream>
+#include <cstdlib>
 using namespace std;
 
-Capture::Capture(string* rule) :
-                Automaton(rule)
+Capture::Capture() :
+                Symbol()
+{
+        this->quantifier = new Quantifier();
+        this->a_length = 0;
+        this->nodes = NULL;
+}
+
+size_t Capture::build_grammar(string* rule)
 {
         int depth_cnt = 0;
         int cnt = 0;
@@ -20,35 +28,38 @@ Capture::Capture(string* rule) :
                 switch (c) {
                 case '(':
                         if (depth_cnt++ != 0) {
-                                internal_string->push_back(c);
+                                this->text.push_back(c);
                         }
                         break;
                 case ')':
                         depth_cnt--;
                         if (depth_cnt != 0) {
-                                internal_string->push_back(c);
+                                this->text.push_back(c);
                         } else {
-                                string s = string(rule->substr(cnt + 1));
-                                quantifier = new Quantifier(&s);
                                 goto end_of_loop;
                         }
                         break;
                 default:
                         if (depth_cnt != 0) {
-                                internal_string->push_back(c);
+                                this->text.push_back(c);
                                 this->a_length++;
                         }
                         break;
 
                 }
         }
+        cerr << "Expected ')' but was not found!" << endl;
+        exit(-2);
 
         end_of_loop:
 
         /* Dump the parsed input */
-        cout << "Captured: " << *internal_string << endl;
+        cout << "Captured: " << this->text << endl;
 
-        nodes = new Automaton(internal_string);
+        nodes = new Parser();
+        nodes->build_grammar(&this->text);
+
+        return this->length();
 }
 
 Capture::~Capture()
@@ -59,4 +70,25 @@ Capture::~Capture()
 size_t Capture::length()
 {
         return this->a_length + 2;
+}
+
+bool Capture::isOfType(char c)
+{
+        switch (c) {
+        case '(':
+        case ')':
+                return true;
+        default:
+                return false;
+        }
+}
+
+Symbol* Capture::allocateType()
+{
+        Symbol* s = (Symbol*)new Capture();
+        if (s == NULL) {
+                std::cerr << "NULL POINTER ALLOCATED" << endl;
+                exit(-1);
+        }
+        return s;
 }

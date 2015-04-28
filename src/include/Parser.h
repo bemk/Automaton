@@ -10,13 +10,19 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
+#include "Symbol.h"
 
 class Parser {
+        Symbol* symbol_tree;
+
+        std::vector<Symbol*> symbolTypes;
 public:
-        Parser(std::string* rule);
+        Parser();
         virtual ~Parser();
 
-        int parse(std::string* line);
+        int build_grammar(std::string* rule);
+        int enforceGrammar(std::string* line);
 };
 
 #endif /* SRC_PARSER_H_ */

@@ -8,20 +8,26 @@
 #ifndef SRC_CAPTURE_H_
 #define SRC_CAPTURE_H_
 
-#include "Automaton.h"
+#include "Symbol.h"
+#include "Parser.h"
 #include "Quantifier.h"
 #include <string>
 
-class Capture: public Automaton {
+class Capture: public Symbol {
 private:
-        Automaton* nodes;
+        Parser* nodes;
         Quantifier* quantifier;
         size_t a_length;
 
 public:
-        Capture(std::string* rule);
+        Capture();
         virtual ~Capture();
+
+        virtual size_t build_grammar(std::string* rule);
         size_t length();
+
+        virtual bool isOfType(char);
+        virtual Symbol* allocateType();
 };
 
 #endif /* SRC_CAPTURE_H_ */

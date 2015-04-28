@@ -1,19 +1,19 @@
 /*
- * And.cpp
+ * Concat.cpp
  *
- *  Created on: 22 Apr 2015
+ *  Created on: 29 Apr 2015
  *      Author: bemk
  */
 
-#include "include/And.h"
+#include "include/Concat.h"
 
-And::And()
+Concat::Concat()
 {
         // TODO Auto-generated constructor stub
 
 }
 
-And::~And()
+Concat::~Concat()
 {
         // TODO Auto-generated destructor stub
 }
