@@ -4,4 +4,5 @@ compiler:
 
   - gcc
 
-script: make clean && make && ./automaton 2 "caa(bb|((cc|ff)*|ee))dd" aa
+script: make clean && make && ./automaton -d 2 -r "caa(bb|((cc|ff)*|ee))dd"
+
