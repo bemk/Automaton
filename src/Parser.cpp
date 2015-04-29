@@ -65,6 +65,7 @@ int Parser::build_grammar(string* rule)
 
 int Parser::enforceGrammar(string* line)
 {
+
         return 0;
 }
 
