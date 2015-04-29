@@ -43,16 +43,13 @@ int main(int argc, char** argv)
 
         int repetition_depth = atoi(argv[1]);
 
+        cout << argv[1] << endl;
         cout << argv[2] << endl;
         cout << argv[3] << endl;
 
         Parser* p = new Parser();
-        p->build_grammar(new string(argv[1]));
-        p->enforceGrammar(new string(argv[2]));
-
-        Capture* c = new Capture();
-        c->build_grammar(new string(argv[2]));
-        delete c;
+        p->build_grammar(new string(argv[2]));
+        p->enforceGrammar(new string(argv[3]));
 
         /*
          for (int i = 0; i < size; i++) {
