@@ -27,14 +27,16 @@ Symbol::~Symbol()
 {
 }
 
-size_t Symbol::build_grammar(string* s)
+size_t Symbol::build_grammar(string* s, size_t location)
 {
+        this->location = location;
         if (s == NULL) {
-                cerr << "Null string given!" << endl;
+                cerr << "Null string given at char " << location << "!" << endl;
                 return 0;
         }
         if (s->compare("") == 0) {
-                cerr << "Empty string given!" << endl;
+                cerr << "Empty string given at char: " << location << "!"
+                     << endl;
                 return 0;
         }
 
@@ -101,4 +103,9 @@ Symbol* Symbol::get_ll_next()
 Symbol* Symbol::get_ll_prev()
 {
         return this->ll_prev;
+}
+
+bool Symbol::allow_concatenation()
+{
+        return true;
 }

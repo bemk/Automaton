@@ -17,13 +17,13 @@ class Capture: public Symbol {
 private:
         Parser* nodes;
         Quantifier* quantifier;
-        size_t a_length;
+        size_t str_length;
 
 public:
         Capture();
         virtual ~Capture();
 
-        virtual size_t build_grammar(std::string* rule);
+        virtual size_t build_grammar(std::string* rule, size_t location);
         size_t length();
 
         virtual bool isOfType(char);

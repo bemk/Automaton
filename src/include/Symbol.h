@@ -22,13 +22,16 @@ class Symbol {
         Symbol* ll_prev;
 
         int string_litteral;
+
 protected:
+        size_t location;
         std::string text;
+
 public:
         Symbol();
         virtual ~Symbol();
 
-        virtual size_t build_grammar(std::string* s);
+        virtual size_t build_grammar(std::string* s, size_t location);
         std::string* getString();
 
         Symbol* getLeft();
@@ -44,6 +47,7 @@ public:
         void set_ll_prev(Symbol* s);
 
         virtual bool isOfType(char c);
+        virtual bool allow_concatenation();
         virtual Symbol* allocateType();
 };
 

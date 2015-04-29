@@ -25,7 +25,7 @@ public:
         Quantifier();
         virtual ~Quantifier();
 
-        virtual size_t build_grammar(std::string* rule);
+        virtual size_t build_grammar(std::string* rule, size_t location);
         virtual bool isOfType(char);
         virtual Symbol* allocateType();
 };

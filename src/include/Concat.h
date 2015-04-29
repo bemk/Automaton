@@ -16,6 +16,7 @@ public:
         virtual ~Concat();
 
         bool isOfType(char c);
+
 };
 
 #endif /* SRC_CONCAT_H_ */

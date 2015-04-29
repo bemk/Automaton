@@ -17,6 +17,7 @@ class Parser {
         Symbol* symbol_tree;
 
         std::vector<Symbol*> symbolTypes;
+
 public:
         Parser();
         virtual ~Parser();

@@ -57,7 +57,7 @@ int Parser::build_grammar(string* rule)
                                 size_t advance;
 
                                 string* tmp = new string(rule->substr(i));
-                                advance = sym->build_grammar(tmp);
+                                advance = sym->build_grammar(tmp, i+1);
                                 delete tmp;
 
                                 if (advance == 0) {
@@ -66,11 +66,16 @@ int Parser::build_grammar(string* rule)
                                         exit(-5);
                                 }
                                 i += advance;
+                                break;
                         }
                 }
         }
 
         /* Second pass, turn the symbol list into a symbol tree */
+
+        for (sym = symbols; sym != NULL; sym = sym->get_ll_next()) {
+                cout << *sym->getString() << endl;
+        }
 
         return 0;
 }

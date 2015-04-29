@@ -14,14 +14,15 @@ Capture::Capture() :
                 Symbol()
 {
         this->quantifier = new Quantifier();
-        this->a_length = 0;
         this->nodes = NULL;
+        this->str_length = 0;
 }
 
-size_t Capture::build_grammar(string* rule)
+size_t Capture::build_grammar(string* rule, size_t location)
 {
+        this->location = location;
         int depth_cnt = 0;
-        int cnt = 0;
+        int cnt = 1;
         for (string::iterator it = rule->begin(); it != rule->end();
                         ++it, cnt++) {
                 char c = *it;
@@ -33,8 +34,12 @@ size_t Capture::build_grammar(string* rule)
                         break;
                 case ')':
                         depth_cnt--;
-                        if (depth_cnt != 0) {
+                        if (depth_cnt > 0) {
                                 this->text.push_back(c);
+                        } else if (depth_cnt < 0) {
+                                cerr << "Found ')' at char " << location
+                                     << " but was not matched!" << endl;
+                                exit(-4);
                         } else {
                                 goto end_of_loop;
                         }
@@ -48,10 +53,12 @@ size_t Capture::build_grammar(string* rule)
                 }
         }
         cerr << "Expected ')' but was not found!" << endl;
+        cerr << "( at " << location << " was not matched!" << endl;
         exit(-2);
 
         end_of_loop:
 
+        this->str_length = cnt;
         /* Dump the parsed input */
         cout << "Captured: " << this->text << endl;
 
@@ -68,7 +75,7 @@ Capture::~Capture()
 
 size_t Capture::length()
 {
-        return this->text.length() + 1;
+        return this->str_length;
 }
 
 bool Capture::isOfType(char c)
@@ -84,7 +91,7 @@ bool Capture::isOfType(char c)
 
 Symbol* Capture::allocateType()
 {
-        Symbol* s = (Symbol*)new Capture();
+        Symbol* s = (Symbol*) new Capture();
         if (s == NULL) {
                 std::cerr << "NULL POINTER ALLOCATED" << endl;
                 exit(-1);

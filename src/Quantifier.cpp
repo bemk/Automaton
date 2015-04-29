@@ -19,8 +19,9 @@ Quantifier::Quantifier() :
         stop_at = END_ONE;
 }
 
-size_t Quantifier::build_grammar(string* rule)
+size_t Quantifier::build_grammar(string* rule, size_t location)
 {
+        this->location = location;
         char c = rule->at(0);
         switch (c) {
         case '*':
