@@ -8,6 +8,8 @@
 #include "include/Parser.h"
 #include "include/Quantifier.h"
 #include "include/Capture.h"
+#include "include/Concat.h"
+#include <cstdlib>
 
 using namespace std;
 
@@ -18,6 +20,7 @@ Parser::Parser()
 
         symbolTypes.push_back((Symbol*) new Capture());
         symbolTypes.push_back((Symbol*) new Quantifier());
+        symbolTypes.push_back((Symbol*) new Concat());
         symbolTypes.push_back(new Symbol());
 }
 
@@ -39,6 +42,8 @@ int Parser::build_grammar(string* rule)
                         continue;
                 }
 
+                cout << "Parsing: '" << c << "'" << endl;
+
                 for (int x = 0; x < symbolTypes.size(); x++) {
                         if (symbolTypes[x]->isOfType(c)) {
                                 /* Let the symbol parser take over */
@@ -50,9 +55,16 @@ int Parser::build_grammar(string* rule)
 
                                 /* The number of characters to skip */
                                 size_t advance;
-                                advance = sym->build_grammar(
-                                                new string(rule->substr(i)));
 
+                                string* tmp = new string(rule->substr(i));
+                                advance = sym->build_grammar(tmp);
+                                delete tmp;
+
+                                if (advance == 0) {
+                                        cerr << "Fault in processing grammar!"
+                                             << endl;
+                                        exit(-5);
+                                }
                                 i += advance;
                         }
                 }

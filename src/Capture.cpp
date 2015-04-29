@@ -42,7 +42,6 @@ size_t Capture::build_grammar(string* rule)
                 default:
                         if (depth_cnt != 0) {
                                 this->text.push_back(c);
-                                this->a_length++;
                         }
                         break;
 
@@ -69,7 +68,7 @@ Capture::~Capture()
 
 size_t Capture::length()
 {
-        return this->a_length + 2;
+        return this->text.length() + 1;
 }
 
 bool Capture::isOfType(char c)

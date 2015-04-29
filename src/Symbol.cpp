@@ -30,11 +30,16 @@ Symbol::~Symbol()
 size_t Symbol::build_grammar(string* s)
 {
         if (s == NULL) {
-                return -2;
+                cerr << "Null string given!" << endl;
+                return 0;
         }
-        if (s->compare("")) {
-                return -1;
+        if (s->compare("") == 0) {
+                cerr << "Empty string given!" << endl;
+                return 0;
         }
+
+        this->text.push_back(s->at(0));
+
         return 1;
 }
 
