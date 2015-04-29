@@ -32,17 +32,18 @@ int Parser::build_grammar(string* rule)
 {
         Symbol* symbols = new Symbol();
         Symbol* sym = symbols;
+        cout << "sizeof char " << sizeof(char) << endl;
         /* First pass, turn everything into symbols */
         for (int i = 0; i < rule->length();) {
                 char c = rule->at(i);
-
+                cout << "Parsing: '" << c << "'" << endl;
                 if (c == ' ' || c == '\t') {
                         /* Skip white spaces */
                         i++;
                         continue;
                 }
 
-                cout << "Parsing: '" << c << "'" << endl;
+
 
                 for (int x = 0; x < symbolTypes.size(); x++) {
                         if (symbolTypes[x]->isOfType(c)) {
@@ -66,6 +67,7 @@ int Parser::build_grammar(string* rule)
                                         exit(-5);
                                 }
                                 i += advance;
+                                break;
                         }
                 }
         }
