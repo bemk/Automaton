@@ -32,6 +32,7 @@ int Parser::build_grammar(string* rule)
 {
         Symbol* symbols = new Symbol();
         Symbol* sym = symbols;
+        sym->set_concatenation(false);
         cout << "sizeof char " << sizeof(char) << endl;
         /* First pass, turn everything into symbols */
         for (int i = 0; i < rule->length();) {
@@ -42,8 +43,6 @@ int Parser::build_grammar(string* rule)
                         i++;
                         continue;
                 }
-
-
 
                 for (int x = 0; x < symbolTypes.size(); x++) {
                         if (symbolTypes[x]->isOfType(c)) {

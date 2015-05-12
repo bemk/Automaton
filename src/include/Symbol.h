@@ -21,6 +21,8 @@ class Symbol {
         Symbol* ll_next;
         Symbol* ll_prev;
 
+        bool allow_concatenation;
+
         int string_litteral;
 
 protected:
@@ -47,7 +49,8 @@ public:
         void set_ll_prev(Symbol* s);
 
         virtual bool isOfType(char c);
-        virtual bool allow_concatenation();
+        virtual bool concatenation_allowed();
+        virtual void set_concatenation(bool status);
         virtual Symbol* allocateType();
 };
 

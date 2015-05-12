@@ -21,6 +21,8 @@ Symbol::Symbol()
 
         string_litteral = STRING_LITTERAL;
         text = string("");
+
+        allow_concatenation = true;
 }
 
 Symbol::~Symbol()
@@ -105,7 +107,12 @@ Symbol* Symbol::get_ll_prev()
         return this->ll_prev;
 }
 
-bool Symbol::allow_concatenation()
+bool Symbol::concatenation_allowed()
 {
-        return true;
+        return this->allow_concatenation;
+}
+
+void Symbol::set_concatenation(bool status)
+{
+        this->allow_concatenation = status;
 }

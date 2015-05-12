@@ -9,6 +9,7 @@
 
 Concat::Concat() : Symbol()
 {
+        this->set_concatenation(false);
         // TODO Auto-generated constructor stub
 
 }
