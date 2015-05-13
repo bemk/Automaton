@@ -125,3 +125,5 @@ void Symbol::set_concatenation(bool status)
 {
         this->allow_concatenation = status;
 }
+
+

@@ -18,11 +18,11 @@ class Parser {
         size_t location;
 
         std::vector<Symbol*> symbolTypes;
+        std::vector<char> alphabet;
 
 public:
         Parser(size_t location);
         virtual ~Parser();
-
         Symbol* getSymbols();
         int build_grammar(std::string* rule);
         int enforceGrammar(std::string* line);

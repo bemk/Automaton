@@ -13,6 +13,8 @@
 
 using namespace std;
 
+
+
 Parser::Parser(size_t location)
 {
         this->location = location;
@@ -22,7 +24,6 @@ Parser::Parser(size_t location)
         symbolTypes.push_back((Symbol*) new Quantifier());
         symbolTypes.push_back((Symbol*) new Capture());
         symbolTypes.push_back((Symbol*) new Concat());
-        symbolTypes.push_back(new Symbol());
 }
 
 Parser::~Parser()
@@ -56,11 +57,11 @@ int Parser::build_grammar(string* rule)
                         i++;
                         continue;
                 }
-
+                bool isRecognised = false;
                 for (int x = 0; x < symbolTypes.size(); x++) {
                         if (symbolTypes[x]->isOfType(c)) {
                                 /* Let the symbol parser take over */
-
+                                isRecognised = true;
                                 sym->set_ll_next(
                                                 symbolTypes[x]->allocateType());
                                 sym->get_ll_next()->set_ll_prev(sym);
@@ -82,6 +83,9 @@ int Parser::build_grammar(string* rule)
                                 i += advance;
                                 break;
                         }
+                }
+                if (!isRecognised) {
+                     this->alphabet.push_back(c);
                 }
         }
 
