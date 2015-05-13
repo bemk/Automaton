@@ -18,14 +18,19 @@ Parser::Parser()
         symbol_tree = NULL;
         symbolTypes = vector<Symbol*>();
 
-        symbolTypes.push_back((Symbol*) new Capture());
         symbolTypes.push_back((Symbol*) new Quantifier());
+        symbolTypes.push_back((Symbol*) new Capture());
         symbolTypes.push_back((Symbol*) new Concat());
         symbolTypes.push_back(new Symbol());
 }
 
 Parser::~Parser()
 {
+        symbolTypes.clear();
+}
+
+Symbol* Parser::getSymbols() {
+        return this->symbol_tree;
 }
 
 int Parser::build_grammar(string* rule)

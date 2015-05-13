@@ -41,16 +41,16 @@ int main(int argc, char** argv)
                 }
         }
 
-        if (argc < 4) {
-                cerr << "Not enough arguments!" << endl;
-                exit(-1);
-        }
 
         Parser* p = new Parser();
         p->build_grammar(new string(ropt));
         p->enforceGrammar(new string(ropt));
 
+        Symbol* symbols = p->getSymbols();
+
         delete p;
+
+
 
         return 0;
 }

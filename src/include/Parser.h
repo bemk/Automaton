@@ -22,6 +22,7 @@ public:
         Parser();
         virtual ~Parser();
 
+        Symbol* getSymbols();
         int build_grammar(std::string* rule);
         int enforceGrammar(std::string* line);
 };

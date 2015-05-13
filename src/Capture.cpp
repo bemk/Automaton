@@ -13,8 +13,6 @@ using namespace std;
 Capture::Capture() :
                 Symbol()
 {
-        this->quantifier = new Quantifier();
-        this->nodes = NULL;
         this->str_length = 0;
 }
 
@@ -62,9 +60,12 @@ size_t Capture::build_grammar(string* rule, size_t location)
         /* Dump the parsed input */
         cout << "Captured: " << this->text << endl;
 
-        nodes = new Parser();
+        Parser* nodes = new Parser();
         nodes->build_grammar(&this->text);
 
+        this->setLeft(nodes->getSymbols());
+
+        delete nodes;
         return this->length();
 }
 

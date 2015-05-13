@@ -17,6 +17,7 @@
 class Symbol {
         Symbol* left;
         Symbol* right;
+        Symbol* top;
 
         Symbol* ll_next;
         Symbol* ll_prev;

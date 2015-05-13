@@ -15,8 +15,6 @@
 
 class Capture: public Symbol {
 private:
-        Parser* nodes;
-        Quantifier* quantifier;
         size_t str_length;
 
 public:
