@@ -62,6 +62,11 @@ Symbol* Symbol::getRight()
         return right;
 }
 
+Symbol* Symbol::getParent()
+{
+        return top;
+}
+
 void Symbol::setRight(Symbol* symbol)
 {
         this->right = symbol;
@@ -70,6 +75,10 @@ void Symbol::setRight(Symbol* symbol)
 void Symbol::setLeft(Symbol* symbol)
 {
         this->left = symbol;
+}
+
+void Symbol::setParent(Symbol* parent) {
+        this->top = parent;
 }
 
 bool Symbol::isOfType(char c)

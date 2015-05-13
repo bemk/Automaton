@@ -13,8 +13,9 @@
 
 using namespace std;
 
-Parser::Parser()
+Parser::Parser(size_t location)
 {
+        this->location = location;
         symbol_tree = NULL;
         symbolTypes = vector<Symbol*>();
 
@@ -29,20 +30,27 @@ Parser::~Parser()
         symbolTypes.clear();
 }
 
-Symbol* Parser::getSymbols() {
+Symbol* Parser::getSymbols()
+{
         return this->symbol_tree;
 }
+extern bool verbose;
 
 int Parser::build_grammar(string* rule)
 {
         Symbol* symbols = new Symbol();
         Symbol* sym = symbols;
+        this->symbol_tree = symbols;
         sym->set_concatenation(false);
-        cout << "sizeof char " << sizeof(char) << endl;
+        if (verbose) {
+                cout << "sizeof char " << sizeof(char) << endl;
+        }
         /* First pass, turn everything into symbols */
         for (int i = 0; i < rule->length();) {
                 char c = rule->at(i);
-                cout << "Parsing: '" << c << "'" << endl;
+                if (verbose) {
+                        cout << "Parsing: '" << c << "'" << endl;
+                }
                 if (c == ' ' || c == '\t') {
                         /* Skip white spaces */
                         i++;
@@ -62,7 +70,8 @@ int Parser::build_grammar(string* rule)
                                 size_t advance;
 
                                 string* tmp = new string(rule->substr(i));
-                                advance = sym->build_grammar(tmp, i+1);
+                                advance = sym->build_grammar(tmp,
+                                                this->location + i + 1);
                                 delete tmp;
 
                                 if (advance == 0) {
@@ -79,7 +88,9 @@ int Parser::build_grammar(string* rule)
         /* Second pass, turn the symbol list into a symbol tree */
 
         for (sym = symbols; sym != NULL; sym = sym->get_ll_next()) {
-                cout << *sym->getString() << endl;
+                if (verbose) {
+                        cout << *sym->getString() << endl;
+                }
         }
 
         return 0;

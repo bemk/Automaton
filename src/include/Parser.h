@@ -15,11 +15,12 @@
 
 class Parser {
         Symbol* symbol_tree;
+        size_t location;
 
         std::vector<Symbol*> symbolTypes;
 
 public:
-        Parser();
+        Parser(size_t location);
         virtual ~Parser();
 
         Symbol* getSymbols();

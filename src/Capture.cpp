@@ -16,6 +16,8 @@ Capture::Capture() :
         this->str_length = 0;
 }
 
+extern bool verbose;
+
 size_t Capture::build_grammar(string* rule, size_t location)
 {
         this->location = location;
@@ -57,13 +59,22 @@ size_t Capture::build_grammar(string* rule, size_t location)
         end_of_loop:
 
         this->str_length = cnt;
-        /* Dump the parsed input */
-        cout << "Captured: " << this->text << endl;
+        if (verbose) {
+                /* Dump the parsed input */
+                cout << "Captured: " << this->text << endl;
+        }
 
-        Parser* nodes = new Parser();
+        Parser* nodes = new Parser(location);
         nodes->build_grammar(&this->text);
 
-        this->setLeft(nodes->getSymbols());
+        Symbol* symbols = nodes->getSymbols();
+
+        if (symbols != NULL) {
+                this->setLeft(symbols);
+                symbols->setParent(this);
+        } else {
+                cerr << "Error at " << location << endl;
+        }
 
         delete nodes;
         return this->length();

@@ -22,23 +22,19 @@ Quantifier::Quantifier() :
 size_t Quantifier::build_grammar(string* rule, size_t location)
 {
         this->location = location;
-        char c = rule->at(0);
-        switch (c) {
-        case '*':
-                start_at = START_NULL;
-                stop_at = END_INFINITE;
-                break;
-        case '+':
-                start_at = START_ONE;
-                stop_at = END_INFINITE;
-                break;
-        case '?':
-                start_at = START_NULL;
-                stop_at = END_ONE;
-                break;
-        default:
-                break;
-        }
+
+        Symbol* prev = this->get_ll_prev();
+        Symbol* dPrev = prev->get_ll_prev();
+
+        dPrev->set_ll_next(this);
+        this->set_ll_prev(dPrev);
+
+        prev->set_ll_prev(NULL);
+        prev->set_ll_next(NULL);
+
+        this->setLeft(prev);
+        prev->setParent(this);
+
         return 1;
 }
 
@@ -49,19 +45,12 @@ Quantifier::~Quantifier()
 
 bool Quantifier::isOfType(char c)
 {
-        switch (c) {
-        case '*':
-        case '?':
-        case '+':
-                return true;
-        default:
-                return false;
-        }
+        return false;
 }
 
 Symbol* Quantifier::allocateType()
 {
-        Symbol* s = (Symbol*)new Quantifier();
+        Symbol* s = (Symbol*) new Quantifier();
         if (s == NULL) {
                 std::cerr << "NULL POINTER ALLOCATED" << endl;
                 exit(-1);

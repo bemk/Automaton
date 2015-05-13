@@ -39,12 +39,14 @@ public:
 
         Symbol* getLeft();
         Symbol* getRight();
+        Symbol* getParent();
 
         Symbol* get_ll_next();
         Symbol* get_ll_prev();
 
         void setLeft(Symbol*);
         void setRight(Symbol*);
+        void setParent(Symbol*);
 
         void set_ll_next(Symbol* s);
         void set_ll_prev(Symbol* s);

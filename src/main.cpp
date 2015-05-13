@@ -13,18 +13,20 @@
 
 using namespace std;
 
+bool verbose = false;
+
 int main(int argc, char** argv)
 {
 
         int getoptoutput;
         char *ropt = 0;
         int repetition_depth = -1;
-        while ((getoptoutput = getopt(argc, argv, "r:d:")) != -1) {
+        while ((getoptoutput = getopt(argc, argv, "r:d:v")) != -1) {
                 switch (getoptoutput) {
                 case 'r':
-                        cout << "regex with value " << optarg << endl;
                         ropt = optarg;
                         break;
+
                 case 'd':
                         repetition_depth = atoi(optarg);
                         if (repetition_depth == -1 || repetition_depth == 0) {
@@ -32,8 +34,12 @@ int main(int argc, char** argv)
                                      << endl;
                                 exit(-1);
                         }
-                        cout << "depth with value " << repetition_depth << endl;
                         break;
+
+                case 'v':
+                        verbose = true;
+                        break;
+
                 default:
                         cerr << "getopt returned character code" << getoptoutput
                              << endl;
@@ -41,16 +47,18 @@ int main(int argc, char** argv)
                 }
         }
 
+        if (verbose) {
+                cout << "regex with value " << ropt << endl;
+                cout << "depth with value " << repetition_depth << endl;
+        }
 
-        Parser* p = new Parser();
+        Parser* p = new Parser(0);
         p->build_grammar(new string(ropt));
         p->enforceGrammar(new string(ropt));
 
         Symbol* symbols = p->getSymbols();
 
         delete p;
-
-
 
         return 0;
 }

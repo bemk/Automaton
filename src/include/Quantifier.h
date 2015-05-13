@@ -17,7 +17,7 @@
 #define END_INFINITE -1
 
 class Quantifier : public Symbol {
-private:
+protected:
         int start_at;
         int stop_at;
 
