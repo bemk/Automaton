@@ -7,7 +7,8 @@
 
 #include "include/Plus.h"
 
-Plus::Plus()
+Plus::Plus() :
+                Quantifier()
 {
         this->start_at = START_ONE;
         this->stop_at = END_INFINITE;
@@ -20,6 +21,10 @@ Plus::~Plus()
 
 bool Plus::isOfType(char c)
 {
-        return (c == '?') ? true : false;
+        return (c == '+') ? true : false;
 }
 
+Symbol* Plus::allocateType()
+{
+        return (Symbol*) new Plus();
+}

@@ -15,6 +15,7 @@ public:
         Plus();
         virtual ~Plus();
         virtual bool isOfType(char c);
+        virtual Symbol* allocateType();
 };
 
 #endif /* AUTOMATON_PLUS_H_ */

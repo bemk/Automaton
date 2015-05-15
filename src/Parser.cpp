@@ -6,9 +6,11 @@
  */
 
 #include "include/Parser.h"
-#include "include/Quantifier.h"
 #include "include/Capture.h"
 #include "include/Concat.h"
+#include "include/QuestionMark.h"
+#include "include/Plus.h"
+#include "include/Star.h"
 #include <cstdlib>
 
 using namespace std;
@@ -21,9 +23,12 @@ Parser::Parser(size_t location)
         symbol_tree = NULL;
         symbolTypes = vector<Symbol*>();
 
-        symbolTypes.push_back((Symbol*) new Quantifier());
+        symbolTypes.push_back((Symbol*) new Star());
+        symbolTypes.push_back((Symbol*) new QuestionMark());
+        symbolTypes.push_back((Symbol*) new Plus());
         symbolTypes.push_back((Symbol*) new Capture());
         symbolTypes.push_back((Symbol*) new Concat());
+        symbolTypes.push_back((Symbol*) new Symbol());
 }
 
 Parser::~Parser()
@@ -57,11 +62,9 @@ int Parser::build_grammar(string* rule)
                         i++;
                         continue;
                 }
-                bool isRecognised = false;
                 for (int x = 0; x < symbolTypes.size(); x++) {
                         if (symbolTypes[x]->isOfType(c)) {
                                 /* Let the symbol parser take over */
-                                isRecognised = true;
                                 sym->set_ll_next(
                                                 symbolTypes[x]->allocateType());
                                 sym->get_ll_next()->set_ll_prev(sym);
@@ -83,9 +86,6 @@ int Parser::build_grammar(string* rule)
                                 i += advance;
                                 break;
                         }
-                }
-                if (!isRecognised) {
-                     this->alphabet.push_back(c);
                 }
         }
 

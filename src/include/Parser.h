@@ -18,7 +18,6 @@ class Parser {
         size_t location;
 
         std::vector<Symbol*> symbolTypes;
-        std::vector<char> alphabet;
 
 public:
         Parser(size_t location);

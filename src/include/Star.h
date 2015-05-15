@@ -15,6 +15,7 @@ public:
         Star();
         virtual ~Star();
         virtual bool isOfType(char c);
+        virtual Symbol* allocateType();
 };
 
 #endif /* AUTOMATON_SRC_STAR_H_ */

@@ -15,6 +15,7 @@ public:
         QuestionMark();
         virtual ~QuestionMark();
         virtual bool isOfType(char c);
+        virtual Symbol* allocateType();
 };
 
 #endif /* AUTOMATON_SRC_QUESTIONMARK_H_ */

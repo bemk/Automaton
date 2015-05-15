@@ -7,7 +7,8 @@
 
 #include "include/QuestionMark.h"
 
-QuestionMark::QuestionMark()
+QuestionMark::QuestionMark() :
+                Quantifier()
 {
         this->start_at = START_NULL;
         this->stop_at = END_ONE;
@@ -24,3 +25,7 @@ bool QuestionMark::isOfType(char c)
         return (c == '?') ? true : false;
 }
 
+Symbol* QuestionMark::allocateType()
+{
+        return (Symbol*) new QuestionMark();
+}

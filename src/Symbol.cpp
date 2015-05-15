@@ -8,6 +8,7 @@
 #include "include/Symbol.h"
 #include <iostream>
 #include <cstdlib>
+#include "include/Alphabet.h"
 
 using namespace std;
 
@@ -15,6 +16,7 @@ Symbol::Symbol()
 {
         left = NULL;
         right = NULL;
+        top = NULL;
 
         ll_prev = NULL;
         ll_next = NULL;
@@ -43,6 +45,9 @@ size_t Symbol::build_grammar(string* s, size_t location)
         }
 
         this->text.push_back(s->at(0));
+
+        Alphabet* alphabet = Alphabet::get_alphabet();
+        alphabet->push_char(s->at(0));
 
         return 1;
 }

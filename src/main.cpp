@@ -8,6 +8,7 @@
 #include "include/Parser.h"
 #include "include/Capture.h"
 #include "include/wingetopt.h"
+#include "include/Alphabet.h"
 #include <cstdlib>
 #include <cstdio>
 
@@ -59,6 +60,9 @@ int main(int argc, char** argv)
         Symbol* symbols = p->getSymbols();
 
         delete p;
+
+        Alphabet* alpha = Alphabet::get_alphabet();
+        cout << "Alphabet is : '" << *alpha->get_string() << "'" << endl;
 
         return 0;
 }

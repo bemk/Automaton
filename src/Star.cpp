@@ -9,7 +9,8 @@
 
 using namespace std;
 
-Star::Star()
+Star::Star() :
+                Quantifier()
 {
         // TODO Auto-generated constructor stub
         this->start_at = START_NULL;
@@ -24,6 +25,10 @@ Star::~Star()
 
 bool Star::isOfType(char c)
 {
-        return (c == '?') ? true : false;
+        return (c == '*') ? true : false;
 }
 
+Symbol* Star::allocateType()
+{
+        return (Symbol*) new Star();
+}
