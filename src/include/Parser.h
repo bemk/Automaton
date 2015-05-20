@@ -13,6 +13,8 @@
 #include <vector>
 #include "Symbol.h"
 
+class Symbol;
+
 class Parser {
         Symbol* symbol_tree;
         size_t location;
@@ -22,9 +24,11 @@ class Parser {
 public:
         Parser(size_t location);
         virtual ~Parser();
-        Symbol* getSymbols();
+        Symbol* get_symbols();
+        void set_symbols(Symbol* s);
         int build_grammar(std::string* rule);
         int enforceGrammar(std::string* line);
+
 };
 
 #endif /* SRC_PARSER_H_ */

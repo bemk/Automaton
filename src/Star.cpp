@@ -9,8 +9,8 @@
 
 using namespace std;
 
-Star::Star() :
-                Quantifier()
+Star::Star(Parser *p) :
+                Quantifier(p)
 {
         this->start_at = START_NULL;
         this->stop_at = END_INFINITE;
@@ -28,7 +28,7 @@ bool Star::isOfType(char c)
 
 Symbol* Star::allocateType()
 {
-        Symbol* s = new Star();
+        Symbol* s = new Star(this->parser);
         if (s == NULL) {
                 std::cerr << "Unable to allocate new star descriptor"
                           << std::endl;

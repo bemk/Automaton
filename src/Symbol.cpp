@@ -12,7 +12,7 @@
 
 using namespace std;
 
-Symbol::Symbol()
+Symbol::Symbol(Parser* p)
 {
         location = 0;
         left = NULL;
@@ -26,6 +26,7 @@ Symbol::Symbol()
         text = string("");
 
         allow_concatenation = true;
+        this->parser = p;
 }
 
 Symbol::~Symbol()
@@ -83,8 +84,14 @@ void Symbol::setLeft(Symbol* symbol)
         this->left = symbol;
 }
 
-void Symbol::setParent(Symbol* parent) {
+void Symbol::setParent(Symbol* parent)
+{
         this->top = parent;
+}
+
+void Symbol::set_parser(Parser* p)
+{
+        this->parser = p;
 }
 
 bool Symbol::isOfType(char c)
@@ -94,7 +101,7 @@ bool Symbol::isOfType(char c)
 
 Symbol* Symbol::allocateType()
 {
-        Symbol* s = new Symbol();
+        Symbol* s = new Symbol(this->parser);
         if (s == NULL) {
                 std::cerr << "NULL POINTER ALLOCATED" << endl;
                 exit(-1);
@@ -122,6 +129,14 @@ Symbol* Symbol::get_ll_prev()
         return this->ll_prev;
 }
 
+Symbol* Symbol::get_ll_last()
+{
+        if (this->ll_next == NULL) {
+                return this;
+        }
+        return this->ll_next->get_ll_last();
+}
+
 bool Symbol::concatenation_allowed()
 {
         return this->allow_concatenation;
@@ -131,5 +146,4 @@ void Symbol::set_concatenation(bool status)
 {
         this->allow_concatenation = status;
 }
-
 

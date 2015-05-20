@@ -12,7 +12,7 @@
 
 class Concat : public Symbol {
 public:
-        Concat();
+        Concat(Parser* p);
         virtual ~Concat();
 
         bool isOfType(char c);

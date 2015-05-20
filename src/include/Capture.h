@@ -18,7 +18,7 @@ private:
         size_t str_length;
 
 public:
-        Capture();
+        Capture(Parser* p);
         virtual ~Capture();
 
         virtual size_t build_grammar(std::string* rule, size_t location);

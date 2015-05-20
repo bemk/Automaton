@@ -12,7 +12,7 @@
 
 class Star: public Quantifier {
 public:
-        Star();
+        Star(Parser* p);
         virtual ~Star();
         virtual bool isOfType(char c);
         virtual Symbol* allocateType();

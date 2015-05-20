@@ -10,8 +10,8 @@
 #include <cstdlib>
 using namespace std;
 
-Capture::Capture() :
-                Symbol()
+Capture::Capture(Parser* p) :
+                Symbol(p)
 {
         this->str_length = 0;
 }
@@ -67,13 +67,19 @@ size_t Capture::build_grammar(string* rule, size_t location)
         Parser* nodes = new Parser(location);
         nodes->build_grammar(&this->text);
 
-        Symbol* symbols = nodes->getSymbols();
+        Symbol* symbols = nodes->get_symbols();
 
         if (symbols != NULL) {
                 this->setLeft(symbols);
                 symbols->setParent(this);
         } else {
                 cerr << "Error at " << location << endl;
+        }
+
+        /* Make sure there are no undefined pointers after deleting nodes */
+        while (symbols != NULL) {
+                symbols->set_parser(this->parser);
+                symbols = symbols->get_ll_next();
         }
 
         delete nodes;
@@ -102,7 +108,7 @@ bool Capture::isOfType(char c)
 
 Symbol* Capture::allocateType()
 {
-        Symbol* s = (Symbol*) new Capture();
+        Symbol* s = (Symbol*) new Capture(this->parser);
         if (s == NULL) {
                 std::cerr << "NULL POINTER ALLOCATED" << endl;
                 exit(-1);
