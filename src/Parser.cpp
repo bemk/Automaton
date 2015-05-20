@@ -28,6 +28,7 @@ Parser::Parser(size_t location)
         symbolTypes.push_back((Symbol*) new Plus());
         symbolTypes.push_back((Symbol*) new Capture());
         symbolTypes.push_back((Symbol*) new Concat());
+        //symbolTypes.push_back((Symbol*) new
         symbolTypes.push_back((Symbol*) new Symbol());
 }
 
