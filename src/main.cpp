@@ -64,6 +64,9 @@ int main(int argc, char** argv)
         Alphabet* alpha = Alphabet::get_alphabet();
         cout << "Alphabet is: '" << *alpha->get_string() << "'" << endl;
 
+#ifndef __GNU__
+		system("PAUSE");
+#endif
         return 0;
 }
 

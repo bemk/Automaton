@@ -12,7 +12,7 @@
 
 class Or: public Symbol {
 public:
-        Or();
+        Or(Parser* p);
         virtual ~Or();
         size_t build_grammar(std::string* s, size_t location);
         bool isOfType(char c);

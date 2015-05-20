@@ -12,9 +12,12 @@
 #include "include/Plus.h"
 #include "include/Star.h"
 #include "include/StartSymbol.h"
+#include "include/Or.h"
 #include <cstdlib>
 
 using namespace std;
+
+extern bool verbose;
 
 Parser::Parser(size_t location)
 {
@@ -28,7 +31,9 @@ Parser::Parser(size_t location)
         symbolTypes.push_back((Symbol*) new Plus(this));
         symbolTypes.push_back((Symbol*) new Capture(this));
         symbolTypes.push_back((Symbol*) new Concat(this));
-        symbolTypes.push_back((Symbol*) new Symbol(this));
+		symbolTypes.push_back((Symbol*) new Or(this));
+		symbolTypes.push_back((Symbol*) new Symbol(this));	
+		
 }
 
 Parser::~Parser()
@@ -41,6 +46,7 @@ Symbol* Parser::get_symbols()
         return this->symbol_tree;
 }
 
+
 void Parser::set_symbols(Symbol* s)
 {
         this->symbol_tree = new StartSymbol(this);
@@ -48,7 +54,7 @@ void Parser::set_symbols(Symbol* s)
         s->set_ll_prev(this->symbol_tree);
 }
 
-extern bool verbose;
+
 
 int Parser::build_grammar(string* rule)
 {
@@ -58,7 +64,7 @@ int Parser::build_grammar(string* rule)
                 cout << "sizeof char " << sizeof(char) << endl;
         }
         /* First pass, turn everything into symbols */
-        for (int i = 0; i < rule->length();) {
+		for (size_t i = 0; i < rule->length();) {
                 char c = rule->at(i);
                 if (verbose) {
                         cout << "Parsing: '" << c << "'" << endl;
@@ -70,7 +76,8 @@ int Parser::build_grammar(string* rule)
                 }
 
                 Symbol* sym = this->symbol_tree->get_ll_last();
-                for (int x = 0; x < symbolTypes.size(); x++) {
+
+                for (size_t x = 0; x < symbolTypes.size(); x++) {
                         if (symbolTypes[x]->isOfType(c)) {
                                 /* Let the symbol parser take over */
                                 sym->set_ll_next(
