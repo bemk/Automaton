@@ -1,17 +1,18 @@
 
 CPP=g++
 CC=gcc
-CFLAGS:=
-CPP_FLAGS:=$(CFLAGS)
+CFLAGS:=-g
+CXXFLAGS:=$(CFLAGS)
 
-CPP_FILES := $(wildcard src/*.cpp) 
+CXXFILES := $(wildcard src/*.cpp) 
 CFILES := $(wildcard src/*.c)
-OBJ_FILES := $(addprefix src/,$(notdir $(CPP_FILES:.cpp=.o)))
+OBJ_FILES := $(addprefix src/,$(notdir $(CXXFILES:.cpp=.o)))
 COBJ_FILES := $(addprefix src/,$(notdir $(CFILES:.c=.o)))
 
-.PHONY: all clean
+.PHONY: all clean test
+
 all: $(OBJ_FILES) $(COBJ_FILES)
-	$(CPP) -o automaton $(OBJ_FILES) $(COBJ_FILES) $(CPP_FLAGS)
+	$(CPP) -o automaton $(OBJ_FILES) $(COBJ_FILES) $(CXXFLAGS)
 
 clean:
 	rm -fv `find -name *.o` automaton

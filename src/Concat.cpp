@@ -10,8 +10,8 @@
 
 using namespace std;
 
-Concat::Concat() :
-                Symbol()
+Concat::Concat(Parser* p) :
+                Symbol(p)
 {
         this->set_concatenation(false);
 
@@ -38,7 +38,7 @@ bool Concat::isOfType(char c)
 
 Symbol* Concat::allocateType()
 {
-        Symbol* s = new Concat();
+        Symbol* s = new Concat(this->parser);
 
         if (s == NULL) {
                 cerr << " Unable to allocate new Concat!" << endl;

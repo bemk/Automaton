@@ -8,11 +8,14 @@
 #ifndef SRC_SYMBOL_H_
 #define SRC_SYMBOL_H_
 
+#include "Parser.h"
 #include <string>
 #include <iostream>
 
 #define STRING_LITTERAL -1
 #define STRING_OPERATOR 0
+
+class Parser;
 
 class Symbol {
         Symbol* left;
@@ -29,9 +32,10 @@ class Symbol {
 protected:
         size_t location;
         std::string text;
+        Parser* parser;
 
 public:
-        Symbol();
+        Symbol(Parser* p);
         virtual ~Symbol();
 
         virtual size_t build_grammar(std::string* s, size_t location);
@@ -43,10 +47,13 @@ public:
 
         Symbol* get_ll_next();
         Symbol* get_ll_prev();
+        Symbol* get_ll_last();
 
         void setLeft(Symbol*);
         void setRight(Symbol*);
         void setParent(Symbol*);
+
+        void set_parser(Parser* p);
 
         void set_ll_next(Symbol* s);
         void set_ll_prev(Symbol* s);

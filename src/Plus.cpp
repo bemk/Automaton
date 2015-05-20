@@ -7,8 +7,8 @@
 
 #include "include/Plus.h"
 
-Plus::Plus() :
-                Quantifier()
+Plus::Plus(Parser* p) :
+                Quantifier(p)
 {
         this->start_at = START_ONE;
         this->stop_at = END_INFINITE;
@@ -25,7 +25,7 @@ bool Plus::isOfType(char c)
 
 Symbol* Plus::allocateType()
 {
-        Symbol* s = new Plus();
+        Symbol* s = new Plus(this->parser);
 
         if (s == NULL) {
                 std::cerr << "Unable to allocate Plus descriptor" << std::endl;

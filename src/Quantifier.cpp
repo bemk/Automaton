@@ -11,8 +11,8 @@
 
 using namespace std;
 
-Quantifier::Quantifier() :
-                Symbol()
+Quantifier::Quantifier(Parser* p) :
+                Symbol(p)
 {
         /* If no quantifier is given, default to exactly one */
         start_at = START_ONE;

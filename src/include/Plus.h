@@ -12,7 +12,7 @@
 
 class Plus: public Quantifier {
 public:
-        Plus();
+        Plus(Parser* p);
         virtual ~Plus();
         virtual bool isOfType(char c);
         virtual Symbol* allocateType();

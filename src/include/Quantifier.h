@@ -23,7 +23,7 @@ protected:
         int stop_at;
 
 public:
-        Quantifier();
+        Quantifier(Parser* p);
         virtual ~Quantifier();
 
         virtual size_t build_grammar(std::string* rule, size_t location);

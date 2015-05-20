@@ -11,11 +11,10 @@
 #include "include/QuestionMark.h"
 #include "include/Plus.h"
 #include "include/Star.h"
+#include "include/StartSymbol.h"
 #include <cstdlib>
 
 using namespace std;
-
-
 
 Parser::Parser(size_t location)
 {
@@ -23,12 +22,12 @@ Parser::Parser(size_t location)
         symbol_tree = NULL;
         symbolTypes = vector<Symbol*>();
 
-        symbolTypes.push_back((Symbol*) new Star());
-        symbolTypes.push_back((Symbol*) new QuestionMark());
-        symbolTypes.push_back((Symbol*) new Plus());
-        symbolTypes.push_back((Symbol*) new Capture());
-        symbolTypes.push_back((Symbol*) new Concat());
-        symbolTypes.push_back((Symbol*) new Symbol());
+        symbolTypes.push_back((Symbol*) new Star(this));
+        symbolTypes.push_back((Symbol*) new QuestionMark(this));
+        symbolTypes.push_back((Symbol*) new Plus(this));
+        symbolTypes.push_back((Symbol*) new Capture(this));
+        symbolTypes.push_back((Symbol*) new Concat(this));
+        symbolTypes.push_back((Symbol*) new Symbol(this));
 }
 
 Parser::~Parser()
@@ -36,18 +35,24 @@ Parser::~Parser()
         symbolTypes.clear();
 }
 
-Symbol* Parser::getSymbols()
+Symbol* Parser::get_symbols()
 {
         return this->symbol_tree;
 }
+
+void Parser::set_symbols(Symbol* s)
+{
+        this->symbol_tree = new StartSymbol(this);
+        this->symbol_tree->set_ll_next(s);
+        s->set_ll_prev(this->symbol_tree);
+}
+
 extern bool verbose;
 
 int Parser::build_grammar(string* rule)
 {
-        Symbol* symbols = new Symbol();
-        Symbol* sym = symbols;
-        this->symbol_tree = symbols;
-        sym->set_concatenation(false);
+        this->symbol_tree = new StartSymbol(this);
+        this->symbol_tree->set_concatenation(false);
         if (verbose) {
                 cout << "sizeof char " << sizeof(char) << endl;
         }
@@ -63,6 +68,7 @@ int Parser::build_grammar(string* rule)
                         continue;
                 }
 
+                Symbol* sym = this->symbol_tree->get_ll_last();
                 for (int x = 0; x < symbolTypes.size(); x++) {
                         if (symbolTypes[x]->isOfType(c)) {
                                 /* Let the symbol parser take over */
@@ -90,9 +96,10 @@ int Parser::build_grammar(string* rule)
                 }
         }
 
-        /* Second pass, turn the symbol list into a symbol tree */
+        /* Second pass, Dump the symbols! (for now) */
 
-        for (sym = symbols; sym != NULL; sym = sym->get_ll_next()) {
+        Symbol* sym = get_symbols();
+        for (; sym != NULL; sym = sym->get_ll_next()) {
                 if (verbose) {
                         cout << *sym->getString() << endl;
                 }
@@ -103,7 +110,5 @@ int Parser::build_grammar(string* rule)
 
 int Parser::enforceGrammar(string* line)
 {
-
         return 0;
 }
-

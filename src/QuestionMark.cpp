@@ -9,8 +9,8 @@
 
 using namespace std;
 
-QuestionMark::QuestionMark() :
-                Quantifier()
+QuestionMark::QuestionMark(Parser* p) :
+                Quantifier(p)
 {
         this->start_at = START_NULL;
         this->stop_at = END_ONE;
@@ -28,10 +28,10 @@ bool QuestionMark::isOfType(char c)
 
 Symbol* QuestionMark::allocateType()
 {
-        Symbol* s = new QuestionMark();
+        Symbol* s = new QuestionMark(this->parser);
         if (s == NULL) {
                 cerr << "Unable to allocate questionmark descriptor" << endl;
-                exit (-1);
+                exit(-1);
         }
         return s;
 }

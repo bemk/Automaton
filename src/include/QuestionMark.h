@@ -12,7 +12,7 @@
 
 class QuestionMark: public Quantifier {
 public:
-        QuestionMark();
+        QuestionMark(Parser* p);
         virtual ~QuestionMark();
         virtual bool isOfType(char c);
         virtual Symbol* allocateType();
