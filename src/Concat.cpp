@@ -6,19 +6,43 @@
  */
 
 #include "include/Concat.h"
+#include <cstdlib>
 
-Concat::Concat() : Symbol()
+using namespace std;
+
+Concat::Concat() :
+                Symbol()
 {
         this->set_concatenation(false);
-        // TODO Auto-generated constructor stub
 
 }
 
 Concat::~Concat()
 {
-        // TODO Auto-generated destructor stub
 }
 
-bool Concat::isOfType(char c) {
-        return (c == '.') ? true : false;
+size_t Concat::build_grammar(string* rule, size_t location)
+{
+        this->text.push_back('.');
+
+        return 1;
+}
+
+bool Concat::isOfType(char c)
+{
+        if (c == '.') {
+                cerr << "Setting concat" << endl;
+        }
+        return (c == '.');
+}
+
+Symbol* Concat::allocateType()
+{
+        Symbol* s = new Concat();
+
+        if (s == NULL) {
+                cerr << " Unable to allocate new Concat!" << endl;
+                exit(-1);
+        }
+        return s;
 }

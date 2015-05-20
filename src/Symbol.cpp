@@ -14,6 +14,7 @@ using namespace std;
 
 Symbol::Symbol()
 {
+        location = 0;
         left = NULL;
         right = NULL;
         top = NULL;

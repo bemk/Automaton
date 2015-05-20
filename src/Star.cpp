@@ -12,7 +12,6 @@ using namespace std;
 Star::Star() :
                 Quantifier()
 {
-        // TODO Auto-generated constructor stub
         this->start_at = START_NULL;
         this->stop_at = END_INFINITE;
 
@@ -20,7 +19,6 @@ Star::Star() :
 
 Star::~Star()
 {
-        // TODO Auto-generated destructor stub
 }
 
 bool Star::isOfType(char c)
@@ -30,5 +28,11 @@ bool Star::isOfType(char c)
 
 Symbol* Star::allocateType()
 {
-        return (Symbol*) new Star();
+        Symbol* s = new Star();
+        if (s == NULL) {
+                std::cerr << "Unable to allocate new star descriptor"
+                          << std::endl;
+                exit(-1);
+        }
+        return s;
 }

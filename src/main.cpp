@@ -62,7 +62,7 @@ int main(int argc, char** argv)
         delete p;
 
         Alphabet* alpha = Alphabet::get_alphabet();
-        cout << "Alphabet is : '" << *alpha->get_string() << "'" << endl;
+        cout << "Alphabet is: '" << *alpha->get_string() << "'" << endl;
 
         return 0;
 }

@@ -40,7 +40,6 @@ size_t Quantifier::build_grammar(string* rule, size_t location)
 
 Quantifier::~Quantifier()
 {
-        // TODO Auto-generated destructor stub
 }
 
 bool Quantifier::isOfType(char c)
@@ -50,11 +49,7 @@ bool Quantifier::isOfType(char c)
 
 Symbol* Quantifier::allocateType()
 {
-        Symbol* s = (Symbol*) new Quantifier();
-        if (s == NULL) {
-                std::cerr << "NULL POINTER ALLOCATED" << endl;
-                exit(-1);
-        }
-        return s;
+        cerr << "Generic quantifier should never be found!!!" << endl;
+        return NULL;
 }
 

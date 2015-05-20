@@ -62,6 +62,7 @@ int Parser::build_grammar(string* rule)
                         i++;
                         continue;
                 }
+
                 for (int x = 0; x < symbolTypes.size(); x++) {
                         if (symbolTypes[x]->isOfType(c)) {
                                 /* Let the symbol parser take over */

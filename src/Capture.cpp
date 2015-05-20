@@ -82,7 +82,6 @@ size_t Capture::build_grammar(string* rule, size_t location)
 
 Capture::~Capture()
 {
-        // TODO Auto-generated destructor stub
 }
 
 size_t Capture::length()

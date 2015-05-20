@@ -9,6 +9,7 @@
 #define SRC_QUANTIFIER_H_
 
 #include "Symbol.h"
+#include <cstdlib>
 
 #define START_NULL 0
 #define START_ONE  1

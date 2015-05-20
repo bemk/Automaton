@@ -7,6 +7,8 @@
 
 #include "include/QuestionMark.h"
 
+using namespace std;
+
 QuestionMark::QuestionMark() :
                 Quantifier()
 {
@@ -17,7 +19,6 @@ QuestionMark::QuestionMark() :
 
 QuestionMark::~QuestionMark()
 {
-        // TODO Auto-generated destructor stub
 }
 
 bool QuestionMark::isOfType(char c)
@@ -27,5 +28,10 @@ bool QuestionMark::isOfType(char c)
 
 Symbol* QuestionMark::allocateType()
 {
-        return (Symbol*) new QuestionMark();
+        Symbol* s = new QuestionMark();
+        if (s == NULL) {
+                cerr << "Unable to allocate questionmark descriptor" << endl;
+                exit (-1);
+        }
+        return s;
 }

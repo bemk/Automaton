@@ -16,7 +16,6 @@ Plus::Plus() :
 
 Plus::~Plus()
 {
-        // TODO Auto-generated destructor stub
 }
 
 bool Plus::isOfType(char c)
@@ -26,5 +25,11 @@ bool Plus::isOfType(char c)
 
 Symbol* Plus::allocateType()
 {
-        return (Symbol*) new Plus();
+        Symbol* s = new Plus();
+
+        if (s == NULL) {
+                std::cerr << "Unable to allocate Plus descriptor" << std::endl;
+                exit(-1);
+        }
+        return s;
 }
