@@ -3,5 +3,6 @@ automaton
 .settings
 .project
 .cproject
+.gdbinit
 Debug
 

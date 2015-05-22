@@ -77,10 +77,7 @@ size_t Capture::build_grammar(string* rule, size_t location)
         }
 
         /* Make sure there are no undefined pointers after deleting nodes */
-        while (symbols != NULL) {
-                symbols->set_parser(this->parser);
-                symbols = symbols->get_ll_next();
-        }
+        symbols->set_parser(this->parser);
 
         delete nodes;
         return this->length();

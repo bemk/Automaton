@@ -12,6 +12,8 @@
 
 using namespace std;
 
+extern bool verbose;
+
 Symbol::Symbol(Parser* p)
 {
         location = 0;
@@ -91,7 +93,31 @@ void Symbol::setParent(Symbol* parent)
 
 void Symbol::set_parser(Parser* p)
 {
+	if (this->parser == p) {
+		if (verbose) {
+			cout << "Parser already set in " << this->text << endl;
+		}
+		return;
+	}
+
         this->parser = p;
+
+        if (this->left) {
+                left->set_parser(p);
+        }
+        if (this->right) {
+                right->set_parser(p);
+        }
+        if (this->ll_next) {
+                ll_next->set_parser(p);
+        }
+        /*
+         * Note:
+         *
+         * Don't set the previous pointer, because it will generate an infinite
+         * loop. Also, it should already be set by the caller to begin with.
+         */
+
 }
 
 bool Symbol::isOfType(char c)

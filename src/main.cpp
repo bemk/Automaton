@@ -1,5 +1,5 @@
 /*
-te* main.cpp
+ * main.cpp
  *
  *  Created on: 22 Apr 2015
  *      Author: bemk
@@ -58,6 +58,7 @@ int main(int argc, char** argv)
         p->enforceGrammar(new string(ropt));
 
         Symbol* symbols = p->get_symbols();
+        symbols->set_parser(NULL);
 
         delete p;
 
