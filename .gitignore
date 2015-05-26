@@ -3,5 +3,8 @@ automaton
 .settings
 .project
 .cproject
+.gdbinit
+*.dot
+dot.png
 Debug
 

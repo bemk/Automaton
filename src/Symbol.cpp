@@ -8,9 +8,12 @@
 #include "include/Symbol.h"
 #include <iostream>
 #include <cstdlib>
+#include <sstream>
 #include "include/Alphabet.h"
 
 using namespace std;
+
+extern bool verbose;
 
 Symbol::Symbol(Parser* p)
 {
@@ -91,7 +94,103 @@ void Symbol::setParent(Symbol* parent)
 
 void Symbol::set_parser(Parser* p)
 {
+        if (this->parser == p) {
+                if (verbose) {
+                        cout << "Parser already set in " << this->text << endl;
+                }
+                return;
+        }
+
         this->parser = p;
+
+        if (this->left) {
+                left->set_parser(p);
+        }
+        if (this->right) {
+                right->set_parser(p);
+        }
+        if (this->ll_next) {
+                ll_next->set_parser(p);
+        }
+        /*
+         * Note:
+         *
+         * Don't set the previous pointer, because it will generate an infinite
+         * loop. Also, it should already be set by the caller to begin with.
+         */
+
+}
+
+bool Symbol::get_dot_reference(string* ret, string src_name, string ref_name)
+{
+        string tmp = "";
+
+        string tmp_text = text;
+        if (tmp_text.length() > 1) {
+                tmp_text = "cap";
+        }
+        if (tmp_text.compare("|") == 0) {
+                tmp_text = "or";
+        }
+
+        stringstream name_stream;
+        name_stream << "symbol_" << location << "_" << tmp_text;
+        string name = name_stream.str();
+
+        /*
+        if (name.compare("symbol_0_") == 0 || src_name.compare("symbol_0_") == 0) {
+                return true;
+        }
+        */
+        tmp.append(src_name);
+        tmp.append(" -> ");
+        tmp.append(name);
+        tmp.append(" [label=\"");
+        tmp.append(ref_name);
+        tmp.append("\"];\n");
+
+        ret->append(tmp);
+
+        return true;
+}
+
+bool Symbol::get_dot_graph(string* s)
+{
+        if (s == NULL) {
+                return false;
+        }
+
+        string tmp_text = text;
+        if (tmp_text.length() > 1) {
+                tmp_text = "cap";
+        }
+        if (tmp_text.compare("|") == 0) {
+                tmp_text = "or";
+        }
+        stringstream name_stream;
+        name_stream << "symbol_" << location << "_" << tmp_text;
+        string name = name_stream.str();
+
+        if (this->get_ll_prev()) {
+                this->get_ll_prev()->get_dot_reference(s, name, "prev");
+        }
+
+        if (this->get_ll_next()) {
+                this->get_ll_next()->get_dot_reference(s, name, "next");
+                this->get_ll_next()->get_dot_graph(s);
+        }
+
+        if (this->getLeft()) {
+                this->getLeft()->get_dot_reference(s, name, "left");
+                this->getLeft()->get_dot_graph(s);
+        }
+
+        if (this->getRight()) {
+                this->getRight()->get_dot_reference(s, name, "right");
+                this->getRight()->get_dot_graph(s);
+        }
+
+        return true;
 }
 
 bool Symbol::isOfType(char c)

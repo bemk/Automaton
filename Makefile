@@ -16,3 +16,8 @@ all: $(OBJ_FILES) $(COBJ_FILES)
 
 clean:
 	rm -fv `find -name *.o` automaton
+	rm -fv *.dot
+	rm -fv *.png
+
+png: all
+	./automaton -d 2 -r "caa(bb|((cc|ff)*|ee))dd" -v -g dot.dot; dot -Tpng dot.dot -o dot.png

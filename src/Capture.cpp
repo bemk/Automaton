@@ -70,17 +70,15 @@ size_t Capture::build_grammar(string* rule, size_t location)
         Symbol* symbols = nodes->get_symbols();
 
         if (symbols != NULL) {
-                this->setLeft(symbols);
-                symbols->setParent(this);
+                this->setLeft(symbols->get_ll_next());
+                symbols->get_ll_next()->setParent(this);
         } else {
                 cerr << "Error at " << location << endl;
         }
 
         /* Make sure there are no undefined pointers after deleting nodes */
-        while (symbols != NULL) {
-                symbols->set_parser(this->parser);
-                symbols = symbols->get_ll_next();
-        }
+        symbols->set_parser(this->parser);
+        delete symbols;
 
         delete nodes;
         return this->length();

@@ -34,6 +34,9 @@ protected:
         std::string text;
         Parser* parser;
 
+        bool get_dot_reference(std::string* ret, std::string src_name,
+                        std::string ref_name);
+
 public:
         Symbol(Parser* p);
         virtual ~Symbol();
@@ -54,6 +57,7 @@ public:
         void setParent(Symbol*);
 
         void set_parser(Parser* p);
+        bool get_dot_graph(std::string* s);
 
         void set_ll_next(Symbol* s);
         void set_ll_prev(Symbol* s);
