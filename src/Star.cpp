@@ -14,7 +14,7 @@ Star::Star(Parser *p) :
 {
         this->start_at = START_NULL;
         this->stop_at = END_INFINITE;
-
+        this->text = "star";
 }
 
 Star::~Star()

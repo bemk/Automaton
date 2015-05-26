@@ -12,6 +12,7 @@ Plus::Plus(Parser* p) :
 {
         this->start_at = START_ONE;
         this->stop_at = END_INFINITE;
+        this->text = "plus";
 }
 
 Plus::~Plus()

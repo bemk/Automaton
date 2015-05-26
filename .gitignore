@@ -4,5 +4,7 @@ automaton
 .project
 .cproject
 .gdbinit
+*.dot
+dot.png
 Debug
 
