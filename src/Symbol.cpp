@@ -121,27 +121,36 @@ void Symbol::set_parser(Parser* p)
 
 }
 
+void build_name(string* name, Symbol* ptr)
+{
+        if (name->length() > 1) {
+                name->assign("cap");
+        } else if (name->compare("|") == 0) {
+                name->assign("or");
+        } else if (name->length() == 0) {
+                stringstream tmp;
+                tmp << "starter_" << ptr;
+                name->assign(tmp.str());
+        } else if (name->compare("*") == 0) {
+                name->assign("star");
+        } else if (name->compare("+") == 0) {
+                name->assign("plus");
+        } else if (name->compare("?") == 0) {
+                name->assign("questionmark");
+        }
+}
+
 bool Symbol::get_dot_reference(string* ret, string src_name, string ref_name)
 {
         string tmp = "";
 
         string tmp_text = text;
-        if (tmp_text.length() > 1) {
-                tmp_text = "cap";
-        }
-        if (tmp_text.compare("|") == 0) {
-                tmp_text = "or";
-        }
+        build_name(&tmp_text, this);
 
         stringstream name_stream;
         name_stream << "symbol_" << location << "_" << tmp_text;
         string name = name_stream.str();
 
-        /*
-        if (name.compare("symbol_0_") == 0 || src_name.compare("symbol_0_") == 0) {
-                return true;
-        }
-        */
         tmp.append(src_name);
         tmp.append(" -> ");
         tmp.append(name);
@@ -161,12 +170,9 @@ bool Symbol::get_dot_graph(string* s)
         }
 
         string tmp_text = text;
-        if (tmp_text.length() > 1) {
-                tmp_text = "cap";
-        }
-        if (tmp_text.compare("|") == 0) {
-                tmp_text = "or";
-        }
+
+        build_name(&tmp_text, this);
+
         stringstream name_stream;
         name_stream << "symbol_" << location << "_" << tmp_text;
         string name = name_stream.str();
@@ -246,3 +252,7 @@ void Symbol::set_concatenation(bool status)
         this->allow_concatenation = status;
 }
 
+void Symbol::set_location(size_t location)
+{
+        this->location = location;
+}
