@@ -54,6 +54,34 @@ void Parser::set_symbols(Symbol* s)
         s->set_ll_prev(this->symbol_tree);
 }
 
+void insert_concats(Symbol* sym, Parser* p)
+{
+        for (; sym != NULL; sym = sym->get_ll_next()) {
+                if (verbose) {
+                        cout << *sym->getString() << endl;
+                }
+
+                Symbol* next = sym->get_ll_next();
+
+                if (sym->getLeft()) {
+                        insert_concats(sym->getLeft(), p);
+                }
+
+                if (next == NULL) {
+                        break;
+                }
+
+                if (next->concatenation_allowed() && sym->concatenation_allowed()) {
+                        Symbol* concat = new Concat(p);
+                        concat->set_ll_prev(sym);
+                        concat->set_ll_next(next);
+                        concat->set_location(sym->get_location());
+                        sym->set_ll_next(concat);
+                        next->set_ll_prev(concat);
+                }
+        }
+}
+
 int Parser::build_grammar(string* rule)
 {
         this->symbol_tree = new StartSymbol(this);
@@ -104,30 +132,9 @@ int Parser::build_grammar(string* rule)
         }
 
         /* Second pass, Dump the symbols! (for now) */
+        insert_concats(get_symbols(), this);
+        get_symbols()->do_concatenate();
 
-        Symbol* sym = get_symbols();
-        for (; sym != NULL; sym = sym->get_ll_next()) {
-                if (verbose) {
-                        cout << *sym->getString() << endl;
-                }
-
-                Symbol* next = sym->get_ll_next();
-
-                if (next == NULL) {
-                        break;
-                }
-
-                if (next->concatenation_allowed() && sym->concatenation_allowed()) {
-                        Symbol* concat = new Concat(this);
-                        concat->set_ll_prev(sym);
-                        concat->set_ll_next(next);
-                        concat->set_location(sym->get_location());
-                        sym->set_ll_next(concat);
-                        next->set_ll_prev(concat);
-                }
-
-        }
-		get_symbols()->do_concatenate();
         return 0;
 }
 
