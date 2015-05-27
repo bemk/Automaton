@@ -20,6 +20,8 @@ Alphabet::~Alphabet()
 {
 }
 
+extern bool verbose;
+
 void Alphabet::push_char(char c)
 {
         for (size_t i = 0; i < alpha.size(); i++) {
@@ -30,7 +32,9 @@ void Alphabet::push_char(char c)
 
         alpha.push_back(c);
         str.push_back(c);
-        cout << "Added " << c << " to the alphabet!"<< endl;
+        if (verbose) {
+                cout << "Added " << c << " to the alphabet!" << endl;
+        }
 }
 
 Alphabet* Alphabet::get_alphabet()

@@ -23,7 +23,6 @@ std::string graph_text = "digraph {\n";
 
 int main(int argc, char** argv)
 {
-
         int getoptoutput;
         char *ropt = 0;
         int repetition_depth = -1;
@@ -71,8 +70,10 @@ int main(int argc, char** argv)
 
         delete p;
 
-        Alphabet* alpha = Alphabet::get_alphabet();
-        cout << "Alphabet is: '" << *alpha->get_string() << "'" << endl;
+        if (verbose) {
+                Alphabet* alpha = Alphabet::get_alphabet();
+                cout << "Alphabet is: '" << *alpha->get_string() << "'" << endl;
+        }
 
         if (dot_graph) {
                 ofstream dot_file;
@@ -81,6 +82,11 @@ int main(int argc, char** argv)
                 string sym_text = "";
                 symbols->get_dot_graph(&sym_text);
                 graph_text.append(sym_text);
+
+                graph_text.append("label=\"");
+                graph_text.append(ropt);
+                graph_text.append("\";\nlabelloc=top\n");
+
                 graph_text.push_back('}');
 
                 dot_file << graph_text << endl;

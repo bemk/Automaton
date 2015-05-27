@@ -29,9 +29,11 @@ size_t Concat::build_grammar(string* rule, size_t location)
         return 1;
 }
 
+extern bool verbose;
+
 bool Concat::isOfType(char c)
 {
-        if (c == '.') {
+        if (c == '.' && verbose) {
                 cerr << "Setting concat" << endl;
         }
         return (c == '.');
@@ -63,6 +65,7 @@ void Concat::do_concatenate()
         setLeft(previous);
         setRight(next);
         set_ll_next(NULL);
+        set_ll_prev(NULL);
 
         Symbol* parent = previous->getParent();
 
