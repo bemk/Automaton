@@ -146,6 +146,13 @@ void build_name(string* name, Symbol* ptr)
         }
 }
 
+void Symbol::do_concatenate(){
+	if (this->get_ll_next()) {
+		this->get_ll_next()->do_concatenate();
+	}
+	return;
+}
+
 bool Symbol::get_dot_reference(string* ret, string src_name, string ref_name)
 {
         string tmp = "";

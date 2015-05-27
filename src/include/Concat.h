@@ -18,6 +18,7 @@ public:
         bool isOfType(char c);
         virtual Symbol* allocateType();
         virtual size_t build_grammar(std::string* rule, size_t location);
+		virtual void do_concatenate();
 };
 
 #endif /* SRC_CONCAT_H_ */

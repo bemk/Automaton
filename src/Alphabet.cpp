@@ -22,7 +22,7 @@ Alphabet::~Alphabet()
 
 void Alphabet::push_char(char c)
 {
-        for (int i = 0; i < alpha.size(); i++) {
+        for (size_t i = 0; i < alpha.size(); i++) {
                 if (alpha[i] == c) {
                         return;
                 }

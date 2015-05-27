@@ -36,6 +36,33 @@ bool Concat::isOfType(char c)
         return (c == '.');
 }
 
+void Concat::do_concatenate(){
+	Symbol* previous = get_ll_prev();
+	Symbol* next = get_ll_next();
+
+	if (next == NULL || previous == NULL){
+		cerr << "concat without sufficient context @" << this->location << endl;
+		exit(-1);
+	}
+	if (previous->get_ll_prev()){	
+		previous->get_ll_prev()->set_ll_next(this);
+		set_ll_prev(previous->get_ll_prev());
+	}
+	else{
+		previous->getParent()->setRight(this);
+	}
+	previous->set_ll_prev(NULL);
+	previous->set_ll_next(NULL);
+	next->set_ll_prev(NULL);
+	setLeft(previous);
+	setRight(next);
+	
+	setParent(previous->getParent());
+	next->setParent(this);
+	previous->setParent(this);
+}
+
+
 Symbol* Concat::allocateType()
 {
         Symbol* s = new Concat(this->parser);

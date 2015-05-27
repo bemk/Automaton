@@ -127,7 +127,7 @@ int Parser::build_grammar(string* rule)
                 }
 
         }
-
+		get_symbols()->do_concatenate();
         return 0;
 }
 

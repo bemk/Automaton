@@ -51,6 +51,7 @@ public:
         Symbol* get_ll_next();
         Symbol* get_ll_prev();
         Symbol* get_ll_last();
+		virtual void do_concatenate();
 
         void setLeft(Symbol*);
         void setRight(Symbol*);
