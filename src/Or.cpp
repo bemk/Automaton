@@ -13,7 +13,7 @@ Or::Or(Parser* p) :
                 Symbol(p)
 {
         // TODO Auto-generated constructor stub
-
+	this->set_concatenation(false);
 }
 
 Or::~Or()
