@@ -13,7 +13,7 @@ Or::Or(Parser* p) :
                 Symbol(p)
 {
         // TODO Auto-generated constructor stub
-	this->set_concatenation(false);
+        this->set_concatenation(false);
 }
 
 Or::~Or()
@@ -63,6 +63,16 @@ size_t Or::build_grammar(string* s, size_t location)
         this->parser->set_symbols(this);
 
         return s->length();
+}
+
+void Or::do_concatenate()
+{
+        if (this->getLeft()) {
+                this->getLeft()->do_concatenate();
+        }
+        if (this->getRight()) {
+                this->getRight()->do_concatenate();
+        }
 }
 
 bool Or::isOfType(char c)

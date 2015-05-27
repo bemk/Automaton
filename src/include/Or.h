@@ -17,6 +17,7 @@ public:
         size_t build_grammar(std::string* s, size_t location);
         bool isOfType(char c);
         Symbol* allocateType(void);
+        virtual void do_concatenate();
 };
 
 #endif /* AUTOMATON_SRC_OR_H_ */

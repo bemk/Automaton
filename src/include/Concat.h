@@ -10,7 +10,9 @@
 
 #include "Symbol.h"
 
-class Concat : public Symbol {
+class Concat: public Symbol {
+private:
+        bool concatenated;
 public:
         Concat(Parser* p);
         virtual ~Concat();
@@ -18,7 +20,7 @@ public:
         bool isOfType(char c);
         virtual Symbol* allocateType();
         virtual size_t build_grammar(std::string* rule, size_t location);
-		virtual void do_concatenate();
+        virtual void do_concatenate();
 };
 
 #endif /* SRC_CONCAT_H_ */

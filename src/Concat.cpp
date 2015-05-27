@@ -15,6 +15,7 @@ Concat::Concat(Parser* p) :
 {
         this->set_concatenation(false);
         this->text = ".";
+        this->concatenated = false;
 
 }
 
@@ -36,32 +37,50 @@ bool Concat::isOfType(char c)
         return (c == '.');
 }
 
-void Concat::do_concatenate(){
-	Symbol* previous = get_ll_prev();
-	Symbol* next = get_ll_next();
+void Concat::do_concatenate()
+{
+        if (this->concatenated) {
+                return;
+        }
+        this->concatenated = true;
+        Symbol* previous = get_ll_prev();
+        Symbol* next = get_ll_next();
 
-	if (next == NULL || previous == NULL){
-		cerr << "concat without sufficient context @" << this->location << endl;
-		exit(-1);
-	}
-	if (previous->get_ll_prev()){	
-		previous->get_ll_prev()->set_ll_next(this);
-		set_ll_prev(previous->get_ll_prev());
-	}
-	else{
-		previous->getParent()->setRight(this);
-	}
-	previous->set_ll_prev(NULL);
-	previous->set_ll_next(NULL);
-	next->set_ll_prev(NULL);
-	setLeft(previous);
-	setRight(next);
-	
-	setParent(previous->getParent());
-	next->setParent(this);
-	previous->setParent(this);
+        if (next == NULL || previous == NULL) {
+                cerr << "concat without sufficient context @" << this->location
+                     << endl;
+                exit(-1);
+        }
+        if (previous->get_ll_prev()) {
+                previous->get_ll_prev()->set_ll_next(this);
+                set_ll_prev(previous->get_ll_prev());
+        }
+        previous->set_ll_prev(NULL);
+        previous->set_ll_next(NULL);
+
+        next->set_ll_prev(NULL);
+
+        setLeft(previous);
+        setRight(next);
+        set_ll_next(NULL);
+
+        Symbol* parent = previous->getParent();
+
+        if (parent) {
+                this->setParent(parent);
+                if (parent->getLeft() == previous) {
+                        parent->setLeft(this);
+                }
+                if (parent->getRight() == previous) {
+                        parent->setRight(this);
+                }
+        }
+
+        next->setParent(this);
+        previous->setParent(this);
+
+        this->getRight()->do_concatenate();
 }
-
 
 Symbol* Concat::allocateType()
 {
