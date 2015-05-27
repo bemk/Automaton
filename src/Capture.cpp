@@ -70,7 +70,7 @@ size_t Capture::build_grammar(string* rule, size_t location)
         Symbol* symbols = nodes->get_symbols()->ommit_starter();
 
         if (symbols != NULL) {
-                this->setLeft(symbols);
+                this->setRight(symbols);
                 symbols->setParent(this);
         } else {
                 cerr << "Error at " << location << endl;
