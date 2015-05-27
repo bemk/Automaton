@@ -14,7 +14,7 @@ QuestionMark::QuestionMark(Parser* p) :
 {
         this->start_at = START_NULL;
         this->stop_at = END_ONE;
-        this->text = "question-mark";
+        this->text = "?";
 }
 
 QuestionMark::~QuestionMark()
