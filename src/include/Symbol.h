@@ -66,6 +66,8 @@ public:
         virtual bool concatenation_allowed();
         virtual void set_concatenation(bool status);
         virtual Symbol* allocateType();
+
+        void set_location(size_t location);
 };
 
 #endif /* SRC_SYMBOL_H_ */

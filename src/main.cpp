@@ -88,7 +88,7 @@ int main(int argc, char** argv)
         }
 
 #ifndef __GNUC__
-		system("PAUSE");
+        system("PAUSE");
 #endif
         return 0;
 }

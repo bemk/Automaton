@@ -25,15 +25,14 @@ Parser::Parser(size_t location)
         symbol_tree = NULL;
         symbolTypes = vector<Symbol*>();
 
-
         symbolTypes.push_back((Symbol*) new Star(this));
         symbolTypes.push_back((Symbol*) new QuestionMark(this));
         symbolTypes.push_back((Symbol*) new Plus(this));
         symbolTypes.push_back((Symbol*) new Capture(this));
         symbolTypes.push_back((Symbol*) new Concat(this));
-		symbolTypes.push_back((Symbol*) new Or(this));
-		symbolTypes.push_back((Symbol*) new Symbol(this));	
-		
+        symbolTypes.push_back((Symbol*) new Or(this));
+        symbolTypes.push_back((Symbol*) new Symbol(this));
+
 }
 
 Parser::~Parser()
@@ -46,25 +45,25 @@ Symbol* Parser::get_symbols()
         return this->symbol_tree;
 }
 
-
 void Parser::set_symbols(Symbol* s)
 {
         this->symbol_tree = new StartSymbol(this);
+        this->symbol_tree->set_concatenation(false);
+        this->symbol_tree->set_location(this->location);
         this->symbol_tree->set_ll_next(s);
         s->set_ll_prev(this->symbol_tree);
 }
 
-
-
 int Parser::build_grammar(string* rule)
 {
         this->symbol_tree = new StartSymbol(this);
+        this->symbol_tree->set_location(this->location);
         this->symbol_tree->set_concatenation(false);
         if (verbose) {
                 cout << "sizeof char " << sizeof(char) << endl;
         }
         /* First pass, turn everything into symbols */
-		for (size_t i = 0; i < rule->length();) {
+        for (size_t i = 0; i < rule->length();) {
                 char c = rule->at(i);
                 if (verbose) {
                         cout << "Parsing: '" << c << "'" << endl;
