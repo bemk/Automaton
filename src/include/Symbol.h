@@ -70,6 +70,9 @@ public:
         virtual Symbol* ommit_starter();
 
         void set_location(size_t location);
+        size_t get_location() {
+                return this->location;
+        }
 };
 
 #endif /* SRC_SYMBOL_H_ */

@@ -24,8 +24,7 @@ Concat::~Concat()
 
 size_t Concat::build_grammar(string* rule, size_t location)
 {
-        this->text.push_back('.');
-
+        this->location = location;
         return 1;
 }
 

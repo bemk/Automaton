@@ -110,21 +110,21 @@ int Parser::build_grammar(string* rule)
                 if (verbose) {
                         cout << *sym->getString() << endl;
                 }
-								
-				Symbol* next = sym->get_ll_next();
 
-				if (next == NULL){
-					break;
-				}
+                Symbol* next = sym->get_ll_next();
 
-				if (next->concatenation_allowed() && sym->concatenation_allowed()){
-					Symbol* concat = new Concat(this);
-					concat->set_ll_prev(sym);
-					concat->set_ll_next(next);
-					sym->set_ll_next(concat);
-					next->set_ll_prev(concat);
-				}
+                if (next == NULL) {
+                        break;
+                }
 
+                if (next->concatenation_allowed() && sym->concatenation_allowed()) {
+                        Symbol* concat = new Concat(this);
+                        concat->set_ll_prev(sym);
+                        concat->set_ll_next(next);
+                        concat->set_location(sym->get_location());
+                        sym->set_ll_next(concat);
+                        next->set_ll_prev(concat);
+                }
 
         }
 
