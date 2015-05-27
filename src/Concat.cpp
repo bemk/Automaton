@@ -14,6 +14,7 @@ Concat::Concat(Parser* p) :
                 Symbol(p)
 {
         this->set_concatenation(false);
+        this->text = ".";
 
 }
 

@@ -43,7 +43,7 @@ size_t Or::build_grammar(string* s, size_t location)
 
         this->text.push_back(s->at(0));
 
-        Symbol* left = this->parser->get_symbols();
+        Symbol* left = this->parser->get_symbols()->ommit_starter();
         this->setLeft(left);
 
         Parser* p = new Parser(location + 1);
@@ -52,7 +52,7 @@ size_t Or::build_grammar(string* s, size_t location)
         p->build_grammar(sub);
         delete sub;
 
-        this->setRight(p->get_symbols());
+        this->setRight(p->get_symbols()->ommit_starter());
         this->getRight()->setParent(this);
 
         if (this->getRight()) {

@@ -67,7 +67,7 @@ size_t Capture::build_grammar(string* rule, size_t location)
         Parser* nodes = new Parser(location);
         nodes->build_grammar(&this->text);
 
-        Symbol* symbols = nodes->get_symbols();
+        Symbol* symbols = nodes->get_symbols()->ommit_starter();
 
         if (symbols != NULL) {
                 this->setLeft(symbols);

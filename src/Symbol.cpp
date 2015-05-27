@@ -137,6 +137,12 @@ void build_name(string* name, Symbol* ptr)
                 name->assign("plus");
         } else if (name->compare("?") == 0) {
                 name->assign("questionmark");
+        } else if (name->compare(".") == 0) {
+                name->assign("dot");
+        }
+
+        if (ptr->concatenation_allowed()) {
+                name->append("_APPEND");
         }
 }
 
@@ -255,4 +261,9 @@ void Symbol::set_concatenation(bool status)
 void Symbol::set_location(size_t location)
 {
         this->location = location;
+}
+
+Symbol* Symbol::ommit_starter()
+{
+        return this;
 }
