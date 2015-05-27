@@ -19,6 +19,7 @@ Symbol* StartSymbol::ommit_starter()
 {
         Symbol* next = this->get_ll_next();
         next->set_ll_prev(NULL);
+        next->setParent(this->getParent());
         delete this;
         return next;
 }

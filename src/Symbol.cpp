@@ -210,6 +210,10 @@ bool Symbol::get_dot_graph(string* s)
                 this->getRight()->get_dot_graph(s);
         }
 
+        if (this->getParent()) {
+                this->getParent()->get_dot_reference(s, name, "parent");
+        }
+
         return true;
 }
 

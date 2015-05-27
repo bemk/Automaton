@@ -45,6 +45,7 @@ size_t Or::build_grammar(string* s, size_t location)
 
         Symbol* left = this->parser->get_symbols()->ommit_starter();
         this->setLeft(left);
+        left->setParent(this);
 
         Parser* p = new Parser(location + 1);
 
