@@ -10,6 +10,8 @@
 
 #include "Quantifier.h"
 
+namespace lexer {
+
 class Plus: public Quantifier {
 public:
         Plus(Parser* p);
@@ -17,5 +19,7 @@ public:
         virtual bool isOfType(char c);
         virtual Symbol* allocateType();
 };
+
+}
 
 #endif /* AUTOMATON_PLUS_H_ */

@@ -10,6 +10,8 @@
 
 #include "Symbol.h"
 
+namespace lexer {
+
 class Concat: public Symbol {
 private:
         bool concatenated;
@@ -22,5 +24,7 @@ public:
         virtual size_t build_grammar(std::string* rule, size_t location);
         virtual void do_concatenate();
 };
+
+}
 
 #endif /* SRC_CONCAT_H_ */

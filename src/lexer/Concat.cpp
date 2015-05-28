@@ -5,10 +5,14 @@
  *      Author: bemk
  */
 
-#include "include/Concat.h"
+#include "../include/Concat.h"
 #include <cstdlib>
 
 using namespace std;
+
+extern bool verbose;
+
+namespace lexer {
 
 Concat::Concat(Parser* p) :
                 Symbol(p)
@@ -28,8 +32,6 @@ size_t Concat::build_grammar(string* rule, size_t location)
         this->location = location;
         return 1;
 }
-
-extern bool verbose;
 
 bool Concat::isOfType(char c)
 {
@@ -94,4 +96,6 @@ Symbol* Concat::allocateType()
                 exit(-1);
         }
         return s;
+}
+
 }

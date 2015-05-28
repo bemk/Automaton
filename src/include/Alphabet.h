@@ -25,5 +25,4 @@ public:
         void push_char(char c) ;
 };
 
-
 #endif /* SRC_ALPHABET_H_ */

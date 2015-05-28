@@ -13,6 +13,8 @@
 #include "Quantifier.h"
 #include <string>
 
+namespace lexer {
+
 class Capture: public Symbol {
 private:
         size_t str_length;
@@ -27,5 +29,7 @@ public:
         virtual bool isOfType(char);
         virtual Symbol* allocateType();
 };
+
+}
 
 #endif /* SRC_CAPTURE_H_ */

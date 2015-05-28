@@ -5,7 +5,9 @@
  *      Author: Thomas
  */
 
-#include "include/Plus.h"
+#include "../include/Plus.h"
+
+namespace lexer {
 
 Plus::Plus(Parser* p) :
                 Quantifier(p)
@@ -33,4 +35,6 @@ Symbol* Plus::allocateType()
                 exit(-1);
         }
         return s;
+}
+
 }

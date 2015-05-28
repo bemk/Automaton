@@ -10,6 +10,8 @@
 
 #include "Symbol.h"
 
+namespace lexer {
+
 class StartSymbol : public Symbol{
 public:
         StartSymbol(Parser* p);
@@ -17,5 +19,7 @@ public:
 
         virtual Symbol* ommit_starter();
 };
+
+}
 
 #endif /* SRC_INCLUDE_STARTSYMBOL_H_ */

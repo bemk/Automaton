@@ -61,11 +61,11 @@ int main(int argc, char** argv)
                 cout << "regex with value " << ropt << endl;
                 cout << "depth with value " << repetition_depth << endl;
         }
-        Parser* p = new Parser(0);
+        lexer::Parser* p = new lexer::Parser(0);
         p->build_grammar(new string(ropt));
         p->enforceGrammar(new string(ropt));
 
-        Symbol* symbols = p->get_symbols();
+        lexer::Symbol* symbols = p->get_symbols();
         symbols->set_parser(NULL);
 
         delete p;

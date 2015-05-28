@@ -5,9 +5,11 @@
  *      Author: Thomas
  */
 
-#include "include/QuestionMark.h"
+#include "../include/QuestionMark.h"
 
 using namespace std;
+
+namespace lexer {
 
 QuestionMark::QuestionMark(Parser* p) :
                 Quantifier(p)
@@ -34,4 +36,6 @@ Symbol* QuestionMark::allocateType()
                 exit(-1);
         }
         return s;
+}
+
 }

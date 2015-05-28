@@ -13,6 +13,8 @@
 #include <vector>
 #include "Symbol.h"
 
+namespace lexer {
+
 class Symbol;
 
 class Parser {
@@ -30,5 +32,7 @@ public:
         int enforceGrammar(std::string* line);
 
 };
+
+}
 
 #endif /* SRC_PARSER_H_ */

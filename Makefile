@@ -4,15 +4,20 @@ CC=gcc
 CFLAGS:=-g
 CXXFLAGS:=$(CFLAGS)
 
-CXXFILES := $(wildcard src/*.cpp) 
+CXXFILES := $(wildcard src/*.cpp)
 CFILES := $(wildcard src/*.c)
+
 OBJ_FILES := $(addprefix src/,$(notdir $(CXXFILES:.cpp=.o)))
 COBJ_FILES := $(addprefix src/,$(notdir $(CFILES:.c=.o)))
 
+LEXERFILES := $(wildcard src/lexer/*.cpp)
+LEXER_OBJ_FILES := $(addprefix src/lexer/,$(notdir $(LEXERFILES:.cpp=.o)))
+
 .PHONY: all clean test
 
-all: $(OBJ_FILES) $(COBJ_FILES)
-	$(CPP) -o automaton $(OBJ_FILES) $(COBJ_FILES) $(CXXFLAGS)
+all: $(OBJ_FILES) $(COBJ_FILES) $(LEXER_OBJ_FILES)
+	$(CPP) -o automaton $(OBJ_FILES) $(COBJ_FILES) $(LEXER_OBJ_FILES) \
+	$(CXXFLAGS)
 
 clean:
 	rm -fv `find -name *.o` automaton

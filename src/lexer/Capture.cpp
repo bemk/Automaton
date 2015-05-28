@@ -5,18 +5,20 @@
  *      Author: bemk
  */
 
-#include "include/Capture.h"
+#include "../include/Capture.h"
 #include <iostream>
 #include <cstdlib>
 using namespace std;
+
+extern bool verbose;
+
+namespace lexer {
 
 Capture::Capture(Parser* p) :
                 Symbol(p)
 {
         this->str_length = 0;
 }
-
-extern bool verbose;
 
 size_t Capture::build_grammar(string* rule, size_t location)
 {
@@ -111,4 +113,6 @@ Symbol* Capture::allocateType()
                 exit(-1);
         }
         return s;
+}
+
 }

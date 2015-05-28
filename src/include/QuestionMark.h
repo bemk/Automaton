@@ -10,6 +10,8 @@
 
 #include "Quantifier.h"
 
+namespace lexer {
+
 class QuestionMark: public Quantifier {
 public:
         QuestionMark(Parser* p);
@@ -17,5 +19,7 @@ public:
         virtual bool isOfType(char c);
         virtual Symbol* allocateType();
 };
+
+}
 
 #endif /* AUTOMATON_SRC_QUESTIONMARK_H_ */

@@ -5,11 +5,13 @@
  *      Author: bemk
  */
 
-#include "include/Quantifier.h"
+#include "../include/Quantifier.h"
 #include <iostream>
 #include <cstdlib>
 
 using namespace std;
+
+namespace lexer {
 
 Quantifier::Quantifier(Parser* p) :
                 Symbol(p)
@@ -53,3 +55,4 @@ Symbol* Quantifier::allocateType()
         return NULL;
 }
 
+}

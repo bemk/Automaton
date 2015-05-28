@@ -5,9 +5,11 @@
  *      Author: Thomas
  */
 
-#include "include/Or.h"
+#include "../include/Or.h"
 #include <cstdlib>
 using namespace std;
+
+namespace lexer {
 
 Or::Or(Parser* p) :
                 Symbol(p)
@@ -94,3 +96,4 @@ Symbol* Or::allocateType(void)
         return s;
 }
 
+}

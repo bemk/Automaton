@@ -17,6 +17,8 @@
 #define END_ONE 1
 #define END_INFINITE -1
 
+namespace lexer {
+
 class Quantifier : public Symbol {
 protected:
         int start_at;
@@ -30,5 +32,7 @@ public:
         virtual bool isOfType(char);
         virtual Symbol* allocateType();
 };
+
+}
 
 #endif /* SRC_QUANTIFIER_H_ */

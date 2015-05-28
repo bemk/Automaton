@@ -5,9 +5,11 @@
  *      Author: Thomas
  */
 
-#include "include/Star.h"
+#include "../include/Star.h"
 
 using namespace std;
+
+namespace lexer {
 
 Star::Star(Parser *p) :
                 Quantifier(p)
@@ -35,4 +37,6 @@ Symbol* Star::allocateType()
                 exit(-1);
         }
         return s;
+}
+
 }

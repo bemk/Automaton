@@ -5,15 +5,17 @@
  *      Author: bemk
  */
 
-#include "include/Symbol.h"
+#include "../include/Symbol.h"
 #include <iostream>
 #include <cstdlib>
 #include <sstream>
-#include "include/Alphabet.h"
+#include "../include/Alphabet.h"
 
 using namespace std;
 
 extern bool verbose;
+
+namespace lexer {
 
 Symbol::Symbol(Parser* p)
 {
@@ -278,4 +280,6 @@ void Symbol::set_location(size_t location)
 Symbol* Symbol::ommit_starter()
 {
         return this;
+}
+
 }

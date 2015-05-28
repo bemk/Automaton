@@ -5,19 +5,21 @@
  *      Author: bemk
  */
 
-#include "include/Parser.h"
-#include "include/Capture.h"
-#include "include/Concat.h"
-#include "include/QuestionMark.h"
-#include "include/Plus.h"
-#include "include/Star.h"
-#include "include/StartSymbol.h"
-#include "include/Or.h"
+#include "../include/Parser.h"
+#include "../include/Capture.h"
+#include "../include/Concat.h"
+#include "../include/QuestionMark.h"
+#include "../include/Plus.h"
+#include "../include/Star.h"
+#include "../include/StartSymbol.h"
+#include "../include/Or.h"
 #include <cstdlib>
 
 using namespace std;
 
 extern bool verbose;
+
+namespace lexer {
 
 Parser::Parser(size_t location)
 {
@@ -143,3 +145,6 @@ int Parser::enforceGrammar(string* line)
 {
         return 0;
 }
+
+}
+

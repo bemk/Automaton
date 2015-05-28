@@ -5,7 +5,9 @@
  *      Author: bemk
  */
 
-#include "include/StartSymbol.h"
+#include "../include/StartSymbol.h"
+
+namespace lexer {
 
 StartSymbol::StartSymbol(Parser* p) : Symbol(p)
 {
@@ -22,4 +24,6 @@ Symbol* StartSymbol::ommit_starter()
         next->setParent(this->getParent());
         delete this;
         return next;
+}
+
 }

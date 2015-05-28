@@ -10,6 +10,8 @@
 
 #include "Symbol.h"
 
+namespace lexer {
+
 class Or: public Symbol {
 public:
         Or(Parser* p);
@@ -19,5 +21,7 @@ public:
         Symbol* allocateType(void);
         virtual void do_concatenate();
 };
+
+}
 
 #endif /* AUTOMATON_SRC_OR_H_ */
