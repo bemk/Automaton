@@ -13,14 +13,18 @@ COBJ_FILES := $(addprefix src/,$(notdir $(CFILES:.c=.o)))
 LEXERFILES := $(wildcard src/lexer/*.cpp)
 LEXER_OBJ_FILES := $(addprefix src/lexer/,$(notdir $(LEXERFILES:.cpp=.o)))
 
+NFA_FILES := $(wildcard src/NFA/*.cpp)
+NFA_OBJ_FILES := $(addprefix src/NFA/,$(notdir $(NFA_FILES:.cpp=.o)))
+
+TARGETS := $(OBJ_FILES) $(COBJ_FILES) $(LEXER_OBJ_FILES) $(NFA_OBJ_FILES)
+
 .PHONY: all clean test
 
-all: $(OBJ_FILES) $(COBJ_FILES) $(LEXER_OBJ_FILES)
-	$(CPP) -o automaton $(OBJ_FILES) $(COBJ_FILES) $(LEXER_OBJ_FILES) \
-	$(CXXFLAGS)
+all: $(TARGETS)
+	$(CPP) -o automaton $(TARGETS) $(CXXFLAGS)
 
 clean:
-	rm -fv `find -name *.o` automaton
+	rm -fv $(TARGETS) automaton
 	rm -fv *.dot
 	rm -fv *.png
 

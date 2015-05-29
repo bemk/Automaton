@@ -134,7 +134,9 @@ int Parser::build_grammar(string* rule)
         }
 
         set_symbols(get_symbols()->ommit_starter());
+
         /* Second pass, Dump the symbols! (for now) */
+
         insert_concats(get_symbols(), this);
         get_symbols()->do_concatenate();
 
