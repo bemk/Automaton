@@ -10,17 +10,30 @@
 
 #include <string>
 #include <iostream>
+#include <vector>
+#include "../include/Transition.h"
 
 namespace NFA {
+
+class Transition;
 
 class Automaton {
 private:
         size_t location;
         std::string name;
+        std::vector<Transition*> transitions;
 
 public:
         Automaton(size_t location, std::string name);
         virtual ~Automaton();
+
+        void add_transition(char input, Automaton* destination);
+        void add_epsilon(Automaton* destination);
+
+        std::vector<Transition*>* get_transitions()
+        {
+                return &this->transitions;
+        }
 };
 
 } /* namespace NFA */

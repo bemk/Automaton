@@ -1,8 +1,9 @@
 
 CPP=g++
 CC=gcc
-CFLAGS:=-g
-CXXFLAGS:=$(CFLAGS)
+ECFLAGS:=-g
+CFLAGS:=$(ECFLAGS)
+CXXFLAGS:=$(ECFLAGS)
 
 CXXFILES := $(wildcard src/*.cpp)
 CFILES := $(wildcard src/*.c)

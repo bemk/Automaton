@@ -9,7 +9,8 @@
 
 namespace lexer {
 
-StartSymbol::StartSymbol(Parser* p) : Symbol(p)
+StartSymbol::StartSymbol(Parser* p) :
+                Symbol(p)
 {
 }
 
@@ -17,7 +18,7 @@ StartSymbol::~StartSymbol()
 {
 }
 
-Symbol* StartSymbol::ommit_starter()
+Symbol* StartSymbol::omit_starter()
 {
         Symbol* next = this->get_ll_next();
         next->set_ll_prev(NULL);

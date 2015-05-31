@@ -70,7 +70,7 @@ public:
         virtual void set_concatenation(bool status);
         virtual Symbol* allocateType();
 
-        virtual Symbol* ommit_starter();
+        virtual Symbol* omit_starter();
 
         void set_location(size_t location);
         size_t get_location()

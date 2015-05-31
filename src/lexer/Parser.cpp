@@ -133,7 +133,7 @@ int Parser::build_grammar(string* rule)
                 }
         }
 
-        set_symbols(get_symbols()->ommit_starter());
+        set_symbols(get_symbols()->omit_starter());
 
         /* Second pass, Dump the symbols! (for now) */
 

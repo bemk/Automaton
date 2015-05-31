@@ -277,7 +277,7 @@ void Symbol::set_location(size_t location)
         this->location = location;
 }
 
-Symbol* Symbol::ommit_starter()
+Symbol* Symbol::omit_starter()
 {
         return this;
 }

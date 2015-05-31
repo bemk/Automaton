@@ -12,6 +12,8 @@
 
 namespace NFA {
 
+class Automaton;
+
 class Transition {
 private:
         char symbol;
@@ -19,6 +21,8 @@ private:
 
         Automaton* source;
         Automaton* dest;
+
+        bool epsylon;
 
         void init(size_t location, char symbol, Automaton* source,
                         Automaton* dest);
@@ -34,10 +38,19 @@ public:
         void set_source(Automaton* source);
         void set_dest(Automaton* dest);
 
+        void set_epsylon(bool epsylon) {
+                this->epsylon = epsylon;
+        }
+
         char get_symbol();
 
         Automaton* get_source();
         Automaton* get_dest();
+
+        bool get_epsylon() {
+                return this->epsylon;
+        }
+
 };
 
 } /* namespace NFA */

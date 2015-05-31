@@ -12,12 +12,12 @@
 
 namespace lexer {
 
-class StartSymbol : public Symbol{
+class StartSymbol: public Symbol {
 public:
         StartSymbol(Parser* p);
         virtual ~StartSymbol();
 
-        virtual Symbol* ommit_starter();
+        virtual Symbol* omit_starter();
 };
 
 }
