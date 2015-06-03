@@ -21,12 +21,16 @@ const char* dotname;
 
 std::string graph_text = "digraph {\n";
 
+bool NFA_graph = false;
+const char* NFA_name;
+std::string NFA_text = "digraph finite_state_machine {\nrankdir = LR;\nsize = \"8,5\"\nnode [shape = circle];\n";
+
 int main(int argc, char** argv)
 {
         int getoptoutput;
         char *ropt = 0;
         int repetition_depth = -1;
-        while ((getoptoutput = getopt(argc, argv, "r:d:vg:")) != -1) {
+        while ((getoptoutput = getopt(argc, argv, "r:d:vg:n:")) != -1) {
                 switch (getoptoutput) {
                 case 'r':
                         ropt = optarg;
@@ -49,6 +53,12 @@ int main(int argc, char** argv)
                         dot_graph = true;
                         dotname = optarg;
                         break;
+
+				case 'n':
+					NFA_graph = true;
+					NFA_name = optarg;
+
+					break;
 
                 default:
                         cerr << "getopt returned character code" << getoptoutput
@@ -92,6 +102,23 @@ int main(int argc, char** argv)
                 dot_file << graph_text << endl;
                 dot_file.close();
         }
+
+		if (NFA_graph){
+			ofstream dot_file;
+			dot_file.open(NFA_name);
+			string NFA_text = "";
+			symbols->get_start_symbol()->get_dotgraph(&NFA_text);
+			NFA_text.append("label=\"");
+			NFA_text.append(ropt);
+			NFA_text.append("\";\nlabelloc=top\n");
+
+			NFA_text.push_back('}');
+
+			dot_file << NFA_text << endl;
+			dot_file.close();
+		}
+
+		
 
 #ifndef __GNUC__
         system("PAUSE");

@@ -11,6 +11,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <string>
 #include "../include/Transition.h"
 
 namespace NFA {
@@ -19,11 +20,15 @@ class Transition;
 
 class Automaton {
 private:
+		bool graphed;
         size_t location;
         std::string name;
         std::vector<Transition*> transitions;
         std::vector<Transition*> incomming;
         int unique_id;
+
+		void get_dot_reference(std::string* s, std::string caller, bool epsylon, char input);
+
 
         void add_incomming(Transition* incomming)
         {
@@ -36,6 +41,7 @@ public:
 
         void add_transition(char input, Automaton* destination);
         void add_epsilon(Automaton* destination);
+		bool get_dotgraph(std::string* s);
 
         std::vector<Transition*>* get_transitions()
         {
