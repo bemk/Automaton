@@ -110,16 +110,17 @@ void Or::build_automata()
         stringstream name_bottom_out;
         stringstream name_end;
 
-		stringstream tmp;
-		
-		name_start << "q_" << location << "_0";
-		name_top_in << "q_" << location << "_1";
-		name_top_out << "q_" << location << "_2";
-		name_bottom_in << "q_" << location << "_3";
-		name_bottom_out << "q_" << location << "_4";
-		name_end << "q_" << location << "_5";
+        stringstream tmp;
 
-        NFA::Automaton* start = new NFA::Automaton(this->location, name_start.str());
+        name_start << "q_" << location << "_0";
+        name_top_in << "q_" << location << "_1";
+        name_top_out << "q_" << location << "_2";
+        name_bottom_in << "q_" << location << "_3";
+        name_bottom_out << "q_" << location << "_4";
+        name_end << "q_" << location << "_5";
+
+        NFA::Automaton* start = new NFA::Automaton(this->location,
+                        name_start.str());
         NFA::Automaton* top_in = new NFA::Automaton(this->location,
                         name_top_in.str());
         NFA::Automaton* top_out = new NFA::Automaton(this->location,
@@ -130,7 +131,8 @@ void Or::build_automata()
         NFA::Automaton* bottom_out = new NFA::Automaton(this->location,
                         name_bottom_out.str());
 
-        NFA::Automaton* end = new NFA::Automaton(this->location, name_end.str());
+        NFA::Automaton* end = new NFA::Automaton(this->location,
+                        name_end.str());
 
         this->start = start;
         this->end = end;
