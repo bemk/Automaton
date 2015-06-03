@@ -290,14 +290,16 @@ void Symbol::build_automata()
                 return;
         }
 
-        string name_start = "";
-        string name_end = "";
+        stringstream start_stream;
+        stringstream end_stream;
 
-        name_start = location + "0";
-        name_start = location + "1";
+        start_stream << "q_" << this->location << "_0";
+        end_stream << "q_" << this->location << "_1";
 
-        NFA::Automaton* start = new NFA::Automaton(this->location, name_start);
-        NFA::Automaton* end = new NFA::Automaton(this->location, name_end);
+        NFA::Automaton* start = new NFA::Automaton(this->location,
+                        start_stream.str());
+        NFA::Automaton* end = new NFA::Automaton(this->location,
+                        end_stream.str());
 
         this->start = start;
         this->end = end;
