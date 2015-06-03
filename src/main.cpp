@@ -23,7 +23,8 @@ std::string graph_text = "digraph {\n";
 
 bool NFA_graph = false;
 const char* NFA_name;
-std::string NFA_text = "digraph finite_state_machine {\nrankdir = LR;\nsize = \"8,5\"\nnode [shape = circle];\n";
+std::string NFA_text =
+                "digraph finite_state_machine {\nrankdir = LR;\nnode [shape = circle];\n";
 
 int main(int argc, char** argv)
 {
@@ -40,7 +41,7 @@ int main(int argc, char** argv)
                         repetition_depth = atoi(optarg);
                         if (repetition_depth == -1 || repetition_depth == 0) {
                                 cerr << "Depth should be a positive integer"
-                                     << endl;
+                                << endl;
                                 exit(-1);
                         }
                         break;
@@ -54,15 +55,15 @@ int main(int argc, char** argv)
                         dotname = optarg;
                         break;
 
-				case 'n':
-					NFA_graph = true;
-					NFA_name = optarg;
+                case 'n':
+                        NFA_graph = true;
+                        NFA_name = optarg;
 
-					break;
+                        break;
 
                 default:
                         cerr << "getopt returned character code" << getoptoutput
-                             << endl;
+                        << endl;
                         exit(-1);
                 }
         }
@@ -103,22 +104,24 @@ int main(int argc, char** argv)
                 dot_file.close();
         }
 
-		if (NFA_graph){
-			ofstream dot_file;
-			dot_file.open(NFA_name);
-			string NFA_text = "";
-			symbols->get_start_symbol()->get_dotgraph(&NFA_text);
-			NFA_text.append("label=\"");
-			NFA_text.append(ropt);
-			NFA_text.append("\";\nlabelloc=top\n");
+        if (NFA_graph) {
+                ofstream dot_file;
+                dot_file.open(NFA_name);
+                string node_text = "";
+                symbols->get_ll_next()->get_start_symbol()->get_dotgraph(
+                                &node_text);
 
-			NFA_text.push_back('}');
+                node_text.append("label=\"");
+                node_text.append(ropt);
+                node_text.append("\";\nlabelloc=top\n");
 
-			dot_file << NFA_text << endl;
-			dot_file.close();
-		}
+                node_text.push_back('}');
 
-		
+                NFA_text.append(node_text);
+
+                dot_file << NFA_text << endl;
+                dot_file.close();
+        }
 
 #ifndef __GNUC__
         system("PAUSE");

@@ -41,19 +41,19 @@ Symbol* QuestionMark::allocateType()
 
 void QuestionMark::build_automata()
 {
-	if (this->automata.size()) {
-		return;
-	}
+        if (this->automata.size()) {
+                return;
+        }
 
-	init_automata();
-	
-	start->add_epsilon(in);
-	start->add_epsilon(end);
-	in->add_epsilon(this->getLeft()->get_start_symbol());
-	this->getLeft()->get_start_symbol()->add_epsilon(out);
-	out->add_epsilon(end);
-	
-	return;
+        init_automata();
+
+        start->add_epsilon(in);
+        start->add_epsilon(end);
+        in->add_epsilon(this->getLeft()->get_start_symbol());
+        this->getLeft()->get_accept_symbol()->add_epsilon(out);
+        out->add_epsilon(end);
+
+        return;
 }
 
 }

@@ -5,6 +5,6 @@ automaton
 .cproject
 .gdbinit
 *.dot
-dot.png
+*.png
 Debug
 

@@ -9,7 +9,6 @@
 #include <sstream>
 using namespace std;
 
-
 namespace lexer {
 
 Plus::Plus(Parser* p) :
@@ -42,20 +41,19 @@ Symbol* Plus::allocateType()
 
 void Plus::build_automata()
 {
-	if (this->automata.size()) {
-		return;
-	}
+        if (this->automata.size()) {
+                return;
+        }
 
-	init_automata();
+        init_automata();
 
+        start->add_epsilon(in);
+        out->add_epsilon(in);
+        in->add_epsilon(this->getLeft()->get_start_symbol());
+        this->getLeft()->get_accept_symbol()->add_epsilon(out);
+        out->add_epsilon(end);
 
-	start->add_epsilon(in);
-	out->add_epsilon(in);
-	in->add_epsilon(this->getLeft()->get_start_symbol());
-	this->getLeft()->get_start_symbol()->add_epsilon(out);
-	out->add_epsilon(end);
-
-	return;
+        return;
 }
 
 }

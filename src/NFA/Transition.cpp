@@ -16,6 +16,7 @@ void Transition::init(size_t location, char symbol, Automaton* source,
         this->symbol = symbol;
         this->source = source;
         this->dest = dest;
+        this->epsylon = false;
 
         return;
 }

@@ -30,5 +30,7 @@ clean:
 	rm -fv *.png
 
 png: all
-	./automaton -d 2 -r "ca+a(bb|((cc|f.f)*|ee))d?d" -g dot.dot $(AUTOFLAGS)
+	./automaton -d 2 -r "ca+a(bb|((cc|f.f)*|ee))d?d" -g dot.dot -n nfa.dot$(AUTOFLAGS)
 	dot -Tpng dot.dot -o dot.png
+	dot -Tpng nfa.dot -o nfa.png
+

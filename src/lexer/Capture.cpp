@@ -41,7 +41,7 @@ size_t Capture::build_grammar(string* rule, size_t location)
                                 this->text.push_back(c);
                         } else if (depth_cnt < 0) {
                                 cerr << "Found ')' at char " << location
-                                     << " but was not matched!" << endl;
+                                << " but was not matched!" << endl;
                                 exit(-4);
                         } else {
                                 goto end_of_loop;
@@ -118,28 +118,30 @@ Symbol* Capture::allocateType()
 
 void Capture::build_automata()
 {
-	if (this->automata.size()) {
-		return;
-	}
+        if (this->automata.size()) {
+                return;
+        }
 
-	stringstream name_start;
-	stringstream name_end;
+        stringstream name_start;
+        stringstream name_end;
 
-	name_start << "q_" << this->location << "_0";
-	name_end << "q_" << this->location << "_1";
+        name_start << "q_" << this->location << "_0";
+        name_end << "q_" << this->location << "_1";
 
-	NFA::Automaton* start = new NFA::Automaton(this->location, name_start.str());
-	NFA::Automaton* end = new NFA::Automaton(this->location, name_end.str());
+        NFA::Automaton* start = new NFA::Automaton(this->location,
+                        name_start.str());
+        NFA::Automaton* end = new NFA::Automaton(this->location,
+                        name_end.str());
 
-	start->add_epsilon(this->getRight()->get_start_symbol());
-	this->getRight()->get_start_symbol()->add_epsilon(end);
-	this->start = start;
-	this->end = end;
+        start->add_epsilon(this->getRight()->get_start_symbol());
+        this->getRight()->get_accept_symbol()->add_epsilon(end);
+        this->start = start;
+        this->end = end;
 
-	this->automata.push_back(start);
-	this->automata.push_back(end);
+        this->automata.push_back(start);
+        this->automata.push_back(end);
 
-	return;
+        return;
 }
 
 }
