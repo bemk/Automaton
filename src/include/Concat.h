@@ -15,6 +15,7 @@ namespace lexer {
 class Concat: public Symbol {
 private:
         bool concatenated;
+        virtual void build_automata();
 public:
         Concat(Parser* p);
         virtual ~Concat();

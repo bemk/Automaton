@@ -7,6 +7,7 @@
 
 #include "../include/Concat.h"
 #include <cstdlib>
+#include <sstream>
 
 using namespace std;
 
@@ -52,7 +53,7 @@ void Concat::do_concatenate()
 
         if (next == NULL || previous == NULL) {
                 cerr << "concat without sufficient context @" << this->location
-                     << endl;
+                << endl;
                 exit(-1);
         }
         if (previous->get_ll_prev()) {
@@ -66,7 +67,7 @@ void Concat::do_concatenate()
 
         setLeft(previous);
         setRight(next);
-        set_ll_next(NULL);
+        set_ll_next (NULL);
         set_ll_prev(NULL);
 
         Symbol* parent = previous->getParent();
@@ -96,6 +97,37 @@ Symbol* Concat::allocateType()
                 exit(-1);
         }
         return s;
+}
+
+void Concat::build_automata()
+{
+        if (automata.size() != 0) {
+                return;
+        }
+
+        stringstream start_name;
+        stringstream end_name;
+
+        start_name << "q_" << location << "_0";
+        end_name << "q_" << location << "_1";
+
+        NFA::Automaton* start = new NFA::Automaton(this->location,
+                        start_name.str());
+        NFA::Automaton* end = new NFA::Automaton(this->location,
+                        end_name.str());
+
+        start->add_epsilon(this->getLeft()->get_start_symbol());
+        this->getLeft()->get_accept_symbol()->add_epsilon(
+                        this->getRight()->get_start_symbol());
+        this->getRight()->get_accept_symbol()->add_epsilon(end);
+
+        this->start = start;
+        this->end = end;
+
+        this->automata.push_back(start);
+        this->automata.push_back(end);
+
+        return;
 }
 
 }
