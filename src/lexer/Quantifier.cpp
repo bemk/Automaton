@@ -8,6 +8,7 @@
 #include "../include/Quantifier.h"
 #include <iostream>
 #include <cstdlib>
+#include <sstream>
 
 using namespace std;
 
@@ -19,6 +20,9 @@ Quantifier::Quantifier(Parser* p) :
         /* If no quantifier is given, default to exactly one */
         start_at = START_ONE;
         stop_at = END_ONE;
+
+        this->in = NULL;
+        this->out = NULL;
 }
 
 size_t Quantifier::build_grammar(string* rule, size_t location)
@@ -53,6 +57,37 @@ Symbol* Quantifier::allocateType()
 {
         cerr << "Generic quantifier should never be found!!!" << endl;
         return NULL;
+}
+
+void Quantifier::init_automata()
+{
+        stringstream name_start;
+        stringstream name_in;
+        stringstream name_out;
+        stringstream name_end;
+
+        name_start << "q_" << this->location << "_0";
+        name_in << "q_" << this->location << "_1";
+        name_out << "q_" << this->location << "_2";
+        name_end << "q_" << this->location << "_3";
+
+        NFA::Automaton* start = new NFA::Automaton(this->location,
+                        name_start.str());
+        NFA::Automaton* in = new NFA::Automaton(this->location, name_in.str());
+        NFA::Automaton* out = new NFA::Automaton(this->location,
+                        name_out.str());
+        NFA::Automaton* end = new NFA::Automaton(this->location,
+                        name_end.str());
+
+        this->start = start;
+        this->in = in;
+        this->out = out;
+        this->end = end;
+
+        this->automata.push_back(start);
+        this->automata.push_back(in);
+        this->automata.push_back(out);
+        this->automata.push_back(end);
 }
 
 }

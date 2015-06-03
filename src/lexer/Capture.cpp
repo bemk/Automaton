@@ -8,6 +8,7 @@
 #include "../include/Capture.h"
 #include <iostream>
 #include <cstdlib>
+#include <sstream>
 using namespace std;
 
 extern bool verbose;
@@ -113,6 +114,32 @@ Symbol* Capture::allocateType()
                 exit(-1);
         }
         return s;
+}
+
+void Capture::build_automata()
+{
+	if (this->automata.size()) {
+		return;
+	}
+
+	stringstream name_start;
+	stringstream name_end;
+
+	name_start << "q_" << this->location << "_0";
+	name_end << "q_" << this->location << "_1";
+
+	NFA::Automaton* start = new NFA::Automaton(this->location, name_start.str());
+	NFA::Automaton* end = new NFA::Automaton(this->location, name_end.str());
+
+	start->add_epsilon(this->getRight()->get_start_symbol());
+	this->getRight()->get_start_symbol()->add_epsilon(end);
+	this->start = start;
+	this->end = end;
+
+	this->automata.push_back(start);
+	this->automata.push_back(end);
+
+	return;
 }
 
 }

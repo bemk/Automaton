@@ -32,6 +32,8 @@ Symbol::Symbol(Parser* p)
 
         allow_concatenation = true;
         this->parser = p;
+        this->start = NULL;
+        this->end = NULL;
 
         this->automata = vector<NFA::Automaton*>();
 }

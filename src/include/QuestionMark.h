@@ -18,6 +18,9 @@ public:
         virtual ~QuestionMark();
         virtual bool isOfType(char c);
         virtual Symbol* allocateType();
+
+protected:
+	virtual void build_automata();
 };
 
 }
