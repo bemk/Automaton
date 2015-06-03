@@ -19,6 +19,9 @@ class Capture: public Symbol {
 private:
         size_t str_length;
 
+protected:
+	virtual void build_automata();
+
 public:
         Capture(Parser* p);
         virtual ~Capture();

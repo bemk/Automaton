@@ -6,7 +6,7 @@
  */
 
 #include "../include/Star.h"
-
+#include <sstream>
 using namespace std;
 
 namespace lexer {
@@ -37,6 +37,24 @@ Symbol* Star::allocateType()
                 exit(-1);
         }
         return s;
+}
+
+void Star::build_automata()
+{
+	if (this->automata.size()) {
+		return;
+	}
+
+	init_automata();
+
+	start->add_epsilon(in);
+	in->add_epsilon(out);
+	out->add_epsilon(in);
+	in->add_epsilon(this->getLeft()->get_start_symbol());
+	this->getLeft()->get_start_symbol()->add_epsilon(out);
+	out->add_epsilon(end);
+
+	return;
 }
 
 }

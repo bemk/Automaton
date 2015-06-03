@@ -10,6 +10,7 @@
 
 #include "Symbol.h"
 #include <cstdlib>
+#include <iostream>
 
 #define START_NULL 0
 #define START_ONE  1
@@ -23,6 +24,16 @@ class Quantifier : public Symbol {
 protected:
         int start_at;
         int stop_at;
+
+		
+		NFA::Automaton* in;
+		NFA::Automaton* out;
+
+		void init_automata();
+		void build_automata() {
+			std::cerr << "Something went horribly wrong at char " << this->location << std::endl;
+			exit(-404);
+		}
 
 public:
         Quantifier(Parser* p);
