@@ -66,10 +66,10 @@ void Quantifier::init_automata()
         stringstream name_out;
         stringstream name_end;
 
-        name_start << "q_" << this->location << "_0";
-        name_in << "q_" << this->location << "_1";
-        name_out << "q_" << this->location << "_2";
-        name_end << "q_" << this->location << "_3";
+        name_start << "qq_" << this->location << "_0";
+        name_in << "qq_" << this->location << "_1";
+        name_out << "qq_" << this->location << "_2";
+        name_end << "qq_" << this->location << "_3";
 
         NFA::Automaton* start = new NFA::Automaton(this->location,
                         name_start.str());

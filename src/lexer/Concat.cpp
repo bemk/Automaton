@@ -108,8 +108,8 @@ void Concat::build_automata()
         stringstream start_name;
         stringstream end_name;
 
-        start_name << "q_" << location << "_0";
-        end_name << "q_" << location << "_1";
+        start_name << "qc_" << location << "_0";
+        end_name << "qc_" << location << "_1";
 
         NFA::Automaton* start = new NFA::Automaton(this->location,
                         start_name.str());

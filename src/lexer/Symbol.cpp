@@ -295,8 +295,8 @@ void Symbol::build_automata()
         stringstream start_stream;
         stringstream end_stream;
 
-        start_stream << "q_" << this->location << "_0";
-        end_stream << "q_" << this->location << "_1";
+        start_stream << "qs_" << this->location << "_0";
+        end_stream << "qs_" << this->location << "_1";
 
         NFA::Automaton* start = new NFA::Automaton(this->location,
                         start_stream.str());
