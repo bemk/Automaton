@@ -7,6 +7,7 @@
 
 #include "../include/Or.h"
 #include <cstdlib>
+#include <sstream>
 using namespace std;
 
 namespace lexer {
@@ -102,32 +103,34 @@ void Or::build_automata()
                 return;
         }
 
-        string name_start = "";
-        string name_top_in = "";
-        string name_top_out = "";
-        string name_bottom_in = "";
-        string name_bottom_out = "";
-        string name_end = "";
+        stringstream name_start;
+        stringstream name_top_in;
+        stringstream name_top_out;
+        stringstream name_bottom_in;
+        stringstream name_bottom_out;
+        stringstream name_end;
 
-        name_start = location + "0";
-        name_top_in = location + "1";
-        name_top_out = location + "2";
-        name_bottom_in = location + "3";
-        name_bottom_out = location + "4";
-        name_end = location + "5";
+		stringstream tmp;
+		
+		name_start << "q_" << location << "_0";
+		name_top_in << "q_" << location << "_1";
+		name_top_out << "q_" << location << "_2";
+		name_bottom_in << "q_" << location << "_3";
+		name_bottom_out << "q_" << location << "_4";
+		name_end << "q_" << location << "_5";
 
-        NFA::Automaton* start = new NFA::Automaton(this->location, name_start);
+        NFA::Automaton* start = new NFA::Automaton(this->location, name_start.str());
         NFA::Automaton* top_in = new NFA::Automaton(this->location,
-                        name_top_in);
+                        name_top_in.str());
         NFA::Automaton* top_out = new NFA::Automaton(this->location,
-                        name_top_out);
+                        name_top_out.str());
 
         NFA::Automaton* bottom_in = new NFA::Automaton(this->location,
-                        name_bottom_in);
+                        name_bottom_in.str());
         NFA::Automaton* bottom_out = new NFA::Automaton(this->location,
-                        name_bottom_out);
+                        name_bottom_out.str());
 
-        NFA::Automaton* end = new NFA::Automaton(this->location, name_end);
+        NFA::Automaton* end = new NFA::Automaton(this->location, name_end.str());
 
         this->start = start;
         this->end = end;
