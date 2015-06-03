@@ -6,6 +6,7 @@
  */
 
 #include "../include/Transition.h"
+#include <iostream>
 
 namespace NFA {
 
@@ -16,7 +17,7 @@ void Transition::init(size_t location, char symbol, Automaton* source,
         this->symbol = symbol;
         this->source = source;
         this->dest = dest;
-        this->epsylon = false;
+        this->epsilon = false;
 
         return;
 }
@@ -68,6 +69,19 @@ void Transition::set_symbol(char symbol)
 char Transition::get_symbol()
 {
         return this->symbol;
+}
+
+bool Transition::get_epsilon()
+{
+        if (this == NULL) {
+                std::cerr << "Some crazy magic is going on here!" << std::endl;
+        }
+        return this->epsilon;
+}
+
+void Transition::set_epsilon(bool epsilon)
+{
+        this->epsilon = epsilon;
 }
 
 } /* namespace NFA */

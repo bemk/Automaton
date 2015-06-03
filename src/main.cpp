@@ -23,8 +23,7 @@ std::string graph_text = "digraph {\n";
 
 bool NFA_graph = false;
 const char* NFA_name;
-std::string NFA_text =
-                "digraph finite_state_machine {\nrankdir = LR;\nnode [shape = circle];\n";
+std::string NFA_text = "digraph finite_state_machine {\nrankdir = LR;\n";
 
 int main(int argc, char** argv)
 {
@@ -108,6 +107,7 @@ int main(int argc, char** argv)
                 ofstream dot_file;
                 dot_file.open(NFA_name);
                 string node_text = "";
+
                 symbols->get_ll_next()->get_start_symbol()->get_dotgraph(
                                 &node_text);
 
@@ -116,6 +116,13 @@ int main(int argc, char** argv)
                 node_text.append("\";\nlabelloc=top\n");
 
                 node_text.push_back('}');
+
+                NFA::Automaton* accept = symbols->get_ll_next()
+                                ->get_accept_symbol();
+
+                NFA_text.append("node [shape = doublecircle]; ");
+                NFA_text.append(*accept->get_name());
+                NFA_text.append(" ;\nnode [shape = circle];\n");
 
                 NFA_text.append(node_text);
 

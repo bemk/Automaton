@@ -54,7 +54,7 @@ void Automaton::add_transition(char name, Automaton* dest)
                         dest);
 
         this->transitions.push_back(transition);
-        dest->add_incomming(t);
+        dest->add_incomming(transition);
 
         return;
 }
@@ -68,7 +68,7 @@ void Automaton::add_epsilon(Automaton* dest)
         }
 
         Transition* t = new Transition(this->location, '\0', this, dest);
-        t->set_epsylon(true);
+        t->set_epsilon(true);
 
         transitions.push_back(t);
         dest->add_incomming(t);
@@ -84,20 +84,37 @@ bool Automaton::get_dotgraph(string* s)
 
         graphed = true;
 
+        bool to_graph = true;
+        if (incomming.size() == 1 && transitions.size() == 1) {
+                if (incomming[0]->get_epsilon() && transitions[0]->get_epsilon()) {
+                        to_graph = false;
+                }
+        }
+
         for (size_t i = 0; i < transitions.size(); i++) {
-                transitions[i]->get_dest()->get_dot_reference(s, name,
-                                this->transitions[i]->get_epsylon(),
-                                this->transitions[i]->get_symbol());
+                if (to_graph) {
+                        transitions[i]->get_dest()->get_dot_reference(s, &name,
+                                        this->transitions[i]->get_epsilon(),
+                                        this->transitions[i]->get_symbol());
+                }
                 transitions[i]->get_dest()->get_dotgraph(s);
         }
 
         return true;
 }
 
-void Automaton::get_dot_reference(std::string* s, std::string caller,
+void Automaton::get_dot_reference(std::string* s, std::string* caller,
                 bool epsylon, char input)
 {
-        s->append(caller);
+        if (this->incomming.size() == 1 && this->transitions.size() == 1) {
+                if (incomming[0]->get_epsilon() && transitions[0]->get_epsilon()) {
+                        transitions[0]->get_dest()->get_dot_reference(s, caller,
+                                        true, input);
+                        return;
+                }
+        }
+
+        s->append(*caller);
         s->append(" -> ");
         s->append(this->name);
         s->append(" [ label = \"");
@@ -109,6 +126,11 @@ void Automaton::get_dot_reference(std::string* s, std::string caller,
                 }
         }
         s->append("\" ];\n");
+}
+
+string* Automaton::get_name()
+{
+        return &this->name;
 }
 
 } /* namespace NFA */
