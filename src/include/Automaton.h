@@ -22,6 +22,13 @@ private:
         size_t location;
         std::string name;
         std::vector<Transition*> transitions;
+        std::vector<Transition*> incomming;
+        int unique_id;
+
+        void add_incomming(Transition* incomming)
+        {
+                this->incomming.push_back(incomming);
+        }
 
 public:
         Automaton(size_t location, std::string name);
@@ -33,6 +40,11 @@ public:
         std::vector<Transition*>* get_transitions()
         {
                 return &this->transitions;
+        }
+
+        std::vector<Transition*>* get_incomming()
+        {
+                return &this->incomming;
         }
 };
 

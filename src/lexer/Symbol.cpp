@@ -32,6 +32,8 @@ Symbol::Symbol(Parser* p)
 
         allow_concatenation = true;
         this->parser = p;
+
+        this->automata = vector<NFA::Automaton*>();
 }
 
 Symbol::~Symbol()
@@ -47,7 +49,7 @@ size_t Symbol::build_grammar(string* s, size_t location)
         }
         if (s->compare("") == 0) {
                 cerr << "Empty string given at char: " << location << "!"
-                     << endl;
+                << endl;
                 return 0;
         }
 
@@ -280,6 +282,44 @@ void Symbol::set_location(size_t location)
 Symbol* Symbol::omit_starter()
 {
         return this;
+}
+
+void Symbol::build_automata()
+{
+        if (this->automata.size()) {
+                return;
+        }
+
+        string name_start = "";
+        string name_end = "";
+
+        name_start = location + "0";
+        name_start = location + "1";
+
+        NFA::Automaton* start = new NFA::Automaton(this->location, name_start);
+        NFA::Automaton* end = new NFA::Automaton(this->location, name_end);
+
+        this->start = start;
+        this->end = end;
+
+        start->add_transition(this->text[0], end);
+
+        this->automata.push_back(start);
+        this->automata.push_back(end);
+
+        return;
+}
+
+NFA::Automaton* Symbol::get_start_symbol()
+{
+        build_automata();
+        return this->start;
+}
+
+NFA::Automaton* Symbol::get_accept_symbol()
+{
+        build_automata();
+        return this->end;
 }
 
 }

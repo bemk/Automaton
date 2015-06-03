@@ -6,16 +6,26 @@
  */
 
 #include "../include/Automaton.h"
+#include <cstdlib>
 
 using namespace std;
 
 namespace NFA {
+
+int unique_id_alloc = 0;
 
 Automaton::Automaton(size_t location, string name)
 {
         this->location = location;
         this->name = name;
         this->transitions = vector<Transition*>();
+        this->incomming = vector<Transition*>();
+        this->unique_id = unique_id_alloc++;
+
+        if (unique_id_alloc < 0) {
+                cerr << "Integer overflow!!!!!!" << endl;
+                exit(-9001);
+        }
 }
 
 Automaton::~Automaton()
@@ -42,6 +52,7 @@ void Automaton::add_transition(char name, Automaton* dest)
                         dest);
 
         this->transitions.push_back(transition);
+        dest->add_incomming(t);
 
         return;
 }
@@ -58,6 +69,8 @@ void Automaton::add_epsilon(Automaton* dest)
         t->set_epsylon(true);
 
         transitions.push_back(t);
+        dest->add_incomming(t);
+
         return;
 }
 

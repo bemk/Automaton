@@ -9,6 +9,7 @@
 #define SRC_SYMBOL_H_
 
 #include "Parser.h"
+#include "Automaton.h"
 #include <string>
 #include <iostream>
 
@@ -38,6 +39,12 @@ protected:
 
         bool get_dot_reference(std::string* ret, std::string src_name,
                         std::string ref_name);
+
+        std::vector<NFA::Automaton*> automata;
+        NFA::Automaton* start;
+        NFA::Automaton* end;
+
+        virtual void build_automata();
 
 public:
         Symbol(Parser* p);
@@ -77,6 +84,9 @@ public:
         {
                 return this->location;
         }
+
+        NFA::Automaton* get_start_symbol();
+        NFA::Automaton* get_accept_symbol();
 };
 
 }

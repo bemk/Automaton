@@ -39,7 +39,7 @@ size_t Or::build_grammar(string* s, size_t location)
         }
         if (s->compare("") == 0) {
                 cerr << "Empty string given at char: " << location << "!"
-                     << endl;
+                << endl;
                 return 0;
         }
 
@@ -94,6 +94,64 @@ Symbol* Or::allocateType(void)
                 exit(-1);
         }
         return s;
+}
+
+void Or::build_automata()
+{
+        if (this->automata.size()) {
+                return;
+        }
+
+        string name_start = "";
+        string name_top_in = "";
+        string name_top_out = "";
+        string name_bottom_in = "";
+        string name_bottom_out = "";
+        string name_end = "";
+
+        name_start = location + "0";
+        name_top_in = location + "1";
+        name_top_out = location + "2";
+        name_bottom_in = location + "3";
+        name_bottom_out = location + "4";
+        name_end = location + "5";
+
+        NFA::Automaton* start = new NFA::Automaton(this->location, name_start);
+        NFA::Automaton* top_in = new NFA::Automaton(this->location,
+                        name_top_in);
+        NFA::Automaton* top_out = new NFA::Automaton(this->location,
+                        name_top_out);
+
+        NFA::Automaton* bottom_in = new NFA::Automaton(this->location,
+                        name_bottom_in);
+        NFA::Automaton* bottom_out = new NFA::Automaton(this->location,
+                        name_bottom_out);
+
+        NFA::Automaton* end = new NFA::Automaton(this->location, name_end);
+
+        this->start = start;
+        this->end = end;
+
+        start->add_epsilon(top_in);
+        start->add_epsilon(bottom_in);
+
+        top_in->add_epsilon(this->getLeft()->get_start_symbol());
+        bottom_in->add_epsilon(this->getRight()->get_start_symbol());
+
+        this->getLeft()->get_accept_symbol()->add_epsilon(top_out);
+        this->getRight()->get_accept_symbol()->add_epsilon(bottom_out);
+
+        top_out->add_epsilon(end);
+        bottom_out->add_epsilon(end);
+
+        this->automata.push_back(start);
+        this->automata.push_back(top_in);
+        this->automata.push_back(top_out);
+        this->automata.push_back(bottom_in);
+        this->automata.push_back(bottom_out);
+        this->automata.push_back(end);
+
+        return;
 }
 
 }

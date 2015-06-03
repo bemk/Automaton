@@ -13,6 +13,8 @@
 namespace lexer {
 
 class Or: public Symbol {
+protected:
+        virtual void build_automata();
 public:
         Or(Parser* p);
         virtual ~Or();
