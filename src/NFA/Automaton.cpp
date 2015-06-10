@@ -7,26 +7,35 @@
 
 #include "../include/Automaton.h"
 #include <cstdlib>
+#include <sstream>
 
 using namespace std;
-
+extern bool simple_graph;
 namespace NFA {
 
 int unique_id_alloc = 0;
 
 Automaton::Automaton(size_t location, string name)
 {
-        this->graphed = false;
-        this->location = location;
-        this->name = name;
-        this->transitions = vector<Transition*>();
-        this->incomming = vector<Transition*>();
         this->unique_id = unique_id_alloc++;
-
         if (unique_id_alloc < 0) {
                 cerr << "Integer overflow!!!!!!" << endl;
                 exit(-9001);
         }
+
+        if (simple_graph) {
+                stringstream name_stream;
+                name_stream << "q" << this->unique_id;
+                this->name = name_stream.str();
+        } else {
+                this->name = name;
+        }
+
+        this->graphed = false;
+        this->location = location;
+        this->transitions = vector<Transition*>();
+        this->incomming = vector<Transition*>();
+
 }
 
 Automaton::~Automaton()

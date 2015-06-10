@@ -15,6 +15,8 @@
 
 using namespace std;
 
+bool simple_graph = false;
+
 bool verbose = false;
 bool dot_graph = false;
 const char* dotname;
@@ -30,7 +32,7 @@ int main(int argc, char** argv)
         int getoptoutput;
         char *ropt = 0;
         int repetition_depth = -1;
-        while ((getoptoutput = getopt(argc, argv, "r:d:vg:n:")) != -1) {
+        while ((getoptoutput = getopt(argc, argv, "r:d:vg:n:s")) != -1) {
                 switch (getoptoutput) {
                 case 'r':
                         ropt = optarg;
@@ -58,6 +60,9 @@ int main(int argc, char** argv)
                         NFA_graph = true;
                         NFA_name = optarg;
 
+                        break;
+                case 's':
+                        simple_graph = true;
                         break;
 
                 default:
