@@ -5,9 +5,9 @@
  *      Author: bemk
  */
 
-#include "../include/Automaton.h"
 #include <cstdlib>
 #include <sstream>
+#include "../include/State.h"
 
 using namespace std;
 extern bool simple_graph;
@@ -15,7 +15,7 @@ namespace NFA {
 
 int unique_id_alloc = 0;
 
-Automaton::Automaton(size_t location, string name)
+State::State(size_t location, string name)
 {
         this->unique_id = unique_id_alloc++;
         if (unique_id_alloc < 0) {
@@ -38,12 +38,12 @@ Automaton::Automaton(size_t location, string name)
 
 }
 
-Automaton::~Automaton()
+State::~State()
 {
         // TODO Auto-generated destructor stub
 }
 
-void Automaton::add_transition(char name, Automaton* dest)
+void State::add_transition(char name, State* dest)
 {
         if (dest == NULL) {
                 return;
@@ -68,7 +68,7 @@ void Automaton::add_transition(char name, Automaton* dest)
         return;
 }
 
-void Automaton::add_epsilon(Automaton* dest)
+void State::add_epsilon(State* dest)
 {
         for (size_t i = 0; i < this->transitions.size(); i++) {
                 if (this->transitions[i]->get_dest() == dest) {
@@ -85,7 +85,7 @@ void Automaton::add_epsilon(Automaton* dest)
         return;
 }
 
-bool Automaton::get_dotgraph(string* s)
+bool State::get_dotgraph(string* s)
 {
         if (s == NULL || graphed) {
                 return false;
@@ -112,7 +112,7 @@ bool Automaton::get_dotgraph(string* s)
         return true;
 }
 
-void Automaton::get_dot_reference(std::string* s, std::string* caller,
+void State::get_dot_reference(std::string* s, std::string* caller,
                 bool epsylon, char input)
 {
         if (this->incomming.size() == 1 && this->transitions.size() == 1) {
@@ -137,7 +137,7 @@ void Automaton::get_dot_reference(std::string* s, std::string* caller,
         s->append("\" ];\n");
 }
 
-string* Automaton::get_name()
+string* State::get_name()
 {
         return &this->name;
 }

@@ -71,12 +71,12 @@ void Quantifier::init_automata()
         name_out << "qq_" << this->location << "_2";
         name_end << "qq_" << this->location << "_3";
 
-        NFA::Automaton* start = new NFA::Automaton(this->location,
+        NFA::State* start = new NFA::State(this->location,
                         name_start.str());
-        NFA::Automaton* in = new NFA::Automaton(this->location, name_in.str());
-        NFA::Automaton* out = new NFA::Automaton(this->location,
+        NFA::State* in = new NFA::State(this->location, name_in.str());
+        NFA::State* out = new NFA::State(this->location,
                         name_out.str());
-        NFA::Automaton* end = new NFA::Automaton(this->location,
+        NFA::State* end = new NFA::State(this->location,
                         name_end.str());
 
         this->start = start;

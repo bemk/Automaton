@@ -8,10 +8,10 @@
 #ifndef SRC_SYMBOL_H_
 #define SRC_SYMBOL_H_
 
-#include "Automaton.h"
 #include <string>
 #include <iostream>
 #include "Lexer.h"
+#include "State.h"
 
 #define STRING_LITTERAL -1
 #define STRING_OPERATOR 0
@@ -40,9 +40,9 @@ protected:
         bool get_dot_reference(std::string* ret, std::string src_name,
                         std::string ref_name);
 
-        std::vector<NFA::Automaton*> automata;
-        NFA::Automaton* start;
-        NFA::Automaton* end;
+        std::vector<NFA::State*> automata;
+        NFA::State* start;
+        NFA::State* end;
 
         virtual void build_automata();
 
@@ -85,8 +85,8 @@ public:
                 return this->location;
         }
 
-        NFA::Automaton* get_start_symbol();
-        NFA::Automaton* get_accept_symbol();
+        NFA::State* get_start_symbol();
+        NFA::State* get_accept_symbol();
 };
 
 }

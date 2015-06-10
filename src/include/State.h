@@ -18,7 +18,7 @@ namespace NFA {
 
 class Transition;
 
-class Automaton {
+class State {
 private:
         bool graphed;
         size_t location;
@@ -36,11 +36,11 @@ private:
         }
 
 public:
-        Automaton(size_t location, std::string name);
-        virtual ~Automaton();
+        State(size_t location, std::string name);
+        virtual ~State();
 
-        void add_transition(char input, Automaton* destination);
-        void add_epsilon(Automaton* destination);
+        void add_transition(char input, State* destination);
+        void add_epsilon(State* destination);
         bool get_dotgraph(std::string* s);
 
         std::string* get_name();

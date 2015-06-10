@@ -8,42 +8,42 @@
 #ifndef SRC_INCLUDE_TRANSITION_H_
 #define SRC_INCLUDE_TRANSITION_H_
 
-#include "Automaton.h"
+#include "State.h"
 
 namespace NFA {
 
-class Automaton;
+class State;
 
 class Transition {
 private:
         char symbol;
         size_t location;
 
-        Automaton* source;
-        Automaton* dest;
+        State* source;
+        State* dest;
 
         bool epsilon;
 
-        void init(size_t location, char symbol, Automaton* source,
-                        Automaton* dest);
+        void init(size_t location, char symbol, State* source,
+                        State* dest);
 
 public:
-        Transition(size_t location, char symbol, Automaton* source,
-                        Automaton* dest);
+        Transition(size_t location, char symbol, State* source,
+                        State* dest);
         Transition(size_t location);
         virtual ~Transition();
 
         void set_symbol(char symbol);
 
-        void set_source(Automaton* source);
-        void set_dest(Automaton* dest);
+        void set_source(State* source);
+        void set_dest(State* dest);
 
         void set_epsilon(bool epsylon);
 
         char get_symbol();
 
-        Automaton* get_source();
-        Automaton* get_dest();
+        State* get_source();
+        State* get_dest();
 
         bool get_epsilon();
 

@@ -122,7 +122,7 @@ int main(int argc, char** argv)
 
                 node_text.push_back('}');
 
-                NFA::Automaton* accept = symbols->get_ll_next()
+                NFA::State* accept = symbols->get_ll_next()
                                 ->get_accept_symbol();
 
                 NFA_text.append("node [shape = doublecircle]; ");

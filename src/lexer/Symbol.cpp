@@ -35,7 +35,7 @@ Token::Token(Lexer* p)
         this->start = NULL;
         this->end = NULL;
 
-        this->automata = vector<NFA::Automaton*>();
+        this->automata = vector<NFA::State*>();
 }
 
 Token::~Token()
@@ -298,9 +298,9 @@ void Token::build_automata()
         start_stream << "qs_" << this->location << "_0";
         end_stream << "qs_" << this->location << "_1";
 
-        NFA::Automaton* start = new NFA::Automaton(this->location,
+        NFA::State* start = new NFA::State(this->location,
                         start_stream.str());
-        NFA::Automaton* end = new NFA::Automaton(this->location,
+        NFA::State* end = new NFA::State(this->location,
                         end_stream.str());
 
         this->start = start;
@@ -314,13 +314,13 @@ void Token::build_automata()
         return;
 }
 
-NFA::Automaton* Token::get_start_symbol()
+NFA::State* Token::get_start_symbol()
 {
         build_automata();
         return this->start;
 }
 
-NFA::Automaton* Token::get_accept_symbol()
+NFA::State* Token::get_accept_symbol()
 {
         build_automata();
         return this->end;

@@ -111,9 +111,9 @@ void Concat::build_automata()
         start_name << "qc_" << location << "_0";
         end_name << "qc_" << location << "_1";
 
-        NFA::Automaton* start = new NFA::Automaton(this->location,
+        NFA::State* start = new NFA::State(this->location,
                         start_name.str());
-        NFA::Automaton* end = new NFA::Automaton(this->location,
+        NFA::State* end = new NFA::State(this->location,
                         end_name.str());
 
         start->add_epsilon(this->getLeft()->get_start_symbol());

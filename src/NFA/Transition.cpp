@@ -10,8 +10,8 @@
 
 namespace NFA {
 
-void Transition::init(size_t location, char symbol, Automaton* source,
-                Automaton* dest)
+void Transition::init(size_t location, char symbol, State* source,
+                State* dest)
 {
         this->location = location;
         this->symbol = symbol;
@@ -22,8 +22,8 @@ void Transition::init(size_t location, char symbol, Automaton* source,
         return;
 }
 
-Transition::Transition(size_t location, char symbol, Automaton* source,
-                Automaton* dest)
+Transition::Transition(size_t location, char symbol, State* source,
+                State* dest)
 {
         init(location, symbol, source, dest);
 }
@@ -38,24 +38,24 @@ Transition::~Transition()
         // TODO Auto-generated destructor stub
 }
 
-void Transition::set_source(Automaton* source)
+void Transition::set_source(State* source)
 {
         this->source = source;
         return;
 }
 
-Automaton* Transition::get_source()
+State* Transition::get_source()
 {
         return this->source;
 }
 
-void Transition::set_dest(Automaton* dest)
+void Transition::set_dest(State* dest)
 {
         this->dest = dest;
         return;
 }
 
-Automaton* Transition::get_dest()
+State* Transition::get_dest()
 {
         return this->dest;
 }

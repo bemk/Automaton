@@ -119,19 +119,19 @@ void Or::build_automata()
         name_bottom_out << "q_" << location << "_4";
         name_end << "q_" << location << "_5";
 
-        NFA::Automaton* start = new NFA::Automaton(this->location,
+        NFA::State* start = new NFA::State(this->location,
                         name_start.str());
-        NFA::Automaton* top_in = new NFA::Automaton(this->location,
+        NFA::State* top_in = new NFA::State(this->location,
                         name_top_in.str());
-        NFA::Automaton* top_out = new NFA::Automaton(this->location,
+        NFA::State* top_out = new NFA::State(this->location,
                         name_top_out.str());
 
-        NFA::Automaton* bottom_in = new NFA::Automaton(this->location,
+        NFA::State* bottom_in = new NFA::State(this->location,
                         name_bottom_in.str());
-        NFA::Automaton* bottom_out = new NFA::Automaton(this->location,
+        NFA::State* bottom_out = new NFA::State(this->location,
                         name_bottom_out.str());
 
-        NFA::Automaton* end = new NFA::Automaton(this->location,
+        NFA::State* end = new NFA::State(this->location,
                         name_end.str());
 
         this->start = start;

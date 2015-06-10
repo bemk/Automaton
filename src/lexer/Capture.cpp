@@ -128,9 +128,9 @@ void Capture::build_automata()
         name_start << "q_" << this->location << "_0";
         name_end << "q_" << this->location << "_1";
 
-        NFA::Automaton* start = new NFA::Automaton(this->location,
+        NFA::State* start = new NFA::State(this->location,
                         name_start.str());
-        NFA::Automaton* end = new NFA::Automaton(this->location,
+        NFA::State* end = new NFA::State(this->location,
                         name_end.str());
 
         start->add_epsilon(this->getRight()->get_start_symbol());

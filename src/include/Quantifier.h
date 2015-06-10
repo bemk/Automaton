@@ -26,8 +26,8 @@ protected:
         int stop_at;
 
 		
-		NFA::Automaton* in;
-		NFA::Automaton* out;
+		NFA::State* in;
+		NFA::State* out;
 
 		void init_automata();
 		void build_automata() {
