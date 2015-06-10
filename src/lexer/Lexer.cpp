@@ -5,7 +5,8 @@
  *      Author: bemk
  */
 
-#include "../include/Parser.h"
+#include "../include/Lexer.h"
+
 #include "../include/Capture.h"
 #include "../include/Concat.h"
 #include "../include/QuestionMark.h"
@@ -21,33 +22,33 @@ extern bool verbose;
 
 namespace lexer {
 
-Parser::Parser(size_t location)
+Lexer::Lexer(size_t location)
 {
         this->location = location;
         symbol_tree = NULL;
-        symbolTypes = vector<Symbol*>();
+        symbolTypes = vector<Token*>();
 
-        symbolTypes.push_back((Symbol*) new Star(this));
-        symbolTypes.push_back((Symbol*) new QuestionMark(this));
-        symbolTypes.push_back((Symbol*) new Plus(this));
-        symbolTypes.push_back((Symbol*) new Capture(this));
-        symbolTypes.push_back((Symbol*) new Concat(this));
-        symbolTypes.push_back((Symbol*) new Or(this));
-        symbolTypes.push_back((Symbol*) new Symbol(this));
+        symbolTypes.push_back((Token*) new Star(this));
+        symbolTypes.push_back((Token*) new QuestionMark(this));
+        symbolTypes.push_back((Token*) new Plus(this));
+        symbolTypes.push_back((Token*) new Capture(this));
+        symbolTypes.push_back((Token*) new Concat(this));
+        symbolTypes.push_back((Token*) new Or(this));
+        symbolTypes.push_back((Token*) new Token(this));
 
 }
 
-Parser::~Parser()
+Lexer::~Lexer()
 {
         symbolTypes.clear();
 }
 
-Symbol* Parser::get_symbols()
+Token* Lexer::get_symbols()
 {
         return this->symbol_tree;
 }
 
-void Parser::set_symbols(Symbol* s)
+void Lexer::set_symbols(Token* s)
 {
         this->symbol_tree = new StartSymbol(this);
         this->symbol_tree->set_concatenation(false);
@@ -56,14 +57,14 @@ void Parser::set_symbols(Symbol* s)
         s->set_ll_prev(this->symbol_tree);
 }
 
-void insert_concats(Symbol* sym, Parser* p)
+void insert_concats(Token* sym, Lexer* p)
 {
         for (; sym != NULL; sym = sym->get_ll_next()) {
                 if (verbose) {
                         cout << *sym->getString() << endl;
                 }
 
-                Symbol* next = sym->get_ll_next();
+                Token* next = sym->get_ll_next();
 
                 if (sym->getLeft()) {
                         insert_concats(sym->getLeft(), p);
@@ -74,7 +75,7 @@ void insert_concats(Symbol* sym, Parser* p)
                 }
 
                 if (next->concatenation_allowed() && sym->concatenation_allowed()) {
-                        Symbol* concat = new Concat(p);
+                        Token* concat = new Concat(p);
                         concat->set_ll_prev(sym);
                         concat->set_ll_next(next);
                         concat->set_location(sym->get_location());
@@ -84,7 +85,7 @@ void insert_concats(Symbol* sym, Parser* p)
         }
 }
 
-int Parser::build_grammar(string* rule)
+int Lexer::build_grammar(string* rule)
 {
         this->symbol_tree = new StartSymbol(this);
         this->symbol_tree->set_location(this->location);
@@ -104,7 +105,7 @@ int Parser::build_grammar(string* rule)
                         continue;
                 }
 
-                Symbol* sym = this->symbol_tree->get_ll_last();
+                Token* sym = this->symbol_tree->get_ll_last();
 
                 for (size_t x = 0; x < symbolTypes.size(); x++) {
                         if (symbolTypes[x]->isOfType(c)) {
@@ -143,7 +144,7 @@ int Parser::build_grammar(string* rule)
         return 0;
 }
 
-int Parser::enforceGrammar(string* line)
+int Lexer::enforceGrammar(string* line)
 {
         return 0;
 }

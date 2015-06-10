@@ -14,10 +14,10 @@ namespace lexer {
 
 class QuestionMark: public Quantifier {
 public:
-        QuestionMark(Parser* p);
+        QuestionMark(Lexer* p);
         virtual ~QuestionMark();
         virtual bool isOfType(char c);
-        virtual Symbol* allocateType();
+        virtual Token* allocateType();
 
 protected:
 	virtual void build_automata();

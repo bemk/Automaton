@@ -6,12 +6,12 @@
  */
 #include <iostream>
 #include <fstream>
-#include "include/Parser.h"
 #include "include/Capture.h"
 #include "include/wingetopt.h"
 #include "include/Alphabet.h"
 #include <cstdlib>
 #include <cstdio>
+#include "include/Lexer.h"
 
 using namespace std;
 
@@ -76,11 +76,11 @@ int main(int argc, char** argv)
                 cout << "regex with value " << ropt << endl;
                 cout << "depth with value " << repetition_depth << endl;
         }
-        lexer::Parser* p = new lexer::Parser(0);
+        lexer::Lexer* p = new lexer::Lexer(0);
         p->build_grammar(new string(ropt));
         p->enforceGrammar(new string(ropt));
 
-        lexer::Symbol* symbols = p->get_symbols();
+        lexer::Token* symbols = p->get_symbols();
         symbols->set_parser(NULL);
 
         delete p;

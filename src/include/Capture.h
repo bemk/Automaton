@@ -8,14 +8,14 @@
 #ifndef SRC_CAPTURE_H_
 #define SRC_CAPTURE_H_
 
-#include "Symbol.h"
-#include "Parser.h"
 #include "Quantifier.h"
 #include <string>
+#include "Lexer.h"
+#include "Token.h"
 
 namespace lexer {
 
-class Capture: public Symbol {
+class Capture: public Token {
 private:
         size_t str_length;
 
@@ -23,14 +23,14 @@ protected:
 	virtual void build_automata();
 
 public:
-        Capture(Parser* p);
+        Capture(Lexer* p);
         virtual ~Capture();
 
         virtual size_t build_grammar(std::string* rule, size_t location);
         size_t length();
 
         virtual bool isOfType(char);
-        virtual Symbol* allocateType();
+        virtual Token* allocateType();
 };
 
 }

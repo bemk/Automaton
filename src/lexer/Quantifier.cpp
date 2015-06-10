@@ -14,8 +14,8 @@ using namespace std;
 
 namespace lexer {
 
-Quantifier::Quantifier(Parser* p) :
-                Symbol(p)
+Quantifier::Quantifier(Lexer* p) :
+                Token(p)
 {
         /* If no quantifier is given, default to exactly one */
         start_at = START_ONE;
@@ -29,8 +29,8 @@ size_t Quantifier::build_grammar(string* rule, size_t location)
 {
         this->location = location;
 
-        Symbol* prev = this->get_ll_prev();
-        Symbol* dPrev = prev->get_ll_prev();
+        Token* prev = this->get_ll_prev();
+        Token* dPrev = prev->get_ll_prev();
 
         dPrev->set_ll_next(this);
         this->set_ll_prev(dPrev);
@@ -53,7 +53,7 @@ bool Quantifier::isOfType(char c)
         return false;
 }
 
-Symbol* Quantifier::allocateType()
+Token* Quantifier::allocateType()
 {
         cerr << "Generic quantifier should never be found!!!" << endl;
         return NULL;

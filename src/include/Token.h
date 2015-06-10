@@ -8,25 +8,25 @@
 #ifndef SRC_SYMBOL_H_
 #define SRC_SYMBOL_H_
 
-#include "Parser.h"
 #include "Automaton.h"
 #include <string>
 #include <iostream>
+#include "Lexer.h"
 
 #define STRING_LITTERAL -1
 #define STRING_OPERATOR 0
 
 namespace lexer {
 
-class Parser;
+class Lexer;
 
-class Symbol {
-        Symbol* left;
-        Symbol* right;
-        Symbol* top;
+class Token {
+        Token* left;
+        Token* right;
+        Token* top;
 
-        Symbol* ll_next;
-        Symbol* ll_prev;
+        Token* ll_next;
+        Token* ll_prev;
 
         bool allow_concatenation;
 
@@ -35,7 +35,7 @@ class Symbol {
 protected:
         size_t location;
         std::string text;
-        Parser* parser;
+        Lexer* parser;
 
         bool get_dot_reference(std::string* ret, std::string src_name,
                         std::string ref_name);
@@ -47,37 +47,37 @@ protected:
         virtual void build_automata();
 
 public:
-        Symbol(Parser* p);
-        virtual ~Symbol();
+        Token(Lexer* p);
+        virtual ~Token();
 
         virtual size_t build_grammar(std::string* s, size_t location);
         std::string* getString();
 
-        Symbol* getLeft();
-        Symbol* getRight();
-        Symbol* getParent();
+        Token* getLeft();
+        Token* getRight();
+        Token* getParent();
 
-        Symbol* get_ll_next();
-        Symbol* get_ll_prev();
-        Symbol* get_ll_last();
+        Token* get_ll_next();
+        Token* get_ll_prev();
+        Token* get_ll_last();
         virtual void do_concatenate();
 
-        void setLeft(Symbol*);
-        void setRight(Symbol*);
-        void setParent(Symbol*);
+        void setLeft(Token*);
+        void setRight(Token*);
+        void setParent(Token*);
 
-        void set_parser(Parser* p);
+        void set_parser(Lexer* p);
         bool get_dot_graph(std::string* s);
 
-        void set_ll_next(Symbol* s);
-        void set_ll_prev(Symbol* s);
+        void set_ll_next(Token* s);
+        void set_ll_prev(Token* s);
 
         virtual bool isOfType(char c);
         virtual bool concatenation_allowed();
         virtual void set_concatenation(bool status);
-        virtual Symbol* allocateType();
+        virtual Token* allocateType();
 
-        virtual Symbol* omit_starter();
+        virtual Token* omit_starter();
 
         void set_location(size_t location);
         size_t get_location()

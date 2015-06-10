@@ -14,10 +14,10 @@ namespace lexer {
 
 class Plus: public Quantifier {
 public:
-        Plus(Parser* p);
+        Plus(Lexer* p);
         virtual ~Plus();
         virtual bool isOfType(char c);
-        virtual Symbol* allocateType();
+        virtual Token* allocateType();
 protected:
 	virtual void build_automata();
 };

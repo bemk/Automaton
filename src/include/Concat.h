@@ -8,20 +8,20 @@
 #ifndef SRC_CONCAT_H_
 #define SRC_CONCAT_H_
 
-#include "Symbol.h"
+#include "Token.h"
 
 namespace lexer {
 
-class Concat: public Symbol {
+class Concat: public Token {
 private:
         bool concatenated;
         virtual void build_automata();
 public:
-        Concat(Parser* p);
+        Concat(Lexer* p);
         virtual ~Concat();
 
         bool isOfType(char c);
-        virtual Symbol* allocateType();
+        virtual Token* allocateType();
         virtual size_t build_grammar(std::string* rule, size_t location);
         virtual void do_concatenate();
 };

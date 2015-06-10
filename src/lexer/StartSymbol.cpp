@@ -9,8 +9,8 @@
 
 namespace lexer {
 
-StartSymbol::StartSymbol(Parser* p) :
-                Symbol(p)
+StartSymbol::StartSymbol(Lexer* p) :
+                Token(p)
 {
 }
 
@@ -18,9 +18,9 @@ StartSymbol::~StartSymbol()
 {
 }
 
-Symbol* StartSymbol::omit_starter()
+Token* StartSymbol::omit_starter()
 {
-        Symbol* next = this->get_ll_next();
+        Token* next = this->get_ll_next();
         next->set_ll_prev(NULL);
         next->setParent(this->getParent());
         delete this;

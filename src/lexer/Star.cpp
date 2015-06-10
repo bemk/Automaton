@@ -11,7 +11,7 @@ using namespace std;
 
 namespace lexer {
 
-Star::Star(Parser *p) :
+Star::Star(Lexer *p) :
                 Quantifier(p)
 {
         this->start_at = START_NULL;
@@ -28,9 +28,9 @@ bool Star::isOfType(char c)
         return (c == '*') ? true : false;
 }
 
-Symbol* Star::allocateType()
+Token* Star::allocateType()
 {
-        Symbol* s = new Star(this->parser);
+        Token* s = new Star(this->parser);
         if (s == NULL) {
                 std::cerr << "Unable to allocate new star descriptor"
                 << std::endl;

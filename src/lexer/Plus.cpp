@@ -11,7 +11,7 @@ using namespace std;
 
 namespace lexer {
 
-Plus::Plus(Parser* p) :
+Plus::Plus(Lexer* p) :
                 Quantifier(p)
 {
         this->start_at = START_ONE;
@@ -28,9 +28,9 @@ bool Plus::isOfType(char c)
         return (c == '+') ? true : false;
 }
 
-Symbol* Plus::allocateType()
+Token* Plus::allocateType()
 {
-        Symbol* s = new Plus(this->parser);
+        Token* s = new Plus(this->parser);
 
         if (s == NULL) {
                 std::cerr << "Unable to allocate Plus descriptor" << std::endl;

@@ -11,23 +11,24 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "Symbol.h"
+
+#include "Token.h"
 
 namespace lexer {
 
-class Symbol;
+class Token;
 
-class Parser {
-        Symbol* symbol_tree;
+class Lexer {
+        Token* symbol_tree;
         size_t location;
 
-        std::vector<Symbol*> symbolTypes;
+        std::vector<Token*> symbolTypes;
 
 public:
-        Parser(size_t location);
-        virtual ~Parser();
-        Symbol* get_symbols();
-        void set_symbols(Symbol* s);
+        Lexer(size_t location);
+        virtual ~Lexer();
+        Token* get_symbols();
+        void set_symbols(Token* s);
         int build_grammar(std::string* rule);
         int enforceGrammar(std::string* line);
 

@@ -15,8 +15,8 @@ extern bool verbose;
 
 namespace lexer {
 
-Capture::Capture(Parser* p) :
-                Symbol(p)
+Capture::Capture(Lexer* p) :
+                Token(p)
 {
         this->str_length = 0;
 }
@@ -67,10 +67,10 @@ size_t Capture::build_grammar(string* rule, size_t location)
                 cout << "Captured: " << this->text << endl;
         }
 
-        Parser* nodes = new Parser(location);
+        Lexer* nodes = new Lexer(location);
         nodes->build_grammar(&this->text);
 
-        Symbol* symbols = nodes->get_symbols()->omit_starter();
+        Token* symbols = nodes->get_symbols()->omit_starter();
 
         if (symbols != NULL) {
                 this->setRight(symbols);
@@ -106,9 +106,9 @@ bool Capture::isOfType(char c)
         }
 }
 
-Symbol* Capture::allocateType()
+Token* Capture::allocateType()
 {
-        Symbol* s = (Symbol*) new Capture(this->parser);
+        Token* s = (Token*) new Capture(this->parser);
         if (s == NULL) {
                 std::cerr << "NULL POINTER ALLOCATED" << endl;
                 exit(-1);

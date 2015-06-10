@@ -5,11 +5,11 @@
  *      Author: bemk
  */
 
-#include "../include/Symbol.h"
 #include <iostream>
 #include <cstdlib>
 #include <sstream>
 #include "../include/Alphabet.h"
+#include "../include/Token.h"
 
 using namespace std;
 
@@ -17,7 +17,7 @@ extern bool verbose;
 
 namespace lexer {
 
-Symbol::Symbol(Parser* p)
+Token::Token(Lexer* p)
 {
         location = 0;
         left = NULL;
@@ -38,11 +38,11 @@ Symbol::Symbol(Parser* p)
         this->automata = vector<NFA::Automaton*>();
 }
 
-Symbol::~Symbol()
+Token::~Token()
 {
 }
 
-size_t Symbol::build_grammar(string* s, size_t location)
+size_t Token::build_grammar(string* s, size_t location)
 {
         this->location = location;
         if (s == NULL) {
@@ -63,42 +63,42 @@ size_t Symbol::build_grammar(string* s, size_t location)
         return 1;
 }
 
-string* Symbol::getString()
+string* Token::getString()
 {
         return &this->text;
 }
 
-Symbol* Symbol::getLeft()
+Token* Token::getLeft()
 {
         return left;
 }
 
-Symbol* Symbol::getRight()
+Token* Token::getRight()
 {
         return right;
 }
 
-Symbol* Symbol::getParent()
+Token* Token::getParent()
 {
         return top;
 }
 
-void Symbol::setRight(Symbol* symbol)
+void Token::setRight(Token* symbol)
 {
         this->right = symbol;
 }
 
-void Symbol::setLeft(Symbol* symbol)
+void Token::setLeft(Token* symbol)
 {
         this->left = symbol;
 }
 
-void Symbol::setParent(Symbol* parent)
+void Token::setParent(Token* parent)
 {
         this->top = parent;
 }
 
-void Symbol::set_parser(Parser* p)
+void Token::set_parser(Lexer* p)
 {
         if (this->parser == p) {
                 if (verbose) {
@@ -127,7 +127,7 @@ void Symbol::set_parser(Parser* p)
 
 }
 
-void build_name(string* name, Symbol* ptr)
+void build_name(string* name, Token* ptr)
 {
         if (name->length() > 1) {
                 name->assign("cap");
@@ -152,7 +152,7 @@ void build_name(string* name, Symbol* ptr)
         }
 }
 
-void Symbol::do_concatenate()
+void Token::do_concatenate()
 {
         if (this->get_ll_next()) {
                 this->get_ll_next()->do_concatenate();
@@ -160,7 +160,7 @@ void Symbol::do_concatenate()
         return;
 }
 
-bool Symbol::get_dot_reference(string* ret, string src_name, string ref_name)
+bool Token::get_dot_reference(string* ret, string src_name, string ref_name)
 {
         string tmp = "";
 
@@ -183,7 +183,7 @@ bool Symbol::get_dot_reference(string* ret, string src_name, string ref_name)
         return true;
 }
 
-bool Symbol::get_dot_graph(string* s)
+bool Token::get_dot_graph(string* s)
 {
         if (s == NULL) {
                 return false;
@@ -223,14 +223,14 @@ bool Symbol::get_dot_graph(string* s)
         return true;
 }
 
-bool Symbol::isOfType(char c)
+bool Token::isOfType(char c)
 {
         return true;
 }
 
-Symbol* Symbol::allocateType()
+Token* Token::allocateType()
 {
-        Symbol* s = new Symbol(this->parser);
+        Token* s = new Token(this->parser);
         if (s == NULL) {
                 std::cerr << "NULL POINTER ALLOCATED" << endl;
                 exit(-1);
@@ -238,27 +238,27 @@ Symbol* Symbol::allocateType()
         return s;
 }
 
-void Symbol::set_ll_next(Symbol* s)
+void Token::set_ll_next(Token* s)
 {
         this->ll_next = s;
 }
 
-void Symbol::set_ll_prev(Symbol* s)
+void Token::set_ll_prev(Token* s)
 {
         this->ll_prev = s;
 }
 
-Symbol* Symbol::get_ll_next()
+Token* Token::get_ll_next()
 {
         return this->ll_next;
 }
 
-Symbol* Symbol::get_ll_prev()
+Token* Token::get_ll_prev()
 {
         return this->ll_prev;
 }
 
-Symbol* Symbol::get_ll_last()
+Token* Token::get_ll_last()
 {
         if (this->ll_next == NULL) {
                 return this;
@@ -266,27 +266,27 @@ Symbol* Symbol::get_ll_last()
         return this->ll_next->get_ll_last();
 }
 
-bool Symbol::concatenation_allowed()
+bool Token::concatenation_allowed()
 {
         return this->allow_concatenation;
 }
 
-void Symbol::set_concatenation(bool status)
+void Token::set_concatenation(bool status)
 {
         this->allow_concatenation = status;
 }
 
-void Symbol::set_location(size_t location)
+void Token::set_location(size_t location)
 {
         this->location = location;
 }
 
-Symbol* Symbol::omit_starter()
+Token* Token::omit_starter()
 {
         return this;
 }
 
-void Symbol::build_automata()
+void Token::build_automata()
 {
         if (this->automata.size()) {
                 return;
@@ -314,13 +314,13 @@ void Symbol::build_automata()
         return;
 }
 
-NFA::Automaton* Symbol::get_start_symbol()
+NFA::Automaton* Token::get_start_symbol()
 {
         build_automata();
         return this->start;
 }
 
-NFA::Automaton* Symbol::get_accept_symbol()
+NFA::Automaton* Token::get_accept_symbol()
 {
         build_automata();
         return this->end;

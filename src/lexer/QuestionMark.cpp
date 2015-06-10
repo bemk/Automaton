@@ -12,7 +12,7 @@ using namespace std;
 
 namespace lexer {
 
-QuestionMark::QuestionMark(Parser* p) :
+QuestionMark::QuestionMark(Lexer* p) :
                 Quantifier(p)
 {
         this->start_at = START_NULL;
@@ -29,9 +29,9 @@ bool QuestionMark::isOfType(char c)
         return (c == '?') ? true : false;
 }
 
-Symbol* QuestionMark::allocateType()
+Token* QuestionMark::allocateType()
 {
-        Symbol* s = new QuestionMark(this->parser);
+        Token* s = new QuestionMark(this->parser);
         if (s == NULL) {
                 cerr << "Unable to allocate questionmark descriptor" << endl;
                 exit(-1);

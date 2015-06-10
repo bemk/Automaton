@@ -15,8 +15,8 @@ extern bool verbose;
 
 namespace lexer {
 
-Concat::Concat(Parser* p) :
-                Symbol(p)
+Concat::Concat(Lexer* p) :
+                Token(p)
 {
         this->set_concatenation(false);
         this->text = ".";
@@ -48,8 +48,8 @@ void Concat::do_concatenate()
                 return;
         }
         this->concatenated = true;
-        Symbol* previous = get_ll_prev();
-        Symbol* next = get_ll_next();
+        Token* previous = get_ll_prev();
+        Token* next = get_ll_next();
 
         if (next == NULL || previous == NULL) {
                 cerr << "concat without sufficient context @" << this->location
@@ -70,7 +70,7 @@ void Concat::do_concatenate()
         set_ll_next (NULL);
         set_ll_prev(NULL);
 
-        Symbol* parent = previous->getParent();
+        Token* parent = previous->getParent();
 
         if (parent) {
                 this->setParent(parent);
@@ -88,9 +88,9 @@ void Concat::do_concatenate()
         this->getRight()->do_concatenate();
 }
 
-Symbol* Concat::allocateType()
+Token* Concat::allocateType()
 {
-        Symbol* s = new Concat(this->parser);
+        Token* s = new Concat(this->parser);
 
         if (s == NULL) {
                 cerr << " Unable to allocate new Concat!" << endl;

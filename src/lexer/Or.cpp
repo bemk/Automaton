@@ -12,8 +12,8 @@ using namespace std;
 
 namespace lexer {
 
-Or::Or(Parser* p) :
-                Symbol(p)
+Or::Or(Lexer* p) :
+                Token(p)
 {
         // TODO Auto-generated constructor stub
         this->set_concatenation(false);
@@ -27,7 +27,7 @@ Or::~Or()
 size_t Or::build_grammar(string* s, size_t location)
 {
 
-        Symbol* prev = this->get_ll_prev();
+        Token* prev = this->get_ll_prev();
         if (prev != NULL) {
                 prev->set_ll_next(NULL);
         }
@@ -46,11 +46,11 @@ size_t Or::build_grammar(string* s, size_t location)
 
         this->text.push_back(s->at(0));
 
-        Symbol* left = this->parser->get_symbols()->omit_starter();
+        Token* left = this->parser->get_symbols()->omit_starter();
         this->setLeft(left);
         left->setParent(this);
 
-        Parser* p = new Parser(location + 1);
+        Lexer* p = new Lexer(location + 1);
 
         string* sub = new string(s->substr(1));
         p->build_grammar(sub);
@@ -87,9 +87,9 @@ bool Or::isOfType(char c)
         return false;
 }
 
-Symbol* Or::allocateType(void)
+Token* Or::allocateType(void)
 {
-        Symbol* s = (Symbol*) new Or(this->parser);
+        Token* s = (Token*) new Or(this->parser);
         if (s == NULL) {
                 cerr << "NULL POINTER ALLOCATED" << endl;
                 exit(-1);

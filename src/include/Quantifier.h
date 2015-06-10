@@ -8,9 +8,9 @@
 #ifndef SRC_QUANTIFIER_H_
 #define SRC_QUANTIFIER_H_
 
-#include "Symbol.h"
 #include <cstdlib>
 #include <iostream>
+#include "Token.h"
 
 #define START_NULL 0
 #define START_ONE  1
@@ -20,7 +20,7 @@
 
 namespace lexer {
 
-class Quantifier : public Symbol {
+class Quantifier : public Token {
 protected:
         int start_at;
         int stop_at;
@@ -36,12 +36,12 @@ protected:
 		}
 
 public:
-        Quantifier(Parser* p);
+        Quantifier(Lexer* p);
         virtual ~Quantifier();
 
         virtual size_t build_grammar(std::string* rule, size_t location);
         virtual bool isOfType(char);
-        virtual Symbol* allocateType();
+        virtual Token* allocateType();
 };
 
 }

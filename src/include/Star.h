@@ -14,10 +14,10 @@ namespace lexer {
 
 class Star: public Quantifier {
 public:
-        Star(Parser* p);
+        Star(Lexer* p);
         virtual ~Star();
         virtual bool isOfType(char c);
-        virtual Symbol* allocateType();
+        virtual Token* allocateType();
 
 protected:
 	virtual void build_automata();
