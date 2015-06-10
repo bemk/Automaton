@@ -12,9 +12,9 @@
 #include "../include/QuestionMark.h"
 #include "../include/Plus.h"
 #include "../include/Star.h"
-#include "../include/StartSymbol.h"
 #include "../include/Or.h"
 #include <cstdlib>
+#include "../include/StartToken.h"
 
 using namespace std;
 
@@ -50,7 +50,7 @@ Token* Lexer::get_symbols()
 
 void Lexer::set_symbols(Token* s)
 {
-        this->symbol_tree = new StartSymbol(this);
+        this->symbol_tree = new StartToken(this);
         this->symbol_tree->set_concatenation(false);
         this->symbol_tree->set_location(this->location);
         this->symbol_tree->set_ll_next(s);
@@ -87,7 +87,7 @@ void insert_concats(Token* sym, Lexer* p)
 
 int Lexer::build_grammar(string* rule)
 {
-        this->symbol_tree = new StartSymbol(this);
+        this->symbol_tree = new StartToken(this);
         this->symbol_tree->set_location(this->location);
         this->symbol_tree->set_concatenation(false);
         if (verbose) {

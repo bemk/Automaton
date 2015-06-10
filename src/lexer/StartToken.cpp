@@ -5,20 +5,20 @@
  *      Author: bemk
  */
 
-#include "../include/StartSymbol.h"
+#include "../include/StartToken.h"
 
 namespace lexer {
 
-StartSymbol::StartSymbol(Lexer* p) :
+StartToken::StartToken(Lexer* p) :
                 Token(p)
 {
 }
 
-StartSymbol::~StartSymbol()
+StartToken::~StartToken()
 {
 }
 
-Token* StartSymbol::omit_starter()
+Token* StartToken::omit_starter()
 {
         Token* next = this->get_ll_next();
         next->set_ll_prev(NULL);
