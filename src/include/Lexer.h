@@ -27,8 +27,8 @@ class Lexer {
 public:
         Lexer(size_t location);
         virtual ~Lexer();
-        Token* get_symbols();
-        void set_symbols(Token* s);
+        Token* get_tokens();
+        void set_tokens(Token* s);
         int build_grammar(std::string* rule);
         int enforceGrammar(std::string* line);
 

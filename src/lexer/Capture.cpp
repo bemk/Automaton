@@ -70,7 +70,7 @@ size_t Capture::build_grammar(string* rule, size_t location)
         Lexer* nodes = new Lexer(location);
         nodes->build_grammar(&this->text);
 
-        Token* symbols = nodes->get_symbols()->omit_starter();
+        Token* symbols = nodes->get_tokens()->omit_starter();
 
         if (symbols != NULL) {
                 this->setRight(symbols);

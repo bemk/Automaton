@@ -15,7 +15,7 @@ namespace NFA {
 class State;
 
 class Transition {
-private:
+protected:
         char symbol;
         size_t location;
 
@@ -24,12 +24,10 @@ private:
 
         bool epsilon;
 
-        void init(size_t location, char symbol, State* source,
-                        State* dest);
+        void init(size_t location, char symbol, State* source, State* dest);
 
 public:
-        Transition(size_t location, char symbol, State* source,
-                        State* dest);
+        Transition(size_t location, char symbol, State* source, State* dest);
         Transition(size_t location);
         virtual ~Transition();
 
@@ -38,14 +36,13 @@ public:
         void set_source(State* source);
         void set_dest(State* dest);
 
-        void set_epsilon(bool epsylon);
+        virtual void set_epsilon(bool epsylon);
+        virtual bool get_epsilon();
 
         char get_symbol();
 
         State* get_source();
         State* get_dest();
-
-        bool get_epsilon();
 
 };
 

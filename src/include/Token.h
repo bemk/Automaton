@@ -11,7 +11,7 @@
 #include <string>
 #include <iostream>
 #include "Lexer.h"
-#include "State.h"
+#include "NFA/State.h"
 
 #define STRING_LITTERAL -1
 #define STRING_OPERATOR 0

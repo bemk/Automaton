@@ -5,13 +5,12 @@
  *      Author: bemk
  */
 
-#include "../include/Transition.h"
+#include "../include/NFA/Transition.h"
 #include <iostream>
 
 namespace NFA {
 
-void Transition::init(size_t location, char symbol, State* source,
-                State* dest)
+void Transition::init(size_t location, char symbol, State* source, State* dest)
 {
         this->location = location;
         this->symbol = symbol;
@@ -22,8 +21,7 @@ void Transition::init(size_t location, char symbol, State* source,
         return;
 }
 
-Transition::Transition(size_t location, char symbol, State* source,
-                State* dest)
+Transition::Transition(size_t location, char symbol, State* source, State* dest)
 {
         init(location, symbol, source, dest);
 }

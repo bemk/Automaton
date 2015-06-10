@@ -80,7 +80,7 @@ int main(int argc, char** argv)
         p->build_grammar(new string(ropt));
         p->enforceGrammar(new string(ropt));
 
-        lexer::Token* symbols = p->get_symbols();
+        lexer::Token* symbols = p->get_tokens();
         symbols->set_parser(NULL);
 
         delete p;
@@ -108,6 +108,8 @@ int main(int argc, char** argv)
                 dot_file.close();
         }
 
+        symbols->get_ll_next()->get_accept_symbol()->set_end_state(true);
+
         if (NFA_graph) {
                 ofstream dot_file;
                 dot_file.open(NFA_name);
@@ -122,8 +124,8 @@ int main(int argc, char** argv)
 
                 node_text.push_back('}');
 
-                NFA::State* accept = symbols->get_ll_next()
-                                ->get_accept_symbol();
+                NFA::State* accept =
+                                symbols->get_ll_next()->get_accept_symbol();
 
                 NFA_text.append("node [shape = doublecircle]; ");
                 NFA_text.append(*accept->get_name());

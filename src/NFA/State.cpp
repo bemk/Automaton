@@ -7,7 +7,7 @@
 
 #include <cstdlib>
 #include <sstream>
-#include "../include/State.h"
+#include "../include/NFA/State.h"
 
 using namespace std;
 extern bool simple_graph;
@@ -17,6 +17,7 @@ int unique_id_alloc = 0;
 
 State::State(size_t location, string name)
 {
+        this->end_state = false;
         this->unique_id = unique_id_alloc++;
         if (unique_id_alloc < 0) {
                 cerr << "Integer overflow!!!!!!" << endl;
@@ -112,8 +113,8 @@ bool State::get_dotgraph(string* s)
         return true;
 }
 
-void State::get_dot_reference(std::string* s, std::string* caller,
-                bool epsylon, char input)
+void State::get_dot_reference(std::string* s, std::string* caller, bool epsylon,
+                char input)
 {
         if (this->incomming.size() == 1 && this->transitions.size() == 1) {
                 if (incomming[0]->get_epsilon() && transitions[0]->get_epsilon()) {
@@ -142,4 +143,15 @@ string* State::get_name()
         return &this->name;
 }
 
+void State::set_end_state(bool end_state)
+{
+        this->end_state = end_state;
+}
+
+bool State::get_end_state()
+{
+        return this->end_state;
+}
+
 } /* namespace NFA */
+

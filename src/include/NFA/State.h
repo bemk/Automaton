@@ -12,7 +12,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include "../include/Transition.h"
+#include "Transition.h"
 
 namespace NFA {
 
@@ -21,6 +21,7 @@ class Transition;
 class State {
 private:
         bool graphed;
+        bool end_state;
         size_t location;
         std::string name;
         std::vector<Transition*> transitions;
@@ -42,6 +43,8 @@ public:
         void add_transition(char input, State* destination);
         void add_epsilon(State* destination);
         bool get_dotgraph(std::string* s);
+        void set_end_state(bool end_state);
+        bool get_end_state();
 
         std::string* get_name();
 
@@ -59,3 +62,4 @@ public:
 } /* namespace NFA */
 
 #endif /* SRC_NFA_AUTOMATON_H_ */
+

@@ -43,12 +43,12 @@ Lexer::~Lexer()
         symbolTypes.clear();
 }
 
-Token* Lexer::get_symbols()
+Token* Lexer::get_tokens()
 {
         return this->symbol_tree;
 }
 
-void Lexer::set_symbols(Token* s)
+void Lexer::set_tokens(Token* s)
 {
         this->symbol_tree = new StartToken(this);
         this->symbol_tree->set_concatenation(false);
@@ -134,12 +134,12 @@ int Lexer::build_grammar(string* rule)
                 }
         }
 
-        set_symbols(get_symbols()->omit_starter());
+        set_tokens(get_tokens()->omit_starter());
 
         /* Second pass, Dump the symbols! (for now) */
 
-        insert_concats(get_symbols(), this);
-        get_symbols()->do_concatenate();
+        insert_concats(get_tokens(), this);
+        get_tokens()->do_concatenate();
 
         return 0;
 }
