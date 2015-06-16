@@ -28,7 +28,7 @@ Parser::~Parser()
 void Parser::parse()
 {
         vector<State*> to_parse = vector<State*>();
-
+        this->tokens->get_start_symbol()->build_closure_state(false);
 }
 
 } /* namespace DFA */

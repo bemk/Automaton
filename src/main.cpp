@@ -12,6 +12,7 @@
 #include <cstdlib>
 #include <cstdio>
 #include "include/Lexer.h"
+#include "include/DFA/Parser.h"
 
 using namespace std;
 
@@ -136,6 +137,9 @@ int main(int argc, char** argv)
                 dot_file << NFA_text << endl;
                 dot_file.close();
         }
+
+        DFA::Parser parser = DFA::Parser(symbols->get_ll_next());
+        parser.parse();
 
 #ifndef __GNUC__
         system("PAUSE");

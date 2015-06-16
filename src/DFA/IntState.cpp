@@ -47,6 +47,10 @@ IntState* IntState::get_error_state()
 void IntState::add_transition(NFA::State* dest, char c)
 {
         vector<NFA::State*>* mapped = this->states[c];
+        if (mapped == NULL) {
+                mapped = new vector<NFA::State*>();
+                this->states[c] = mapped;
+        }
 
         for (int idx = 0; idx < mapped->size(); idx++) {
                 if (mapped->at(idx) == dest) {
