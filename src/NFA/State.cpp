@@ -14,6 +14,7 @@
 
 using namespace std;
 extern bool simple_graph;
+extern bool verbose;
 
 namespace NFA {
 
@@ -171,6 +172,11 @@ void State::build_closure_state(DFA::IntState* closure)
 
                 closure->add_transition(transitions[idx]->get_dest(),
                                 transitions[idx]->get_token());
+                if (verbose) {
+                        cout << "\t\"" << closure << "\" -> \"" << this
+                        << "\" [ label=\"" << transitions[idx]->get_token()
+                        << "\" ];" << endl;
+                }
         }
 
         /* put yourself in the recursion safety list */
