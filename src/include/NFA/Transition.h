@@ -16,7 +16,7 @@ class State;
 
 class Transition {
 protected:
-        char symbol;
+        char token;
         size_t location;
 
         State* source;
@@ -31,7 +31,7 @@ public:
         Transition(size_t location);
         virtual ~Transition();
 
-        void set_symbol(char symbol);
+        void set_token(char symbol);
 
         void set_source(State* source);
         void set_dest(State* dest);
@@ -39,7 +39,7 @@ public:
         virtual void set_epsilon(bool epsylon);
         virtual bool get_epsilon();
 
-        char get_symbol();
+        char get_token();
 
         State* get_source();
         State* get_dest();

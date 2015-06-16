@@ -13,7 +13,7 @@ namespace NFA {
 void Transition::init(size_t location, char symbol, State* source, State* dest)
 {
         this->location = location;
-        this->symbol = symbol;
+        this->token = symbol;
         this->source = source;
         this->dest = dest;
         this->epsilon = false;
@@ -58,15 +58,15 @@ State* Transition::get_dest()
         return this->dest;
 }
 
-void Transition::set_symbol(char symbol)
+void Transition::set_token(char token)
 {
-        this->symbol = symbol;
+        this->token = token;
         return;
 }
 
-char Transition::get_symbol()
+char Transition::get_token()
 {
-        return this->symbol;
+        return this->token;
 }
 
 bool Transition::get_epsilon()

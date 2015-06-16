@@ -42,6 +42,7 @@ protected:
         }
 
         DFA::IntState* int_state;
+        DFA::IntState* closure;
 
 public:
         State(size_t location, std::string name);
@@ -65,6 +66,8 @@ public:
                 return &this->incomming;
         }
 
+        DFA::IntState* build_closure_state(bool is_epsilon);
+        void build_closure_state(DFA::IntState* closure);
         void build_DFA_state();
         State* get_DFA_state();
 };

@@ -25,7 +25,7 @@ TARGETS := $(OBJ_FILES) $(COBJ_FILES) $(LEXER_OBJ_FILES) $(NFA_OBJ_FILES) $(DFA_
 .PHONY: all clean test
 
 all: $(TARGETS)
-	$(CPP) -o automaton $(TARGETS) $(CXXFLAGS)
+	$(CXX) -o automaton $(TARGETS) $(CXXFLAGS)
 
 clean:
 	rm -fv $(TARGETS) automaton
@@ -36,4 +36,9 @@ png: all
 	./automaton -d 2 -r "ca+a(bb|((cc|f.f)*|ee))d?d" -g dot.dot -n nfa.dot -s $(AUTOFLAGS)
 	dot -Tpng dot.dot -o dot.png
 	dot -Tpng nfa.dot -o nfa.png
+	eog *.png
+
+doxygen:
+	mkdir -p doc/
+	doxygen
 

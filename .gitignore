@@ -8,4 +8,5 @@ automaton
 *.png
 Debug
 push.sh
+doc/
 

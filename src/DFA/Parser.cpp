@@ -28,6 +28,7 @@ Parser::~Parser()
 void Parser::parse()
 {
         vector<State*> to_parse = vector<State*>();
+
 }
 
 } /* namespace DFA */
