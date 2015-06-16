@@ -28,10 +28,13 @@ Parser::~Parser()
 
 void Parser::parse()
 {
-        vector<State*> to_parse = vector<State*>();
-        IntState* tmp = this->tokens->get_start_symbol()->build_closure_state(
-                        false);
+        NFA::State* start = this->tokens->get_start_symbol();
+
+        IntState* tmp = start->build_closure_state(false);
         this->DFA = tmp->build_dfa_state();
+        if (this->DFA == NULL) {
+                cerr << "DFA = NULL" << endl;
+        }
 }
 
 State* Parser::get_dfa()

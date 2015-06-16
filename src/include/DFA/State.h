@@ -25,8 +25,11 @@ private:
 
         bool error_state;
 
+        void reset_error();
+
 public:
         State(size_t location, std::string name);
+        State(size_t location, std::string name, bool redundant);
         virtual ~State();
 
         State* get_error();

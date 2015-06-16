@@ -129,11 +129,16 @@ State* IntState::build_dfa_state()
                         exit(-9004);
                 }
                 NFA::State* NFA_state = vec->at(0);
-                DFA_State->add_transition(c,
-                                NFA_state->get_closure()->build_dfa_state());
+                DFA::State* tmp_state = NFA_state->get_closure()
+                                ->build_dfa_state();
+                if (tmp_state == NULL) {
+                        cerr << "Oh noes!!!" << endl;
+                }
+                DFA_State->add_transition(c, tmp_state);
+
         }
 
-        return NULL;
+        return DFA_State;
 }
 
 } /* namespace DFA */
