@@ -161,6 +161,25 @@ int main(int argc, char** argv)
         DFA::Parser parser = DFA::Parser(symbols->get_ll_next());
         parser.parse();
 
+        DFA::State* dfa = parser.get_dfa();
+
+        if (DFA_graph) {
+                ofstream dot_file;
+                dot_file.open(DFA_name);
+                string node_text = "";
+
+                dfa->get_dot_graph(&node_text);
+                node_text.append("label=\"");
+                node_text.append(ropt);
+                node_text.append("\";\nlabelloc=top\n");
+                node_text.push_back('}');
+
+                DFA_text.append(node_text);
+
+                dot_file << DFA_text << endl;
+                dot_file.close();
+        }
+
 #ifndef __GNUC__
         system("PAUSE");
 #endif

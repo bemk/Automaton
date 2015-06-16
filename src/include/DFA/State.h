@@ -11,6 +11,7 @@
 #include "../NFA/State.h"
 #include "../NFA/Transition.h"
 #include <map>
+#include <string>
 
 namespace NFA {
 class State;
@@ -32,6 +33,9 @@ public:
         void set_error_state();
 
         void add_transition(char c, State* s);
+
+        void get_dot_graph(std::string* str);
+
 };
 
 } /* namespace DFA */

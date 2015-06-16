@@ -59,4 +59,8 @@ State* State::get_error()
         return global_error_state;
 }
 
+void State::get_dot_graph(std::string* str)
+{
+}
+
 } /* namespace DFA */
