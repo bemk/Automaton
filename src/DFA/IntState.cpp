@@ -17,7 +17,6 @@ namespace DFA {
 IntState::IntState(size_t alphabet_size)
 {
         this->states = map<char, vector<NFA::State*>*>();
-        this->epsilon_state = vector<NFA::State*>();
 
         this->startstate = false;
         this->endstate = false;
@@ -102,10 +101,10 @@ void IntState::build_int_states()
 
                 for (int i = 0; i < vec->size(); i++) {
                         /* Add your own letters to the new alphabet */
-                        if (vec->at(i)->get_closure(c) != NULL) {
+                        if (vec->at(i)->get_closure() != NULL) {
                                 continue;
                         }
-                        vec->at(i)->set_closure(c, state);
+                        vec->at(i)->set_closure(state);
                         vec->at(i)->build_closure_state(state);
                 }
 
@@ -125,6 +124,13 @@ State* IntState::build_dfa_state()
                 char c = this->local_alphabet[idx];
 
                 vector<NFA::State*>* vec = this->states[c];
+                if (vec == NULL || vec->at(0) == NULL) {
+                        cerr << "NULL pointer!!!" << endl;
+                        exit(-9004);
+                }
+                NFA::State* NFA_state = vec->at(0);
+                DFA_State->add_transition(c,
+                                NFA_state->get_closure()->build_dfa_state());
         }
 
         return NULL;

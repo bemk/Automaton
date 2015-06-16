@@ -40,9 +40,8 @@ State::State(size_t location, string name)
         this->location = location;
         this->transitions = vector<Transition*>();
         this->incoming = vector<Transition*>();
-        this->int_state = NULL;
 
-        this->closures = map<char, DFA::IntState*>();
+        this->closure = NULL;
 }
 
 State::~State()
@@ -217,7 +216,6 @@ DFA::IntState* State::build_closure_state(bool is_epsilon)
 void State::build_DFA_state()
 {
         Alphabet* alpha = Alphabet::get_alphabet();
-        this->int_state = new DFA::IntState(alpha->get_size());
 }
 
 State* State::get_DFA_state()
@@ -225,14 +223,14 @@ State* State::get_DFA_state()
         return NULL;
 }
 
-DFA::IntState* State::get_closure(char c)
+DFA::IntState* State::get_closure()
 {
-        return this->closures[c];
+        return this->closure;
 }
 
-void State::set_closure(char c, DFA::IntState* closure)
+void State::set_closure(DFA::IntState* closure)
 {
-        this->closures[c] = closure;
+        this->closure = closure;
 }
 
 } /* namespace NFA */

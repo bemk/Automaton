@@ -25,7 +25,6 @@ class State;
 class IntState {
 private:
         std::map<char, std::vector<NFA::State*>*> states;
-        std::vector<NFA::State*> epsilon_state;
 
         std::vector<NFA::State*> destinations;
 
