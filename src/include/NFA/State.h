@@ -14,6 +14,7 @@
 #include <string>
 #include "Transition.h"
 #include "../DFA/IntState.h"
+#include <map>
 
 namespace DFA {
 class IntState;
@@ -43,6 +44,7 @@ protected:
 
         DFA::IntState* int_state;
         DFA::IntState* closure;
+        std::map<char, DFA::IntState*> closures;
 
 public:
         State(size_t location, std::string name);
@@ -70,6 +72,9 @@ public:
         void build_closure_state(DFA::IntState* closure);
         void build_DFA_state();
         State* get_DFA_state();
+
+        DFA::IntState* get_closure(char c);
+        void set_closure(char c, DFA::IntState* closure);
 };
 
 } /* namespace NFA */

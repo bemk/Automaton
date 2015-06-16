@@ -41,6 +41,8 @@ State::State(size_t location, string name)
         this->transitions = vector<Transition*>();
         this->incoming = vector<Transition*>();
         this->int_state = NULL;
+
+        this->closures = map<char, DFA::IntState*>();
 }
 
 State::~State()
@@ -221,6 +223,16 @@ void State::build_DFA_state()
 State* State::get_DFA_state()
 {
         return NULL;
+}
+
+DFA::IntState* State::get_closure(char c)
+{
+        return this->closures[c];
+}
+
+void State::set_closure(char c, DFA::IntState* closure)
+{
+        this->closures[c] = closure;
 }
 
 } /* namespace NFA */

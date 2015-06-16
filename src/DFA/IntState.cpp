@@ -9,6 +9,7 @@
 #include "../include/Alphabet.h"
 #include "../include/NFA/State.h"
 #include "../include/DFA/State.h"
+#include <cstdlib>
 
 using namespace std;
 namespace DFA {
@@ -93,12 +94,18 @@ void IntState::build_int_states()
                 /* Make intermediate state */
                 IntState* state = new IntState(
                                 Alphabet::get_alphabet()->get_size());
+
                 char c = local_alphabet[idx];
 
                 /* and for each coupled NFA state */
                 vector<NFA::State*>* vec = this->states[c];
+
                 for (int i = 0; i < vec->size(); i++) {
                         /* Add your own letters to the new alphabet */
+                        if (vec->at(i)->get_closure(c) != NULL) {
+                                continue;
+                        }
+                        vec->at(i)->set_closure(c, state);
                         vec->at(i)->build_closure_state(state);
                 }
 
