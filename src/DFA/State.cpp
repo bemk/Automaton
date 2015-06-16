@@ -88,7 +88,7 @@ State* State::get_error()
         return global_error_state;
 }
 
-void State::get_dot_graph(std::string* str)
+void State::get_dot_graph(std::string* str, std::string* end_claim)
 {
         if (this->graphed) {
                 return;
@@ -104,20 +104,18 @@ void State::get_dot_graph(std::string* str)
                         exit(-9005);
                 }
 
+                if (this->get_end_state()) {
+                        end_claim->append(this->name);
+                        end_claim->append("[shape = doublecircle ];\n");
+                }
                 str->append(this->name);
                 str->append(" -> ");
                 str->append(*s->get_name());
                 str->append(" [label=\"");
                 str->push_back(c);
-                str->append("\" shape=");
-                if (this->get_end_state()) {
-                        str->append("doublecicrle");
-                } else {
-                        str->append("circle");
-                }
-                str->append("];\n");
+                str->append("\"];\n");
 
-                s->get_dot_graph(str);
+                s->get_dot_graph(str, end_claim);
         }
 }
 

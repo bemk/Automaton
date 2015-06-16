@@ -37,7 +37,7 @@ public:
 
         void add_transition(char c, State* s);
 
-        void get_dot_graph(std::string* str);
+        void get_dot_graph(std::string* str, std::string* end_claim);
 
 };
 

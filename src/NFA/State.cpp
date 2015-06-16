@@ -161,6 +161,9 @@ bool State::get_end_state()
 
 void State::build_closure_state(DFA::IntState* closure)
 {
+        if (verbose) {
+                cout << "this: " << this << endl;
+        }
         /* Add the token to the list
          * Also separate out the epsilons */
         vector<Transition*> epsilons = vector<Transition*>();

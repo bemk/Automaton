@@ -120,6 +120,9 @@ State* IntState::build_dfa_state()
         }
 
         DFA_State = new State(0, "");
+        if (this->endstate) {
+                ((NFA::State*) DFA_State)->set_end_state(true);
+        }
         for (int idx = 0; idx < this->local_alphabet.size(); idx++) {
                 char c = this->local_alphabet[idx];
 
