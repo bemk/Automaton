@@ -119,7 +119,6 @@ void State::get_dot_graph(std::string* str)
 
                 s->get_dot_graph(str);
         }
-
 }
 
 } /* namespace DFA */
