@@ -77,4 +77,3 @@ public:
 } /* namespace NFA */
 
 #endif /* SRC_NFA_AUTOMATON_H_ */
-

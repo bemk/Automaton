@@ -28,12 +28,25 @@ bool NFA_graph = false;
 const char* NFA_name;
 std::string NFA_text = "digraph finite_state_machine {\nrankdir = LR;\n";
 
+bool DFA_graph = false;
+const char* DFA_name;
+std::string DFA_text = "digraph finite_state_machine {\nrankdir = LR;\n";
+
+void help()
+{
+#ifndef __GNUC__
+        cout << "The help option doesn't work under windows!" << endl;
+#endif
+        system("cat help.doc");
+        exit(0);
+}
+
 int main(int argc, char** argv)
 {
         int getoptoutput;
         char *ropt = 0;
         int repetition_depth = -1;
-        while ((getoptoutput = getopt(argc, argv, "r:d:vg:n:s")) != -1) {
+        while ((getoptoutput = getopt(argc, argv, "r:d:vg:n:sho:")) != -1) {
                 switch (getoptoutput) {
                 case 'r':
                         ropt = optarg;
@@ -64,6 +77,13 @@ int main(int argc, char** argv)
                         break;
                 case 's':
                         simple_graph = true;
+                        break;
+                case 'h':
+                        help();
+                        break;
+                case 'o':
+                        DFA_graph = true;
+                        DFA_name = optarg;
                         break;
 
                 default:

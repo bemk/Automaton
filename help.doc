@@ -1,0 +1,39 @@
+Syntax:
+	automaton -r [regex] -d n [g file] [n file] [o file]
+		[hsv]
+
+Options:
+	d:
+		String depth
+	
+		Indicates the length to which the strings need
+		to be generated.
+	g: [Output file]
+		Build a dot graph of the parser tree.
+
+		Writes the information for a dot-graph into the
+		requested output file.
+	h:
+		Help
+
+		Writes this message
+	n: [Output file]
+		Build a graph of the NFA structure
+
+		Writes the information for a dot-graph into the
+		requested output file
+	o: [Output file]
+		Buid a graph of the DFA structure
+
+		Writes the information for a dot-graph into the
+		requested output file
+	r: [Regex]
+		The regular expression to parse
+	s:
+		Simplify the NFA graph names a little
+	v:
+		Verbose
+
+		Turn on the debugging output on the console
+
+	
