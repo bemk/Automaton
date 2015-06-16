@@ -9,6 +9,7 @@
 #define SRC_INCLUDE_DFA_PARSER_H_
 
 #include "../Token.h"
+#include "State.h"
 #include <vector>
 
 namespace DFA {
@@ -21,6 +22,8 @@ private:
 public:
         Parser(lexer::Token* tokens);
         virtual ~Parser();
+
+        void parse();
 
 };
 

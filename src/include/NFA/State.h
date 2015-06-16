@@ -13,13 +13,18 @@
 #include <vector>
 #include <string>
 #include "Transition.h"
+#include "../DFA/IntState.h"
+
+namespace DFA {
+class IntState;
+}
 
 namespace NFA {
 
 class Transition;
 
 class State {
-private:
+protected:
         bool graphed;
         bool end_state;
         size_t location;
@@ -35,6 +40,8 @@ private:
         {
                 this->incomming.push_back(incomming);
         }
+
+        DFA::IntState* int_state;
 
 public:
         State(size_t location, std::string name);
@@ -57,6 +64,9 @@ public:
         {
                 return &this->incomming;
         }
+
+        void build_DFA_state();
+        State* get_DFA_state();
 };
 
 } /* namespace NFA */

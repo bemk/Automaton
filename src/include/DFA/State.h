@@ -9,6 +9,7 @@
 #define SRC_INCLUDE_DFA_STATE_H_
 
 #include "../NFA/State.h"
+#include "../NFA/Transition.h"
 #include <vector>
 
 namespace DFA {
@@ -16,7 +17,7 @@ namespace DFA {
 class State: NFA::State {
 private:
         std::vector<NFA::State*> sources;
-        std::vector<Transition> transitions;
+        std::vector<NFA::Transition> transitions;
 
 public:
         State(size_t location, std::string name);

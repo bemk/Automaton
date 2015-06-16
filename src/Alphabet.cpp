@@ -50,3 +50,20 @@ string* Alphabet::get_string()
 {
         return &str;
 }
+
+size_t Alphabet::get_size()
+{
+        return this->alpha.size();
+}
+
+/* Convert char to array index */
+int Alphabet::get_char_index(char c)
+{
+        int i = 0;
+        for (; i < this->alpha.size(); i++) {
+                if (this->alpha[i] == c) {
+                        return i;
+                }
+        }
+        return -1;
+}

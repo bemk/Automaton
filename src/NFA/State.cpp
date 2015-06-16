@@ -8,12 +8,15 @@
 #include <cstdlib>
 #include <sstream>
 #include "../include/NFA/State.h"
+#include "../include/DFA/IntState.h"
+#include "../include/Alphabet.h"
 
 using namespace std;
 extern bool simple_graph;
+
 namespace NFA {
 
-int unique_id_alloc = 0;
+static int unique_id_alloc = 0;
 
 State::State(size_t location, string name)
 {
@@ -36,7 +39,7 @@ State::State(size_t location, string name)
         this->location = location;
         this->transitions = vector<Transition*>();
         this->incomming = vector<Transition*>();
-
+        this->int_state = NULL;
 }
 
 State::~State()
@@ -153,5 +156,14 @@ bool State::get_end_state()
         return this->end_state;
 }
 
-} /* namespace NFA */
+void State::build_DFA_state()
+{
+        Alphabet* alpha = Alphabet::get_alphabet();
+        this->int_state = new DFA::IntState(alpha->get_size());
+}
 
+State* State::get_DFA_state()
+{
+}
+
+} /* namespace NFA */

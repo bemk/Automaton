@@ -7,4 +7,5 @@ automaton
 *.dot
 *.png
 Debug
+push.sh
 
