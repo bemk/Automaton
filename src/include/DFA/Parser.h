@@ -19,11 +19,15 @@ private:
         lexer::Token* tokens;
         std::vector<State*> states;
 
+        State* DFA;
+
 public:
         Parser(lexer::Token* tokens);
         virtual ~Parser();
 
         void parse();
+
+        State* get_dfa();
 
 };
 

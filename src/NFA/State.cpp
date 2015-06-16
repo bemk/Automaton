@@ -39,7 +39,7 @@ State::State(size_t location, string name)
         this->graphed = false;
         this->location = location;
         this->transitions = vector<Transition*>();
-        this->incomming = vector<Transition*>();
+        this->incoming = vector<Transition*>();
         this->int_state = NULL;
 }
 
@@ -68,7 +68,7 @@ void State::add_transition(char name, State* dest)
                         dest);
 
         this->transitions.push_back(transition);
-        dest->add_incomming(transition);
+        dest->add_incoming(transition);
 
         return;
 }
@@ -85,7 +85,7 @@ void State::add_epsilon(State* dest)
         t->set_epsilon(true);
 
         transitions.push_back(t);
-        dest->add_incomming(t);
+        dest->add_incoming(t);
 
         return;
 }
@@ -99,8 +99,8 @@ bool State::get_dotgraph(string* s)
         graphed = true;
 
         bool to_graph = true;
-        if (incomming.size() == 1 && transitions.size() == 1) {
-                if (incomming[0]->get_epsilon() && transitions[0]->get_epsilon()) {
+        if (incoming.size() == 1 && transitions.size() == 1) {
+                if (incoming[0]->get_epsilon() && transitions[0]->get_epsilon()) {
                         to_graph = false;
                 }
         }
@@ -120,8 +120,8 @@ bool State::get_dotgraph(string* s)
 void State::get_dot_reference(std::string* s, std::string* caller, bool epsylon,
                 char input)
 {
-        if (this->incomming.size() == 1 && this->transitions.size() == 1) {
-                if (incomming[0]->get_epsilon() && transitions[0]->get_epsilon()) {
+        if (this->incoming.size() == 1 && this->transitions.size() == 1) {
+                if (incoming[0]->get_epsilon() && transitions[0]->get_epsilon()) {
                         transitions[0]->get_dest()->get_dot_reference(s, caller,
                                         true, input);
                         return;
@@ -159,6 +159,8 @@ bool State::get_end_state()
 
 void State::build_closure_state(DFA::IntState* closure)
 {
+        /* Add the token to the list
+         * Also separate out the epsilons */
         vector<Transition*> epsilons = vector<Transition*>();
         for (int idx = 0; idx < transitions.size(); idx++) {
                 if (transitions[idx]->get_epsilon()) {
@@ -170,18 +172,21 @@ void State::build_closure_state(DFA::IntState* closure)
                                 transitions[idx]->get_token());
         }
 
+        /* put yourself in the recursion safety list */
         closure->put_e_transition(this);
 
+        /* If we're an end state, label the closure as such */
         if (this->get_end_state()) {
                 closure->set_endstate();
         }
 
+        /* So long as the state isn't in the recursion safety list,
+         * add epsilon state to this closure */
         for (int idx = 0; idx < epsilons.size(); idx++) {
                 if (!closure->has_e_transition(epsilons[idx]->get_dest())) {
                         epsilons[idx]->get_dest()->build_closure_state(closure);
                 }
         }
-
 }
 
 DFA::IntState* State::build_closure_state(bool is_epsilon)
@@ -192,18 +197,15 @@ DFA::IntState* State::build_closure_state(bool is_epsilon)
         }
 
         /* If we came in through an epsilon, cancel */
-        if (is_epsilon) {
+        if (!is_epsilon) {
 
                 closure = new DFA::IntState(
                                 Alphabet::get_alphabet()->get_size());
                 this->build_closure_state(closure);
         }
 
-        /* Make all of our children do stuff */
-        for (int idx = 0; idx < transitions.size(); idx++) {
-                transitions[idx]->get_dest()->build_closure_state(
-                                transitions[idx]->get_epsilon());
-        }
+        /* Make all of our links do stuff */
+        closure->build_int_states();
 
         /* Couple all of our intermediate states into a fully functioning DFA */
 

@@ -18,6 +18,7 @@ Parser::Parser(lexer::Token* tokens)
         tokens->get_accept_symbol()->set_end_state(true);
 
         this->states = vector<State*>();
+        this->DFA = NULL;
 }
 
 Parser::~Parser()
@@ -28,7 +29,14 @@ Parser::~Parser()
 void Parser::parse()
 {
         vector<State*> to_parse = vector<State*>();
-        this->tokens->get_start_symbol()->build_closure_state(false);
+        IntState* tmp = this->tokens->get_start_symbol()->build_closure_state(
+                        false);
+        this->DFA = tmp->build_dfa_state();
+}
+
+State* Parser::get_dfa()
+{
+        return this->DFA;
 }
 
 } /* namespace DFA */

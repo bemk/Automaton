@@ -31,6 +31,7 @@ clean:
 	rm -fv $(TARGETS) automaton
 	rm -fv *.dot
 	rm -fv *.png
+	rm -rfv doc/*
 
 png: all
 	./automaton -d 2 -r "ca+a(bb|((cc|f.f)*|ee))d?d" -g dot.dot -n nfa.dot -s $(AUTOFLAGS)

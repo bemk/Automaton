@@ -8,6 +8,7 @@
 #include "../include/DFA/IntState.h"
 #include "../include/Alphabet.h"
 #include "../include/NFA/State.h"
+#include "../include/DFA/State.h"
 
 using namespace std;
 namespace DFA {
@@ -19,6 +20,9 @@ IntState::IntState(size_t alphabet_size)
 
         this->startstate = false;
         this->endstate = false;
+
+        this->local_alphabet = vector<char>();
+        this->DFA_State = NULL;
 }
 
 IntState::~IntState()
@@ -31,19 +35,6 @@ IntState::~IntState()
         this->states.clear();
 }
 
-void IntState::build_error_transitions()
-{
-}
-
-IntState* IntState::get_error_state()
-{
-        if (errorState == NULL) {
-                errorState = new IntState(Alphabet::get_alphabet()->get_size());
-        }
-
-        return errorState;
-}
-
 void IntState::add_transition(NFA::State* dest, char c)
 {
         vector<NFA::State*>* mapped = this->states[c];
@@ -52,6 +43,8 @@ void IntState::add_transition(NFA::State* dest, char c)
                 this->states[c] = mapped;
         }
 
+        this->local_alphabet.push_back(c);
+
         for (int idx = 0; idx < mapped->size(); idx++) {
                 if (mapped->at(idx) == dest) {
                         return;
@@ -59,12 +52,6 @@ void IntState::add_transition(NFA::State* dest, char c)
         }
 
         mapped->push_back(dest);
-}
-
-bool IntState::compare(IntState* cmp)
-{
-#warning Function needs implementation
-        return false;
 }
 
 bool IntState::has_e_transition(NFA::State* destination)
@@ -96,6 +83,44 @@ bool IntState::get_endstate()
 void IntState::set_endstate()
 {
         this->endstate = true;
+}
+
+void IntState::build_int_states()
+{
+        /* For each letter in local alphabet */
+        for (int idx = 0; idx < local_alphabet.size(); idx++) {
+
+                /* Make intermediate state */
+                IntState* state = new IntState(
+                                Alphabet::get_alphabet()->get_size());
+                char c = local_alphabet[idx];
+
+                /* and for each coupled NFA state */
+                vector<NFA::State*>* vec = this->states[c];
+                for (int i = 0; i < vec->size(); i++) {
+                        /* Add your own letters to the new alphabet */
+                        vec->at(i)->build_closure_state(state);
+                }
+
+                /* Now for each letter in the alphabet, build intermediate tree */
+                state->build_int_states();
+        }
+}
+
+State* IntState::build_dfa_state()
+{
+        if (this->DFA_State != NULL) {
+                return this->DFA_State;
+        }
+
+        DFA_State = new State(0, "");
+        for (int idx = 0; idx < this->local_alphabet.size(); idx++) {
+                char c = this->local_alphabet[idx];
+
+                vector<NFA::State*>* vec = this->states[c];
+        }
+
+        return NULL;
 }
 
 } /* namespace DFA */

@@ -10,18 +10,28 @@
 
 #include "../NFA/State.h"
 #include "../NFA/Transition.h"
-#include <vector>
+#include <map>
+
+namespace NFA {
+class State;
+}
 
 namespace DFA {
 
 class State: NFA::State {
 private:
-        std::vector<NFA::State*> sources;
-        std::vector<NFA::Transition> transitions;
+        std::map<char, State*> map_transitions;
+
+        bool error_state;
 
 public:
         State(size_t location, std::string name);
         virtual ~State();
+
+        State* get_error();
+        void set_error_state();
+
+        void add_transition(char c, State* s);
 };
 
 } /* namespace DFA */

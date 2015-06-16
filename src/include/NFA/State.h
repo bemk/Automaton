@@ -30,15 +30,15 @@ protected:
         size_t location;
         std::string name;
         std::vector<Transition*> transitions;
-        std::vector<Transition*> incomming;
+        std::vector<Transition*> incoming;
         int unique_id;
 
         void get_dot_reference(std::string* s, std::string* caller,
                         bool epsylon, char input);
 
-        void add_incomming(Transition* incomming)
+        void add_incoming(Transition* incoming)
         {
-                this->incomming.push_back(incomming);
+                this->incoming.push_back(incoming);
         }
 
         DFA::IntState* int_state;
@@ -61,9 +61,9 @@ public:
                 return &this->transitions;
         }
 
-        std::vector<Transition*>* get_incomming()
+        std::vector<Transition*>* get_incoming()
         {
-                return &this->incomming;
+                return &this->incoming;
         }
 
         DFA::IntState* build_closure_state(bool is_epsilon);
