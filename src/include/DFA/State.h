@@ -39,6 +39,7 @@ public:
 
         void get_dot_graph(std::string* str, std::string* end_claim);
 
+        bool enforce(std::string& rule);
 };
 
 } /* namespace DFA */

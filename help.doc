@@ -1,6 +1,6 @@
 Syntax:
-	automaton -r [regex] -d n [g file] [n file] [o file]
-		[hsv]
+	automaton -r [regex] -d -n [-g file] [-n file] [-o file]
+		  [-e string] [hsv]
 
 Options:
 	d:
@@ -8,6 +8,10 @@ Options:
 	
 		Indicates the length to which the strings need
 		to be generated.
+	e: [String]
+		Enforce sting
+
+		Returns whether or not the string is permitted
 	g: [Output file]
 		Build a dot graph of the parser tree.
 

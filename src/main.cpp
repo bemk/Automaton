@@ -32,12 +32,15 @@ bool DFA_graph = false;
 const char* DFA_name;
 std::string DFA_text = "digraph finite_state_machine {\nrankdir = LR;\n";
 
+bool enforce = false;
+const char* enforcement_rule;
+
 void help()
 {
 #ifndef __GNUC__
         cout << "The help option doesn't work under windows!" << endl;
 #endif
-        system("cat help.doc");
+        system("less help.doc");
         exit(0);
 }
 
@@ -46,7 +49,7 @@ int main(int argc, char** argv)
         int getoptoutput;
         char *ropt = 0;
         int repetition_depth = -1;
-        while ((getoptoutput = getopt(argc, argv, "r:d:vg:n:sho:")) != -1) {
+        while ((getoptoutput = getopt(argc, argv, "r:d:vg:n:sho:e:")) != -1) {
                 switch (getoptoutput) {
                 case 'r':
                         ropt = optarg;
@@ -84,6 +87,10 @@ int main(int argc, char** argv)
                 case 'o':
                         DFA_graph = true;
                         DFA_name = optarg;
+                        break;
+                case 'e':
+                        enforce = true;
+                        enforcement_rule = optarg;
                         break;
 
                 default:
@@ -183,6 +190,15 @@ int main(int argc, char** argv)
 
                 dot_file << DFA_text << endl;
                 dot_file.close();
+        }
+
+        if (enforce) {
+                string rule = string(enforcement_rule);
+                if (dfa->enforce(rule)) {
+                        cout << "Rule accepted!" << endl;
+                } else {
+                        cout << "Rule denied!" << endl;
+                }
         }
 
 #ifndef __GNUC__

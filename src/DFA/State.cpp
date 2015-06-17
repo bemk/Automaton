@@ -131,4 +131,23 @@ void State::get_dot_graph(std::string* str, std::string* end_claim)
         }
 }
 
+bool State::enforce(string& rule)
+{
+        if (rule.length() == 0) {
+                return this->end_state;
+        }
+
+        if (this->error_state) {
+                return false;
+        }
+
+        State* next = this->map_transitions[rule[0]];
+        if (next == NULL) {
+                return false;
+        }
+
+        string sub_rule = rule.substr(1);
+        return next->enforce(sub_rule);
+}
+
 } /* namespace DFA */
