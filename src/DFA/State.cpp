@@ -76,6 +76,7 @@ void State::add_transition(char c, State* s)
 void State::set_error_state()
 {
         this->error_state = true;
+        this->name = "q_error";
 }
 
 State* State::get_error()
@@ -96,6 +97,17 @@ void State::get_dot_graph(std::string* str, std::string* end_claim)
         graphed = true;
 
         Alphabet* alpha = Alphabet::get_alphabet();
+
+        if (this->error_state) {
+                str->append(this->name);
+                str->append(" -> ");
+                str->append(this->name);
+                str->append(" [ label = \"");
+                str->append(*alpha->get_string());
+                str->append("\" ];");
+                return;
+        }
+
         for (size_t idx = 0; idx < alpha->get_size(); idx++) {
                 char c = (*alpha->get_string())[idx];
                 State* s = this->map_transitions[c];

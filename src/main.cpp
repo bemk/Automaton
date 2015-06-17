@@ -175,6 +175,7 @@ int main(int argc, char** argv)
                 node_text.append("label=\"");
                 node_text.append(ropt);
                 node_text.append("\";\nlabelloc=top\n");
+                node_text.append("\"\" [ shape=\"none\"]; \"\" -> q_0;");
                 node_text.push_back('}');
 
                 DFA_text.append(end_claim);
