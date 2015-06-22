@@ -9,6 +9,8 @@
 
 using namespace std;
 
+extern bool verbose;
+
 namespace DFA {
 
 Parser::Parser(lexer::Token* tokens)
@@ -29,7 +31,10 @@ Parser::~Parser()
 void Parser::parse()
 {
         NFA::State* start = this->tokens->get_start_symbol();
-        cout << "endState: " << this->tokens->get_accept_symbol() << endl;
+        if (verbose) {
+                cout << "endState: " << this->tokens->get_accept_symbol()
+                << endl;
+        }
 
         IntState* tmp = start->build_closure_state(false);
         this->DFA = tmp->build_dfa_state();

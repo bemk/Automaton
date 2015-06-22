@@ -4,5 +4,4 @@ compiler:
 
   - gcc
 
-script: make clean && make && ./automaton -d 2 -r "caa(bb|((cc|ff)*|ee))dd" -v
-
+script: make clean && make && ./automaton -i -d 6 -r "ab|(aa)*b|cc+(aa|bb)" -g dot.dot -n nfa.dot -s -o dfa.dot -e aaab
