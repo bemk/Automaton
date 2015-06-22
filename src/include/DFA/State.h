@@ -40,6 +40,7 @@ public:
         void get_dot_graph(std::string* str, std::string* end_claim);
 
         bool enforce(std::string& rule);
+        void build_word(bool allowed, std::string* word, size_t len);
 };
 
 } /* namespace DFA */

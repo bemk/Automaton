@@ -1,6 +1,6 @@
 Syntax:
 	automaton -r [regex] -d -n [-g file] [-n file] [-o file]
-		  [-e string] [hsv]
+		  [-e string] [hisv]
 
 Options:
 	d:
@@ -21,6 +21,9 @@ Options:
 		Help
 
 		Writes this message
+	i:
+		Invert the list of generated words from accepted
+		to rejected ones.
 	n: [Output file]
 		Build a graph of the NFA structure
 

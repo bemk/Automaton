@@ -34,6 +34,7 @@ std::string DFA_text = "digraph finite_state_machine {\nrankdir = LR;\n";
 
 bool enforce = false;
 const char* enforcement_rule;
+bool inverted = true;
 
 void help()
 {
@@ -46,10 +47,11 @@ void help()
 
 int main(int argc, char** argv)
 {
+        /* Do options parsing */
         int getoptoutput;
         char *ropt = 0;
         int repetition_depth = -1;
-        while ((getoptoutput = getopt(argc, argv, "r:d:vg:n:sho:e:")) != -1) {
+        while ((getoptoutput = getopt(argc, argv, "r:d:vg:n:sho:e:i")) != -1) {
                 switch (getoptoutput) {
                 case 'r':
                         ropt = optarg;
@@ -92,6 +94,9 @@ int main(int argc, char** argv)
                         enforce = true;
                         enforcement_rule = optarg;
                         break;
+                case 'i':
+                        inverted = false;
+                        break;
 
                 default:
                         cerr << "getopt returned character code" << getoptoutput
@@ -104,13 +109,16 @@ int main(int argc, char** argv)
                 cout << "regex with value " << ropt << endl;
                 cout << "depth with value " << repetition_depth << endl;
         }
+        /* Start interpreting the regular expression */
         lexer::Lexer* p = new lexer::Lexer(0);
         p->build_grammar(new string(ropt));
         p->enforceGrammar(new string(ropt));
 
+        /* Get the tokens */
         lexer::Token* symbols = p->get_tokens();
         symbols->set_parser(NULL);
 
+        /* Remove the main lexter */
         delete p;
 
         if (verbose) {
@@ -118,6 +126,7 @@ int main(int argc, char** argv)
                 cout << "Alphabet is: '" << *alpha->get_string() << "'" << endl;
         }
 
+        /* If requested, write a dot-graph for the regular expression */
         if (dot_graph) {
                 ofstream dot_file;
                 dot_file.open(dotname);
@@ -136,8 +145,12 @@ int main(int argc, char** argv)
                 dot_file.close();
         }
 
+        /*
+         * Generate the NFA and mark the accepting state as such
+         */
         symbols->get_ll_next()->get_accept_symbol()->set_end_state(true);
 
+        /* Build a dot graph for the NFA if requested */
         if (NFA_graph) {
                 ofstream dot_file;
                 dot_file.open(NFA_name);
@@ -165,11 +178,15 @@ int main(int argc, char** argv)
                 dot_file.close();
         }
 
+        /* Build a parser for the NFA */
         DFA::Parser parser = DFA::Parser(symbols->get_ll_next());
+        /* Buid a DFA out of the NFA */
         parser.parse();
 
+        /* Get the DFA reference */
         DFA::State* dfa = parser.get_dfa();
 
+        /* Build a DFA dot graph if requested. */
         if (DFA_graph) {
                 ofstream dot_file;
                 dot_file.open(DFA_name);
@@ -192,6 +209,7 @@ int main(int argc, char** argv)
                 dot_file.close();
         }
 
+        /* If requested, see if input string matches rules */
         if (enforce) {
                 string rule = string(enforcement_rule);
                 if (dfa->enforce(rule)) {
@@ -200,6 +218,9 @@ int main(int argc, char** argv)
                         cout << "Rule denied!" << endl;
                 }
         }
+
+        string str = "";
+        dfa->build_word(inverted, &str, repetition_depth);
 
 #ifndef __GNUC__
         system("PAUSE");

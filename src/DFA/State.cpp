@@ -150,4 +150,35 @@ bool State::enforce(string& rule)
         return next->enforce(sub_rule);
 }
 
+void State::build_word(bool allowed, string* word, size_t len)
+{
+        if (len == 0) {
+                return;
+        }
+
+        if (this->error_state) {
+                if (allowed) {
+                        return;
+                }
+        }
+
+        if (this->get_end_state() && allowed) {
+                cout << "Accepting word: " << *word << endl;
+        } else if (!this->get_end_state() && !allowed) {
+                cout << "Rejecting word: " << *word << endl;
+        }
+
+        Alphabet* alpha = Alphabet::get_alphabet();
+        std::string* alpha_str = alpha->get_string();
+        for (size_t i = 0; i < alpha->get_size(); i++) {
+                string tmp_string = *word;
+                char c = (*alpha_str)[i];
+
+                tmp_string.push_back(c);
+
+                this->map_transitions[c]->build_word(allowed, &tmp_string,
+                                len - 1);
+        }
+}
+
 } /* namespace DFA */
