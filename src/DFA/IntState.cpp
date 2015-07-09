@@ -14,9 +14,10 @@
 using namespace std;
 namespace DFA {
 
-IntState::IntState(size_t alphabet_size)
+IntState::IntState(size_t alphabet_size, string source)
 {
         this->states = map<char, vector<NFA::State*>*>();
+        this->source_name = source;
 
         this->startstate = false;
         this->endstate = false;
@@ -92,7 +93,8 @@ void IntState::build_int_states()
 
                 /* Make intermediate state */
                 IntState* state = new IntState(
-                                Alphabet::get_alphabet()->get_size());
+                                Alphabet::get_alphabet()->get_size(),
+                                this->source_name);
 
                 char c = local_alphabet[idx];
 
@@ -104,6 +106,7 @@ void IntState::build_int_states()
                         if (vec->at(i)->get_closure() != NULL) {
                                 continue;
                         }
+                        state->source_name = *vec->at(i)->get_name();
                         vec->at(i)->set_closure(state);
                         vec->at(i)->build_closure_state(state);
                 }
@@ -138,7 +141,6 @@ State* IntState::build_dfa_state()
                         cerr << "Oh noes!!!" << endl;
                 }
                 DFA_State->add_transition(c, tmp_state);
-
         }
 
         return DFA_State;

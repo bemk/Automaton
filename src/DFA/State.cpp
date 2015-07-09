@@ -142,6 +142,7 @@ bool State::enforce(string& rule)
         }
 
         State* next = this->map_transitions[rule[0]];
+        /* If letter not in alphabet! */
         if (next == NULL) {
                 return false;
         }

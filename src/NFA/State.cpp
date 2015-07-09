@@ -162,7 +162,7 @@ bool State::get_end_state()
 void State::build_closure_state(DFA::IntState* closure)
 {
         if (verbose) {
-                cout << "this: " << this << endl;
+                cout << "this: " << this->name << endl;
         }
         /* Add the token to the list
          * Also separate out the epsilons */
@@ -176,14 +176,13 @@ void State::build_closure_state(DFA::IntState* closure)
                 closure->add_transition(transitions[idx]->get_dest(),
                                 transitions[idx]->get_token());
                 if (verbose) {
-                        cout << "\t\"" << closure << "\" -> \"" << this
-                        << "\" [ label=\"" << transitions[idx]->get_token()
-
-                        << "\"";
+                        cout << "\t\"" << *closure->get_source_name()
+                        << "\" -> \"" << this->name << "\" [ label=\""
+                        << transitions[idx]->get_token() << "\"";
                         if (this->get_end_state()) {
-                                cout << " shape=doublecircle ";
+                                cout << " shape=doublecircle";
                         } else {
-                                cout << " shape=circle ";
+                                cout << " shape=circle";
                         }
 
                         cout << " ];" << endl;
@@ -216,9 +215,9 @@ DFA::IntState* State::build_closure_state(bool is_epsilon)
 
         /* If we came in through an epsilon, cancel */
         if (!is_epsilon) {
-
                 closure = new DFA::IntState(
-                                Alphabet::get_alphabet()->get_size());
+                                Alphabet::get_alphabet()->get_size(),
+                                this->name);
                 this->build_closure_state(closure);
         }
 

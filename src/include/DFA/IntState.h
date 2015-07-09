@@ -34,8 +34,11 @@ private:
         bool startstate;
 
         State* DFA_State;
+
+        std::string source_name;
 public:
-        IntState(size_t size);
+        IntState(size_t size, std::string source);
+
         virtual ~IntState();
         void add_transition(NFA::State* dest, char c);
 
@@ -47,6 +50,11 @@ public:
 
         void build_int_states();
         State* build_dfa_state();
+
+        std::string* get_source_name()
+        {
+                return &this->source_name;
+        }
 };
 
 } /* namespace DFA */
