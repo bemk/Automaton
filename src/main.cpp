@@ -219,8 +219,10 @@ int main(int argc, char** argv)
                 }
         }
 
-        string str = "";
-        dfa->build_word(inverted, &str, repetition_depth);
+        if (repetition_depth > 0) {
+        	string str = "";
+        	dfa->build_word(inverted, &str, repetition_depth);
+        }
 
 #ifndef __GNUC__
         system("PAUSE");
