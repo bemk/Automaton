@@ -12,12 +12,11 @@ using namespace std;
 
 namespace lexer {
 
-QuestionMark::QuestionMark(Lexer* p) :
-                Quantifier(p)
+QuestionMark::QuestionMark(Lexer *p) : Quantifier(p)
 {
-        this->start_at = START_NULL;
-        this->stop_at = END_ONE;
-        this->text = "?";
+    this->start_at = START_NULL;
+    this->stop_at = END_ONE;
+    this->text = "?";
 }
 
 QuestionMark::~QuestionMark()
@@ -26,34 +25,34 @@ QuestionMark::~QuestionMark()
 
 bool QuestionMark::isOfType(char c)
 {
-        return (c == '?') ? true : false;
+    return (c == '?');
 }
 
 Token* QuestionMark::allocateType()
 {
-        Token* s = new QuestionMark(this->parser);
-        if (s == NULL) {
-                cerr << "Unable to allocate questionmark descriptor" << endl;
-                exit(-1);
-        }
-        return s;
+    Token *s = new QuestionMark(this->parser);
+    if (s == NULL) {
+        cerr << "Unable to allocate questionmark descriptor" << endl;
+        exit(-1);
+    }
+    return s;
 }
 
 void QuestionMark::build_automata()
 {
-        if (this->automata.size()) {
-                return;
-        }
-
-        init_automata();
-
-        start->add_epsilon(in);
-        start->add_epsilon(end);
-        in->add_epsilon(this->getLeft()->get_start_symbol());
-        this->getLeft()->get_accept_symbol()->add_epsilon(out);
-        out->add_epsilon(end);
-
+    if (this->automata.size()) {
         return;
+    }
+
+    init_automata();
+
+    start->add_epsilon(in);
+    start->add_epsilon(end);
+    in->add_epsilon(this->getLeft()->get_start_symbol());
+    this->getLeft()->get_accept_symbol()->add_epsilon(out);
+    out->add_epsilon(end);
+
+    return;
 }
 
 }

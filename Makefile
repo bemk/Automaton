@@ -11,8 +11,8 @@ CFILES := $(wildcard src/*.c)
 OBJ_FILES := $(addprefix src/,$(notdir $(CXXFILES:.cpp=.o)))
 COBJ_FILES := $(addprefix src/,$(notdir $(CFILES:.c=.o)))
 
-LEXERFILES := $(wildcard src/lexer/*.cpp)
-LEXER_OBJ_FILES := $(addprefix src/lexer/,$(notdir $(LEXERFILES:.cpp=.o)))
+LEXER_FILES := $(wildcard src/lexer/*.cpp)
+LEXER_OBJ_FILES := $(addprefix src/lexer/,$(notdir $(LEXER_FILES:.cpp=.o)))
 
 NFA_FILES := $(wildcard src/NFA/*.cpp)
 NFA_OBJ_FILES := $(addprefix src/NFA/,$(notdir $(NFA_FILES:.cpp=.o)))
