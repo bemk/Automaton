@@ -116,7 +116,7 @@ int main(int argc, char **argv)
     lexer::Token *symbols = p->get_tokens();
     symbols->set_parser(NULL);
 
-    /* Remove the main lexter */
+    /* Remove the main lexer */
     delete p;
 
     if (verbose) {
@@ -190,7 +190,7 @@ int main(int argc, char **argv)
         string end_claim = "";
 
         dfa->get_dot_graph(&node_text, &end_claim);
-        end_claim.append("node [shape = circle];");
+        end_claim.append("node [shape = circle];\n");
 
         node_text.append("label=\"");
         node_text.append(ropt);

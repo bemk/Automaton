@@ -104,7 +104,7 @@ void State::get_dot_graph(std::string* str, std::string* end_claim)
                 str->append(this->name);
                 str->append(" [ label = \"");
                 str->append(*alpha->get_string());
-                str->append("\" ];");
+                str->append("\" ];\n");
                 return;
         }
 
