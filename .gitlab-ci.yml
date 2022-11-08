@@ -1,0 +1,14 @@
+stages:
+  - build
+
+build_app:
+  stage: build
+  image: containers.orion-os.eu/eds5-build
+  script:
+    - make clean all
+  artifacts:
+    paths:
+      - automaton
+    expire_in: 1 week
+
+
