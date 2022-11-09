@@ -13,7 +13,6 @@
 #include <vector>
 #include <string>
 #include "Transition.h"
-#include "../DFA/IntState.h"
 
 namespace DFA {
 class IntState;

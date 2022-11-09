@@ -9,7 +9,6 @@
 #include <sstream>
 #include <vector>
 #include "../include/NFA/State.h"
-#include "../include/DFA/IntState.h"
 #include "../include/Alphabet.h"
 
 using namespace std;
@@ -159,76 +158,6 @@ bool State::get_end_state()
         return this->end_state;
 }
 
-void State::build_closure_state(DFA::IntState* closure)
-{
-        if (verbose) {
-                cout << "this: " << this->name << endl;
-        }
-        /* Add the token to the list
-         * Also separate out the epsilons */
-        vector<Transition*> epsilons = vector<Transition*>();
-        for (int idx = 0; idx < transitions.size(); idx++) {
-                if (transitions[idx]->get_epsilon()) {
-                        epsilons.push_back(transitions[idx]);
-                        continue;
-                }
-
-                closure->add_transition(transitions[idx]->get_dest(),
-                                transitions[idx]->get_token());
-                if (verbose) {
-                        cout << "\t\"" << *closure->get_source_name()
-                        << "\" -> \"" << this->name << "\" [ label=\""
-                        << transitions[idx]->get_token() << "\"";
-                        if (this->get_end_state()) {
-                                cout << " shape=doublecircle";
-                        } else {
-                                cout << " shape=circle";
-                        }
-
-                        cout << " ];" << endl;
-                }
-        }
-
-        /* put yourself in the recursion safety list */
-        closure->put_e_transition(this);
-
-        /* If we're an end state, label the closure as such */
-        if (this->get_end_state()) {
-                closure->set_endstate();
-        }
-
-        /* So long as the state isn't in the recursion safety list,
-         * add epsilon state to this closure */
-        for (int idx = 0; idx < epsilons.size(); idx++) {
-                if (!closure->has_e_transition(epsilons[idx]->get_dest())) {
-                        epsilons[idx]->get_dest()->build_closure_state(closure);
-                }
-        }
-}
-
-DFA::IntState* State::build_closure_state(bool is_epsilon)
-{
-        /* Make sure we don't run more than 1 time */
-        if (closure != NULL) {
-                return this->closure;
-        }
-
-        /* If we came in through an epsilon, cancel */
-        if (!is_epsilon) {
-                closure = new DFA::IntState(
-                                Alphabet::get_alphabet()->get_size(),
-                                this->name);
-                this->build_closure_state(closure);
-        }
-
-        /* Make all of our links do stuff */
-        closure->build_int_states();
-
-        /* Couple all of our intermediate states into a fully functioning DFA */
-
-        return closure;
-}
-
 void State::build_DFA_state()
 {
         Alphabet* alpha = Alphabet::get_alphabet();
@@ -237,16 +166,6 @@ void State::build_DFA_state()
 State* State::get_DFA_state()
 {
         return NULL;
-}
-
-DFA::IntState* State::get_closure()
-{
-        return this->closure;
-}
-
-void State::set_closure(DFA::IntState* closure)
-{
-        this->closure = closure;
 }
 
 } /* namespace NFA */

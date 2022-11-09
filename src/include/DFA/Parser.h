@@ -1,36 +1,30 @@
 /*
  * Parser.h
  *
- *  Created on: 10 Jun 2015
+ *  Created on: 9 Nov 2022
  *      Author: bemk
  */
+
+#include "../NFA/State.h"
 
 #ifndef SRC_INCLUDE_DFA_PARSER_H_
 #define SRC_INCLUDE_DFA_PARSER_H_
 
-#include "../Token.h"
-#include "State.h"
-#include <vector>
-
 namespace DFA {
 
-class Parser {
-private:
-        lexer::Token* tokens;
-        std::vector<State*> states;
+    class Parser {
+    private:
+        NFA::State* nfa = NULL;
+        NFA::State* dfa = NULL;
+    public:
+        Parser(NFA::State* nfa) {this->nfa = nfa;};
+        ~Parser();
 
-        State* DFA;
+        NFA::State* buildDFA(NFA::State* state);
 
-public:
-        Parser(lexer::Token* tokens);
-        virtual ~Parser();
-
-        void parse();
-
-        State* get_dfa();
+    };
 
 };
 
-} /* namespace DFA */
 
 #endif /* SRC_INCLUDE_DFA_PARSER_H_ */

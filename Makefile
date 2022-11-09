@@ -20,7 +20,7 @@ NFA_OBJ_FILES := $(addprefix src/NFA/,$(notdir $(NFA_FILES:.cpp=.o)))
 DFA_FILES := $(wildcard src/DFA/*.cpp)
 DFA_OBJ_FILES := $(addprefix src/DFA/,$(notdir $(DFA_FILES:.cpp=.o)))
 
-TARGETS := $(OBJ_FILES) $(COBJ_FILES) $(LEXER_OBJ_FILES) $(NFA_OBJ_FILES) $(DFA_OBJ_FILES)
+TARGETS := $(OBJ_FILES) $(COBJ_FILES) $(LEXER_OBJ_FILES) $(NFA_OBJ_FILES) $(DFA_OBJ_FILES) 
 
 .PHONY: all clean test
 

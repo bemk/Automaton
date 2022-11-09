@@ -174,51 +174,6 @@ int main(int argc, char **argv)
         dot_file.close();
     }
 
-    /* Build a parser for the NFA */
-    DFA::Parser parser = DFA::Parser(symbols->get_ll_next());
-    /* Buid a DFA out of the NFA */
-    parser.parse();
-
-    /* Get the DFA reference */
-    DFA::State *dfa = parser.get_dfa();
-
-    /* Build a DFA dot graph if requested. */
-    if (DFA_graph) {
-        ofstream dot_file;
-        dot_file.open(DFA_name);
-        string node_text = "";
-        string end_claim = "";
-
-        dfa->get_dot_graph(&node_text, &end_claim);
-        end_claim.append("node [shape = circle];\n");
-
-        node_text.append("label=\"");
-        node_text.append(ropt);
-        node_text.append("\";\nlabelloc=top\n");
-        node_text.append("\"\" [ shape=\"none\"]; \"\" -> q_0;");
-        node_text.push_back('}');
-
-        DFA_text.append(end_claim);
-        DFA_text.append(node_text);
-
-        dot_file << DFA_text << endl;
-        dot_file.close();
-    }
-
-    /* If requested, see if input string matches rules */
-    if (enforce) {
-        string rule = string(enforcement_rule);
-        if (dfa->enforce(rule)) {
-            cout << "Rule accepted!" << endl;
-        } else {
-            cout << "Rule denied!" << endl;
-        }
-    }
-
-    if (repetition_depth > 0) {
-        string str = "";
-        dfa->build_word(inverted, &str, repetition_depth);
-    }
 
 #ifndef __GNUC__
         system("PAUSE");
