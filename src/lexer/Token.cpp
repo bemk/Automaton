@@ -15,7 +15,7 @@ using namespace std;
 
 extern bool verbose;
 
-namespace lexer {
+namespace Lexer {
 
 Token::Token(Lexer *p)
 {

@@ -20,7 +20,7 @@ using namespace std;
 
 extern bool verbose;
 
-namespace lexer {
+namespace Lexer {
 
 Lexer::Lexer(size_t location)
 {

@@ -45,6 +45,50 @@ void help()
     exit(0);
 }
 
+void writeParseGraph(IGraphable* graphable, const char* file_name, const char* ropt)
+{
+    ofstream dot_file;
+    dot_file.open(dotname);
+
+    string sym_text = "";
+    graphable->get_dot_graph(&sym_text);
+    graph_text.append(sym_text);
+
+    graph_text.append("label=\"");
+    graph_text.append(ropt);
+    graph_text.append("\";\nlabelloc=top\n");
+
+    graph_text.push_back('}');
+
+    dot_file << graph_text << endl;
+    dot_file.close();
+}
+
+void writeStateDiagram(Lexer::Token* token, const char* file_name, const char* ropt, std::string top_text) {
+    ofstream dot_file;
+    dot_file.open(NFA_name);
+    string node_text = "";
+
+    token->get_start_symbol()->get_dot_graph(&node_text);
+
+    node_text.append("label=\"");
+    node_text.append(ropt);
+    node_text.append("\";\nlabelloc=top\n");
+
+    node_text.push_back('}');
+
+    NFA::State *accept = token->get_accept_symbol();
+
+    NFA_text.append("node [shape = doublecircle]; ");
+    NFA_text.append(*accept->get_name());
+    NFA_text.append(" ;\nnode [shape = circle];\n");
+
+    NFA_text.append(node_text);
+
+    dot_file << top_text << endl;
+    dot_file.close();
+}
+
 int main(int argc, char **argv)
 {
     /* Do options parsing */
@@ -108,15 +152,15 @@ int main(int argc, char **argv)
         cout << "depth with value " << repetition_depth << endl;
     }
     /* Start interpreting the regular expression */
-    lexer::Lexer *p = new lexer::Lexer(0);
+    Lexer::Lexer *p = new Lexer::Lexer(0);
     p->build_grammar(new string(ropt));
     p->enforceGrammar(new string(ropt));
 
     /* Get the tokens */
-    lexer::Token *symbols = p->get_tokens();
+    Lexer::Token *symbols = p->get_tokens();
     symbols->set_parser(NULL);
 
-    /* Remove the main lexer */
+    /* Remove the main Lexer */
     delete p;
 
     if (verbose) {
@@ -126,21 +170,7 @@ int main(int argc, char **argv)
 
     /* If requested, write a dot-graph for the regular expression */
     if (dot_graph) {
-        ofstream dot_file;
-        dot_file.open(dotname);
-
-        string sym_text = "";
-        symbols->get_dot_graph(&sym_text);
-        graph_text.append(sym_text);
-
-        graph_text.append("label=\"");
-        graph_text.append(ropt);
-        graph_text.append("\";\nlabelloc=top\n");
-
-        graph_text.push_back('}');
-
-        dot_file << graph_text << endl;
-        dot_file.close();
+        writeParseGraph(symbols, dotname, ropt);
     }
 
     /*
@@ -150,28 +180,7 @@ int main(int argc, char **argv)
 
     /* Build a dot graph for the NFA if requested */
     if (NFA_graph) {
-        ofstream dot_file;
-        dot_file.open(NFA_name);
-        string node_text = "";
-
-        symbols->get_ll_next()->get_start_symbol()->get_dotgraph(&node_text);
-
-        node_text.append("label=\"");
-        node_text.append(ropt);
-        node_text.append("\";\nlabelloc=top\n");
-
-        node_text.push_back('}');
-
-        NFA::State *accept = symbols->get_ll_next()->get_accept_symbol();
-
-        NFA_text.append("node [shape = doublecircle]; ");
-        NFA_text.append(*accept->get_name());
-        NFA_text.append(" ;\nnode [shape = circle];\n");
-
-        NFA_text.append(node_text);
-
-        dot_file << NFA_text << endl;
-        dot_file.close();
+        writeStateDiagram(symbols->get_ll_next(), NFA_name, ropt, NFA_text);
     }
 
 

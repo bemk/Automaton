@@ -18,7 +18,7 @@
 #define END_ONE 1
 #define END_INFINITE -1
 
-namespace lexer {
+namespace Lexer {
 
 class Quantifier : public Token {
 protected:

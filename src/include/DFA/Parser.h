@@ -16,11 +16,12 @@ namespace DFA {
     private:
         NFA::State* nfa = NULL;
         NFA::State* dfa = NULL;
+
     public:
-        Parser(NFA::State* nfa) {this->nfa = nfa;};
+        Parser(NFA::State* nfa);
         ~Parser();
 
-        NFA::State* buildDFA(NFA::State* state);
+        NFA::State* build_DFA();
 
     };
 

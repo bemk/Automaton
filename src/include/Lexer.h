@@ -14,7 +14,7 @@
 
 #include "Token.h"
 
-namespace lexer {
+namespace Lexer {
 
 class Token;
 

@@ -9,7 +9,7 @@
 #include <sstream>
 using namespace std;
 
-namespace lexer {
+namespace Lexer {
 
 Star::Star(Lexer *p) : Quantifier(p)
 {

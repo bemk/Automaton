@@ -10,7 +10,7 @@
 
 #include "Quantifier.h"
 
-namespace lexer {
+namespace Lexer {
 
 class Plus: public Quantifier {
 public:

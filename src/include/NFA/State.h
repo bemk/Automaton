@@ -13,6 +13,7 @@
 #include <vector>
 #include <string>
 #include "Transition.h"
+#include "../IGraphable.h"
 
 namespace DFA {
 class IntState;
@@ -22,10 +23,11 @@ namespace NFA {
 
 class Transition;
 
-class State {
+class State : public IGraphable {
 protected:
         bool graphed;
         bool end_state;
+        bool parsed;
         size_t location;
         std::string name;
         std::vector<Transition*> transitions;
@@ -48,7 +50,7 @@ public:
 
         void add_transition(char input, State* destination);
         void add_epsilon(State* destination);
-        bool get_dotgraph(std::string* s);
+        bool get_dot_graph(std::string* s) override;
         void set_end_state(bool end_state);
         bool get_end_state();
 
@@ -64,13 +66,9 @@ public:
                 return &this->incoming;
         }
 
-        DFA::IntState* build_closure_state(bool is_epsilon);
-        void build_closure_state(DFA::IntState* closure);
-        void build_DFA_state();
-        State* get_DFA_state();
-
-        DFA::IntState* get_closure();
-        void set_closure(DFA::IntState* closure);
+        void mark_parsed() {this->parsed = true;}
+        bool is_parsed() {return this->parsed;}
+        size_t get_location() {return this->location;}
 };
 
 } /* namespace NFA */

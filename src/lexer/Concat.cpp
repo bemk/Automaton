@@ -13,7 +13,7 @@ using namespace std;
 
 extern bool verbose;
 
-namespace lexer {
+namespace Lexer {
 
 Concat::Concat(Lexer *p) : Token(p)
 {

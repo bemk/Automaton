@@ -37,6 +37,7 @@ State::State(size_t location, string name)
         }
 
         this->graphed = false;
+        this->parsed = false;
         this->location = location;
         this->transitions = vector<Transition*>();
         this->incoming = vector<Transition*>();
@@ -91,7 +92,7 @@ void State::add_epsilon(State* dest)
         return;
 }
 
-bool State::get_dotgraph(string* s)
+bool State::get_dot_graph(string* s)
 {
         if (s == NULL || graphed) {
                 return false;
@@ -112,7 +113,7 @@ bool State::get_dotgraph(string* s)
                                         this->transitions[i]->get_epsilon(),
                                         this->transitions[i]->get_token());
                 }
-                transitions[i]->get_dest()->get_dotgraph(s);
+                transitions[i]->get_dest()->get_dot_graph(s);
         }
 
         return true;
@@ -156,16 +157,6 @@ void State::set_end_state(bool end_state)
 bool State::get_end_state()
 {
         return this->end_state;
-}
-
-void State::build_DFA_state()
-{
-        Alphabet* alpha = Alphabet::get_alphabet();
-}
-
-State* State::get_DFA_state()
-{
-        return NULL;
 }
 
 } /* namespace NFA */
