@@ -32,6 +32,8 @@ protected:
         std::string name;
         std::vector<Transition*> transitions;
         std::vector<Transition*> incoming;
+
+        std::vector<Transition*> definite_transitions = std::vector<Transition*>();
         int unique_id;
 
         void get_dot_reference(std::string* s, std::string* caller,
@@ -43,6 +45,8 @@ protected:
         }
 
         DFA::IntState* closure;
+        std::vector<NFA::State*>* get_states_for(char c, std::vector<NFA::State*>* seen);
+        void get_definite_transitions(std::vector<Transition*>& transitions, std::vector<NFA::State*>& seen);
 
 public:
         State(size_t location, std::string name);
@@ -56,10 +60,7 @@ public:
 
         std::string* get_name();
 
-        std::vector<Transition*>* get_transitions()
-        {
-                return &this->transitions;
-        }
+        std::vector<Transition*>& get_definite_transitions();
 
         std::vector<Transition*>* get_incoming()
         {
@@ -69,6 +70,8 @@ public:
         void mark_parsed() {this->parsed = true;}
         bool is_parsed() {return this->parsed;}
         size_t get_location() {return this->location;}
+
+        std::vector<NFA::State*>* get_states_for(char c);
 };
 
 } /* namespace NFA */

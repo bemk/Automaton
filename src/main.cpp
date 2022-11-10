@@ -85,7 +85,7 @@ void writeStateDiagram(Lexer::Token* token, const char* file_name, const char* r
 
     NFA_text.append(node_text);
 
-    dot_file << top_text << endl;
+    dot_file <<  NFA_text << endl;
     dot_file.close();
 }
 
