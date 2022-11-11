@@ -34,7 +34,7 @@ clean:
 	rm -rfv doc/*
 
 png: all
-	./automaton -d 2 -r "ca+a(bb|((cc|f.f)*|ee))d?d" -g parsetree.dot -n nfa.dot -s -o dfa.dot $(AUTOFLAGS)
+	./automaton -d 2 -r "ca+a(bb|((cc|f.f)*|ee))d?d" -g parsetree.dot -n nfa.dot -o dfa.dot $(AUTOFLAGS) -s
 	dot -Tpng parsetree.dot -o parsetree.png
 	dot -Tpng nfa.dot -o nfa.png
 	dot -Tpng dfa.dot -o dfa.png

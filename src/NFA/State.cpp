@@ -13,7 +13,7 @@
 
 using namespace std;
 extern bool simple_graph;
-extern bool verbose;
+extern bool reset_id_alloc;
 
 namespace NFA {
 
@@ -22,6 +22,12 @@ static int unique_id_alloc = 0;
 State::State(size_t location, string name)
 {
         this->end_state = false;
+
+        if (reset_id_alloc) {
+            reset_id_alloc = false;
+            unique_id_alloc = 0;
+        }
+
         this->unique_id = unique_id_alloc++;
         if (unique_id_alloc < 0) {
                 cerr << "Integer overflow!!!!!!" << endl;
@@ -66,8 +72,11 @@ void State::add_transition(char name, State* dest)
                 }
         }
 
-        Transition* transition = new Transition(this->location, name, this,
-                        dest);
+        Transition* transition = new Transition(
+                this->location,
+                name,
+                this,
+                dest);
 
         this->transitions.push_back(transition);
         dest->add_incoming(transition);
@@ -109,9 +118,13 @@ bool State::get_dot_graph(string* s)
 
         for (size_t i = 0; i < transitions.size(); i++) {
                 if (to_graph) {
-                        transitions[i]->get_dest()->get_dot_reference(s, &name,
-                                        this->transitions[i]->get_epsilon(),
-                                        this->transitions[i]->get_token());
+                        transitions[i]
+                                    ->get_dest()
+                                    ->get_dot_reference(
+                                            s,
+                                            &name,
+                                            this->transitions[i]->get_epsilon(),
+                                            this->transitions[i]->get_token());
                 }
                 transitions[i]->get_dest()->get_dot_graph(s);
         }
@@ -119,13 +132,21 @@ bool State::get_dot_graph(string* s)
         return true;
 }
 
-void State::get_dot_reference(std::string* s, std::string* caller, bool epsylon,
-                char input)
+void State::get_dot_reference(
+    std::string* s,
+    std::string* caller,
+    bool epsylon,
+    char input)
 {
         if (this->incoming.size() == 1 && this->transitions.size() == 1) {
                 if (incoming[0]->get_epsilon() && transitions[0]->get_epsilon()) {
-                        transitions[0]->get_dest()->get_dot_reference(s, caller,
-                                        true, input);
+                        transitions[0]
+                                    ->get_dest()
+                                    ->get_dot_reference(
+                                s,
+                                caller,
+                                true,
+                                input);
                         return;
                 }
         }
@@ -154,9 +175,35 @@ void State::set_end_state(bool end_state)
         this->end_state = end_state;
 }
 
-bool State::get_end_state()
+bool State::includes_end_state(std::vector<NFA::State*>& seen)
 {
-        return this->end_state;
+    for (State* s : seen) {
+        if (s == this) {
+            return false;
+        }
+    }
+
+    if (this->end_state) {
+        return true;
+    }
+
+    seen.push_back(this);
+
+    for (auto t : transitions) {
+        if (t->get_epsilon()) {
+            if (t->get_dest()->includes_end_state(seen)) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+bool State::includes_end_state()
+{
+    std::vector<NFA::State*> seen = std::vector<NFA::State*>();
+    return includes_end_state(seen);
 }
 
 std::vector<State*>* State::get_states_for(char c, std::vector<State*>* seen)

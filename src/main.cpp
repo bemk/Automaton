@@ -17,6 +17,7 @@
 using namespace std;
 
 bool simple_graph = false;
+bool reset_id_alloc = false;
 
 bool verbose = false;
 bool symbol_graph = false;
@@ -64,7 +65,7 @@ void writeParseGraph(IGraphable* graphable, const char* file_name, const char* r
     dot_file.close();
 }
 
-void writeStateDiagram(NFA::State* start, NFA::State* end, const char* file_name, const char* ropt, std::string top_text) {
+void writeStateDiagram(NFA::State* start, vector<NFA::State*> end, const char* file_name, const char* ropt, std::string top_text) {
     ofstream dot_file;
     dot_file.open(file_name);
     string node_text = "";
@@ -75,17 +76,18 @@ void writeStateDiagram(NFA::State* start, NFA::State* end, const char* file_name
     node_text.append(ropt);
     node_text.append("\";\nlabelloc=top;\n");
 
-    node_text.push_back('}');
+    node_text.append("}\n");
 
-    if (end != NULL) {
-        NFA::State *accept = end;
+    if (end.size() > 0) {
 
         top_text.append("node [shape = doublecircle]; ");
-        top_text.append(*accept->get_name());
-        top_text.append(";\n");
+        for (NFA::State* accept : end) {
+            top_text.append(*accept->get_name());
+            top_text.append(";\n");
+        }
     }
 
-    top_text.append("\nnode [shape = circle];\n");
+    top_text.append("node [shape = circle];\n");
     top_text.append(node_text);
     dot_file <<  top_text << endl;
     dot_file.close();
@@ -184,13 +186,19 @@ int main(int argc, char **argv)
     if (NFA_graph) {
         NFA::State* start = symbols->get_ll_next()->get_start_symbol();
         NFA::State* end = symbols->get_ll_next()->get_accept_symbol();
-        writeStateDiagram(start, end, NFA_name, ropt, NFA_text);
+        std::vector<NFA::State*> ends = std::vector<NFA::State*>();
+        ends.push_back(end);
+        writeStateDiagram(start, ends, NFA_name, ropt, NFA_text);
     }
 
+    /* Generate the DFA */
+    reset_id_alloc = true;
     DFA::Parser parser = DFA::Parser(symbols->get_ll_next()->get_start_symbol());
 
     if (DFA_graph) {
-        writeStateDiagram(parser.build_DFA(), NULL, DFA_name, ropt, DFA_text);
+        NFA::State* dfa = parser.build_DFA();
+        std::vector<NFA::State*> ends = parser.get_end_states();
+        writeStateDiagram(dfa, ends, DFA_name, ropt, DFA_text);
     }
 
 

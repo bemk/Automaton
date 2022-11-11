@@ -48,6 +48,7 @@ protected:
         DFA::IntState* closure;
         std::vector<NFA::State*>* get_states_for(char c, std::vector<NFA::State*>* seen);
         void get_all_character_transitions(std::map<char, std::vector<State*>>& transitions, std::vector<NFA::State*>& seen);
+        bool includes_end_state(std::vector<NFA::State*>& seen);
 
 public:
         State(size_t location, std::string name);
@@ -57,7 +58,7 @@ public:
         void add_epsilon(State* destination);
         bool get_dot_graph(std::string* s) override;
         void set_end_state(bool end_state);
-        bool get_end_state();
+        bool includes_end_state();
 
         std::string* get_name();
 
