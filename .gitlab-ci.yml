@@ -1,15 +1,28 @@
 stages:
   - build
+  - test
 
 build_app:
   stage: build
   image: containers.orion-os.eu/eds5-build
   script:
     - make clean
-    - make -j 2 png
+    - make -j 2
   artifacts:
     paths:
       - automaton
+    expire_in: 1 week
+
+test_app:
+  stage: test
+  image: containers.orion-os.eu/eds5-doxygen
+  script:
+    - ./automaton -d 2 -r "ca+a(bb|((cc|f.f)*|ee))d?d" -g parsetree.dot -n nfa.dot -o dfa.dot
+    - dot -Tpng parsetree.dot -o parsetree.png
+    - dot -Tpng nfa.dot -o nfa.png
+    - dot -Tpng dfa.dot -o dfa.png
+  artifacts:
+    paths:
       - parsetree.dot
       - nfa.dot
       - dfa.dot
@@ -17,5 +30,3 @@ build_app:
       - nfa.png
       - dfa.png
     expire_in: 1 week
-
-
