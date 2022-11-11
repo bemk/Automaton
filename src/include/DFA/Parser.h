@@ -19,8 +19,9 @@ namespace DFA {
         NFA::State* nfa = NULL;
         NFA::State* dfa = NULL;
 
-        std::map<std::string, NFA::State*> dfa_states = std::map<std::string, NFA::State*>();
+        std::map<std::string, DFA_State*> dfa_states = std::map<std::string, DFA_State*>();
 
+        std::string generate_name(std::vector<NFA::State*> sources);
     public:
         Parser(NFA::State* nfa);
         ~Parser();

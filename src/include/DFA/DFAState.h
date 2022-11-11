@@ -20,10 +20,8 @@ private:
 
     void add_source(NFA::State* state);
     void add_sources(std::vector<NFA::State*>&);
-    void generate_name();
 public:
-    DFA_State(std::vector<NFA::State*>& sources);
-    DFA_State(size_t source, std::string name);
+    DFA_State(std::vector<NFA::State*>& sources, std::string name);
     virtual ~DFA_State();
 };
 

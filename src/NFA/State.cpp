@@ -186,7 +186,7 @@ std::vector<State*>* State::get_states_for(char c)
 }
 
 
-void State::get_definite_transitions(std::vector<Transition*>& transitions, std::vector<NFA::State*>& seen)
+void State::get_all_character_transitions(std::map<char, std::vector<State*>>& transition_map, std::vector<NFA::State*>& seen)
 {
     for (State* s : seen) {
         if (s == this) {
@@ -198,18 +198,18 @@ void State::get_definite_transitions(std::vector<Transition*>& transitions, std:
     for (Transition* t : this->transitions) {
         if (t->get_epsilon()) {
             State* s = t->get_dest();
-            s->get_definite_transitions(transitions, seen);
+            s->get_all_character_transitions(transition_map, seen);
         } else {
-            transitions.push_back(t);
+            transition_map[t->get_token()].push_back(t->get_dest());
         }
     }
 }
 
-std::vector<Transition*>& State::get_definite_transitions() {
+std::map<char, std::vector<State*>>& State::get_all_character_transitions() {
     std::vector<NFA::State*> seen = std::vector<NFA::State*>();
-    get_definite_transitions(this->definite_transitions, seen);
+    get_all_character_transitions(transition_map, seen);
 
-    return this->definite_transitions;
+    return this->transition_map;
 }
 
 } /* namespace NFA */

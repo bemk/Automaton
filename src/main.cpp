@@ -19,8 +19,8 @@ using namespace std;
 bool simple_graph = false;
 
 bool verbose = false;
-bool dot_graph = false;
-const char *dotname;
+bool symbol_graph = false;
+const char *symbol_name;
 
 std::string graph_text = "digraph {\n";
 
@@ -48,7 +48,7 @@ void help()
 void writeParseGraph(IGraphable* graphable, const char* file_name, const char* ropt)
 {
     ofstream dot_file;
-    dot_file.open(dotname);
+    dot_file.open(symbol_name);
 
     string sym_text = "";
     graphable->get_dot_graph(&sym_text);
@@ -64,28 +64,30 @@ void writeParseGraph(IGraphable* graphable, const char* file_name, const char* r
     dot_file.close();
 }
 
-void writeStateDiagram(Lexer::Token* token, const char* file_name, const char* ropt, std::string top_text) {
+void writeStateDiagram(NFA::State* start, NFA::State* end, const char* file_name, const char* ropt, std::string top_text) {
     ofstream dot_file;
-    dot_file.open(NFA_name);
+    dot_file.open(file_name);
     string node_text = "";
 
-    token->get_start_symbol()->get_dot_graph(&node_text);
+    start->get_dot_graph(&node_text);
 
     node_text.append("label=\"");
     node_text.append(ropt);
-    node_text.append("\";\nlabelloc=top\n");
+    node_text.append("\";\nlabelloc=top;\n");
 
     node_text.push_back('}');
 
-    NFA::State *accept = token->get_accept_symbol();
+    if (end != NULL) {
+        NFA::State *accept = end;
 
-    NFA_text.append("node [shape = doublecircle]; ");
-    NFA_text.append(*accept->get_name());
-    NFA_text.append(" ;\nnode [shape = circle];\n");
+        top_text.append("node [shape = doublecircle]; ");
+        top_text.append(*accept->get_name());
+        top_text.append(";\n");
+    }
 
-    NFA_text.append(node_text);
-
-    dot_file <<  NFA_text << endl;
+    top_text.append("\nnode [shape = circle];\n");
+    top_text.append(node_text);
+    dot_file <<  top_text << endl;
     dot_file.close();
 }
 
@@ -114,8 +116,8 @@ int main(int argc, char **argv)
             break;
 
         case 'g':
-            dot_graph = true;
-            dotname = optarg;
+            symbol_graph = true;
+            symbol_name = optarg;
             break;
 
         case 'n':
@@ -169,8 +171,8 @@ int main(int argc, char **argv)
     }
 
     /* If requested, write a dot-graph for the regular expression */
-    if (dot_graph) {
-        writeParseGraph(symbols, dotname, ropt);
+    if (symbol_graph) {
+        writeParseGraph(symbols, symbol_name, ropt);
     }
 
     /*
@@ -180,7 +182,15 @@ int main(int argc, char **argv)
 
     /* Build a dot graph for the NFA if requested */
     if (NFA_graph) {
-        writeStateDiagram(symbols->get_ll_next(), NFA_name, ropt, NFA_text);
+        NFA::State* start = symbols->get_ll_next()->get_start_symbol();
+        NFA::State* end = symbols->get_ll_next()->get_accept_symbol();
+        writeStateDiagram(start, end, NFA_name, ropt, NFA_text);
+    }
+
+    DFA::Parser parser = DFA::Parser(symbols->get_ll_next()->get_start_symbol());
+
+    if (DFA_graph) {
+        writeStateDiagram(parser.build_DFA(), NULL, DFA_name, ropt, DFA_text);
     }
 
 

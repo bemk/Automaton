@@ -10,28 +10,13 @@
 
 namespace DFA {
 
-DFA_State::DFA_State(std::vector<NFA::State*>& sources) : NFA::State(0, "null")
+DFA_State::DFA_State(std::vector<NFA::State*>& sources, std::string name) : NFA::State(0, name)
 {
     this->add_sources(sources);
-    this->generate_name();
 }
 
 DFA_State::~DFA_State()
 {
-}
-
-void DFA_State::generate_name()
-{
-    std::stringstream builder = std::stringstream();
-    for (int i = 0; i < sources.size(); i++) {
-        builder << sources[i]->get_name();
-        if (i < (sources.size() - 1)) {
-            builder << ",";
-        }
-    }
-
-    this->name = builder.str();
-
 }
 
 void DFA_State::add_source(NFA::State* state)

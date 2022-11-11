@@ -12,6 +12,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <map>
 #include "Transition.h"
 #include "../IGraphable.h"
 
@@ -33,7 +34,7 @@ protected:
         std::vector<Transition*> transitions;
         std::vector<Transition*> incoming;
 
-        std::vector<Transition*> definite_transitions = std::vector<Transition*>();
+        std::map<char, std::vector<State*>> transition_map = std::map<char, std::vector<State*>>();
         int unique_id;
 
         void get_dot_reference(std::string* s, std::string* caller,
@@ -46,7 +47,7 @@ protected:
 
         DFA::IntState* closure;
         std::vector<NFA::State*>* get_states_for(char c, std::vector<NFA::State*>* seen);
-        void get_definite_transitions(std::vector<Transition*>& transitions, std::vector<NFA::State*>& seen);
+        void get_all_character_transitions(std::map<char, std::vector<State*>>& transitions, std::vector<NFA::State*>& seen);
 
 public:
         State(size_t location, std::string name);
@@ -60,7 +61,7 @@ public:
 
         std::string* get_name();
 
-        std::vector<Transition*>& get_definite_transitions();
+        std::map<char, std::vector<State*>>& get_all_character_transitions();
 
         std::vector<Transition*>* get_incoming()
         {
