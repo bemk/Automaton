@@ -5,10 +5,17 @@ build_app:
   stage: build
   image: containers.orion-os.eu/eds5-build
   script:
-    - make clean all
+    - make clean
+    - make -j 2 png
   artifacts:
     paths:
       - automaton
+      - parsetree.dot
+      - nfa.dot
+      - dfa.dot
+      - parsetree.png
+      - nfa.png
+      - dfa.png
     expire_in: 1 week
 
 
