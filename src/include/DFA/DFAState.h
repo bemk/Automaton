@@ -25,6 +25,8 @@ public:
     virtual ~DFA_State();
     std::vector<NFA::State*> get_sources() {return sources;}
     void set_name(std::string name) {this->name = name;}
+
+    bool enforce(const char* input);
 };
 
 } /* namespace DFA */

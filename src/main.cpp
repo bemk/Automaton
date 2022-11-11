@@ -195,12 +195,19 @@ int main(int argc, char **argv)
     reset_id_alloc = true;
     DFA::Parser parser = DFA::Parser(symbols->get_ll_next()->get_start_symbol());
 
+    NFA::State* dfa = parser.build_DFA();
     if (DFA_graph) {
-        NFA::State* dfa = parser.build_DFA();
         std::vector<NFA::State*> ends = parser.get_end_states();
         writeStateDiagram(dfa, ends, DFA_name, ropt, DFA_text);
     }
 
+    if (enforce) {
+        if (((DFA::DFA_State*)dfa)->enforce(enforcement_rule)) {
+            cout << "Rule '" << enforcement_rule << "' matched!" << endl;
+        } else {
+            cout << "Rule '" << enforcement_rule << "' did not match!" << endl;
+        }
+    }
 
 #ifndef __GNUC__
         system("PAUSE");

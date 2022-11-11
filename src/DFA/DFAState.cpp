@@ -37,4 +37,27 @@ void DFA_State::add_sources(std::vector<NFA::State*>& sources)
     }
 }
 
+bool DFA_State::enforce(const char* input)
+{
+    char head = input[0];
+    if (head == '\0' && this->end_state) {
+        return true;
+    } else if (head == '\0') {
+        return false;
+    }
+
+    NFA::Transition* found = NULL;
+    for (NFA::Transition* i : transitions) {
+        if (i->get_token() == head) {
+            found = i;
+        }
+    }
+    if (found == NULL) {
+        return false;
+    }
+
+    DFA_State* target = (DFA_State*)found->get_dest();
+    return target->enforce(&input[1]);
+}
+
 } /* namespace DFA */
