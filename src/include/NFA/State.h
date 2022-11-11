@@ -47,7 +47,6 @@ protected:
 
         DFA::IntState* closure;
         std::vector<NFA::State*>* get_states_for(char c, std::vector<NFA::State*>* seen);
-        void get_all_character_transitions(std::map<char, std::vector<State*>>& transitions, std::vector<NFA::State*>& seen);
         bool includes_end_state(std::vector<NFA::State*>& seen);
 
 public:
@@ -62,7 +61,7 @@ public:
 
         std::string* get_name();
 
-        std::map<char, std::vector<State*>>& get_all_character_transitions();
+        void get_all_character_transitions(std::map<char, std::vector<State*>>& transitions, std::vector<NFA::State*>& seen);
 
         std::vector<Transition*>* get_incoming()
         {

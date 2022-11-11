@@ -252,11 +252,4 @@ void State::get_all_character_transitions(std::map<char, std::vector<State*>>& t
     }
 }
 
-std::map<char, std::vector<State*>>& State::get_all_character_transitions() {
-    std::vector<NFA::State*> seen = std::vector<NFA::State*>();
-    get_all_character_transitions(transition_map, seen);
-
-    return this->transition_map;
-}
-
 } /* namespace NFA */

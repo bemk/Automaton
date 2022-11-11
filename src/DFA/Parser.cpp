@@ -17,9 +17,12 @@ Parser::~Parser()
 
 void Parser::build_DFA(DFA_State* dfa)
 {
+    std::vector<NFA::State*> states_seen = std::vector<NFA::State*>();
     std::map<char, std::vector<NFA::State*>> transition_map = std::map<char, std::vector<NFA::State*>> ();
     for (NFA::State* s : dfa->get_sources()) {
-        transition_map.merge(s->get_all_character_transitions());
+
+        s->get_all_character_transitions(transition_map, states_seen);
+
         bool found_end_state = s->includes_end_state();
         if (found_end_state) {
             std::cout << *s->get_name() <<" was endstate!" << std::endl;
