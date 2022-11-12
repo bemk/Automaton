@@ -7,7 +7,7 @@
 #include <iostream>
 #include <fstream>
 #include "include/Capture.h"
-#include "include/wingetopt.h"
+#include <getopt.h>
 #include "include/Alphabet.h"
 #include <cstdlib>
 #include <cstdio>
@@ -214,9 +214,6 @@ int main(int argc, char **argv)
         ((DFA::DFA_State*)dfa)->build_word(repetition_depth);
     }
 
-#ifndef __GNUC__
-        system("PAUSE");
-#endif
     return 0;
 }
 
