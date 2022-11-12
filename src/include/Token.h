@@ -2,7 +2,7 @@
  * Symbol.h
  *
  *  Created on: 23 Apr 2015
- *      Author: bemk
+ *      Author: Thomas Moors & Bart Kuivenhoven
  */
 
 #ifndef SRC_SYMBOL_H_

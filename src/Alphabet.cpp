@@ -2,7 +2,7 @@
  * Alphabet.cpp
  *
  *  Created on: 15 May 2015
- *      Author: bemk
+ *      Author: Thomas Moors & Bart Kuivenhoven
  */
 
 #include "include/Alphabet.h"

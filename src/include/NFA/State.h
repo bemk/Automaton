@@ -2,7 +2,7 @@
 
  *
  *  Created on: 29 May 2015
- *      Author: bemk
+ *      Author: Thomas Moors & Bart Kuivenhoven
  */
 
 #ifndef SRC_NFA_AUTOMATON_H_

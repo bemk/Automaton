@@ -2,7 +2,7 @@
  * Alphabet.h
  *
  *  Created on: 15 May 2015
- *      Author: bemk
+ *      Author: Thomas Moors & Bart Kuivenhoven
  */
 
 #ifndef SRC_ALPHABET_H_

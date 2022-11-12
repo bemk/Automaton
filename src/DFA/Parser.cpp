@@ -1,3 +1,11 @@
+/*
+ * Parser.cpp
+ *
+ *  Created on: 9 Nov 2022
+ *      Author: Bart Kuivenhoven
+ */
+
+
 
 #include "../include/DFA/Parser.h"
 #include <sstream>

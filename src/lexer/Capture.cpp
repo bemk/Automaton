@@ -2,7 +2,7 @@
  * Capture.cpp
  *
  *  Created on: 22 Apr 2015
- *      Author: bemk
+ *      Author: Thomas Moors & Bart Kuivenhoven
  */
 
 #include "../include/Capture.h"

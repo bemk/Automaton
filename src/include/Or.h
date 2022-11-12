@@ -2,7 +2,7 @@
  * Or.h
  *
  *  Created on: 20 mei 2015
- *      Author: Thomas
+ *      Author: Thomas Moors & Bart Kuivenhoven
  */
 
 #ifndef AUTOMATON_SRC_OR_H_

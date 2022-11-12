@@ -2,7 +2,7 @@
  * StartSymbol.h
  *
  *  Created on: 20 May 2015
- *      Author: bemk
+ *      Author: Thomas Moors & Bart Kuivenhoven
  */
 
 #ifndef SRC_INCLUDE_STARTTOKEN_H_

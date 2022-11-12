@@ -2,7 +2,7 @@
  * Concat.h
  *
  *  Created on: 29 Apr 2015
- *      Author: bemk
+ *      Author: Thomas Moors & Bart Kuivenhoven
  */
 
 #ifndef SRC_CONCAT_H_
