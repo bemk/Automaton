@@ -2,6 +2,7 @@
 #include "../include/DFA/Parser.h"
 #include <sstream>
 #include <iostream>
+#include <set>
 
 namespace DFA {
 
@@ -65,12 +66,13 @@ NFA::State* Parser::build_DFA()
 
 std::string Parser::generate_name(std::vector<NFA::State*> sources)
 {
+    std::set<NFA::State*> source_set;
+    source_set.insert(sources.begin(), sources.end());
+
     std::stringstream builder = std::stringstream();
-    for (int i = 0; i < sources.size(); i++) {
-        builder << *sources[i]->get_name();
-        if (i < (sources.size() - 1) && false) {
-            builder << "";
-        }
+    for (auto i : source_set) {
+        std::string name = *i->get_name();
+        builder << name;
     }
 
     return builder.str();
