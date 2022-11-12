@@ -2,7 +2,7 @@
  * StartSymbol.cpp
  *
  *  Created on: 20 May 2015
- *      Author: bemk
+ *      Author: Thomas Moors & Bart Kuivenhoven
  */
 
 #include "../include/StartToken.h"

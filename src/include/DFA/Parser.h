@@ -2,7 +2,7 @@
  * Parser.h
  *
  *  Created on: 9 Nov 2022
- *      Author: bemk
+ *      Author: Bart Kuivenhoven
  */
 
 #include <map>

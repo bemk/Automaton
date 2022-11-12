@@ -2,7 +2,7 @@
  * Plus.h
  *
  *  Created on: 13 mei 2015
- *      Author: Thomas
+ *      Author: Thomas Moors & Bart Kuivenhoven
  */
 
 #ifndef AUTOMATON_PLUS_H_

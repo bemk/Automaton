@@ -2,7 +2,7 @@
  * Or.cpp
  *
  *  Created on: 20 mei 2015
- *      Author: Thomas
+ *      Author: Thomas Moors & Bart Kuivenhoven
  */
 
 #include "../include/Or.h"

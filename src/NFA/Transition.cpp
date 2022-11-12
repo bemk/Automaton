@@ -2,7 +2,7 @@
  * Transition.cpp
  *
  *  Created on: 29 May 2015
- *      Author: bemk
+ *      Author: Thomas Moors & Bart Kuivenhoven
  */
 
 #include "../include/NFA/Transition.h"

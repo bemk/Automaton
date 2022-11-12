@@ -2,7 +2,7 @@
  * DFAState.cpp
  *
  *  Created on: 10 Nov 2022
- *      Author: bemk
+ *      Author:  Bart Kuivenhoven
  */
 
 #include "../include/DFA/DFAState.h"

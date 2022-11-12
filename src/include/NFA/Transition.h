@@ -2,7 +2,7 @@
  * Transition.h
  *
  *  Created on: 29 May 2015
- *      Author: bemk
+ *      Author: Thomas Moors & Bart Kuivenhoven
  */
 
 #ifndef SRC_INCLUDE_TRANSITION_H_

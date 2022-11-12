@@ -2,7 +2,7 @@
  * Concat.cpp
  *
  *  Created on: 29 Apr 2015
- *      Author: bemk
+ *      Author: Thomas Moors & Bart Kuivenhoven
  */
 
 #include "../include/Concat.h"
