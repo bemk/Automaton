@@ -10,7 +10,7 @@
 using namespace std;
 #include <sstream>
 
-namespace lexer {
+namespace Lexer {
 
 QuestionMark::QuestionMark(Lexer *p) : Quantifier(p)
 {

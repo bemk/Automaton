@@ -10,7 +10,7 @@
 
 #include "Token.h"
 
-namespace lexer {
+namespace Lexer {
 
 class StartToken: public Token {
 public:

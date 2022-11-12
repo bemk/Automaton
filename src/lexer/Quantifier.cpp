@@ -12,7 +12,7 @@
 
 using namespace std;
 
-namespace lexer {
+namespace Lexer {
 
 Quantifier::Quantifier(Lexer *p) : Token(p)
 {

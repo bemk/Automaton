@@ -9,7 +9,7 @@
 #include <sstream>
 using namespace std;
 
-namespace lexer {
+namespace Lexer {
 
 Plus::Plus(Lexer *p) : Quantifier(p)
 {

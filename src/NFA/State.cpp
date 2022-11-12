@@ -9,12 +9,11 @@
 #include <sstream>
 #include <vector>
 #include "../include/NFA/State.h"
-#include "../include/DFA/IntState.h"
 #include "../include/Alphabet.h"
 
 using namespace std;
 extern bool simple_graph;
-extern bool verbose;
+extern bool reset_id_alloc;
 
 namespace NFA {
 
@@ -23,6 +22,12 @@ static int unique_id_alloc = 0;
 State::State(size_t location, string name)
 {
         this->end_state = false;
+
+        if (reset_id_alloc) {
+            reset_id_alloc = false;
+            unique_id_alloc = 0;
+        }
+
         this->unique_id = unique_id_alloc++;
         if (unique_id_alloc < 0) {
                 cerr << "Integer overflow!!!!!!" << endl;
@@ -38,6 +43,7 @@ State::State(size_t location, string name)
         }
 
         this->graphed = false;
+        this->parsed = false;
         this->location = location;
         this->transitions = vector<Transition*>();
         this->incoming = vector<Transition*>();
@@ -66,8 +72,11 @@ void State::add_transition(char name, State* dest)
                 }
         }
 
-        Transition* transition = new Transition(this->location, name, this,
-                        dest);
+        Transition* transition = new Transition(
+                this->location,
+                name,
+                this,
+                dest);
 
         this->transitions.push_back(transition);
         dest->add_incoming(transition);
@@ -92,7 +101,7 @@ void State::add_epsilon(State* dest)
         return;
 }
 
-bool State::get_dotgraph(string* s)
+bool State::get_dot_graph(string* s)
 {
         if (s == NULL || graphed) {
                 return false;
@@ -109,23 +118,35 @@ bool State::get_dotgraph(string* s)
 
         for (size_t i = 0; i < transitions.size(); i++) {
                 if (to_graph) {
-                        transitions[i]->get_dest()->get_dot_reference(s, &name,
-                                        this->transitions[i]->get_epsilon(),
-                                        this->transitions[i]->get_token());
+                        transitions[i]
+                                    ->get_dest()
+                                    ->get_dot_reference(
+                                            s,
+                                            &name,
+                                            this->transitions[i]->get_epsilon(),
+                                            this->transitions[i]->get_token());
                 }
-                transitions[i]->get_dest()->get_dotgraph(s);
+                transitions[i]->get_dest()->get_dot_graph(s);
         }
 
         return true;
 }
 
-void State::get_dot_reference(std::string* s, std::string* caller, bool epsylon,
-                char input)
+void State::get_dot_reference(
+    std::string* s,
+    std::string* caller,
+    bool epsylon,
+    char input)
 {
         if (this->incoming.size() == 1 && this->transitions.size() == 1) {
                 if (incoming[0]->get_epsilon() && transitions[0]->get_epsilon()) {
-                        transitions[0]->get_dest()->get_dot_reference(s, caller,
-                                        true, input);
+                        transitions[0]
+                                    ->get_dest()
+                                    ->get_dot_reference(
+                                s,
+                                caller,
+                                true,
+                                input);
                         return;
                 }
         }
@@ -154,99 +175,81 @@ void State::set_end_state(bool end_state)
         this->end_state = end_state;
 }
 
-bool State::get_end_state()
+bool State::includes_end_state(std::vector<NFA::State*>& seen)
 {
-        return this->end_state;
+    for (State* s : seen) {
+        if (s == this) {
+            return false;
+        }
+    }
+
+    if (this->end_state) {
+        return true;
+    }
+
+    seen.push_back(this);
+
+    for (auto t : transitions) {
+        if (t->get_epsilon()) {
+            if (t->get_dest()->includes_end_state(seen)) {
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
-void State::build_closure_state(DFA::IntState* closure)
+bool State::includes_end_state()
 {
-        if (verbose) {
-                cout << "this: " << this->name << endl;
-        }
-        /* Add the token to the list
-         * Also separate out the epsilons */
-        vector<Transition*> epsilons = vector<Transition*>();
-        for (int idx = 0; idx < transitions.size(); idx++) {
-                if (transitions[idx]->get_epsilon()) {
-                        epsilons.push_back(transitions[idx]);
-                        continue;
-                }
-
-                closure->add_transition(transitions[idx]->get_dest(),
-                                transitions[idx]->get_token());
-                if (verbose) {
-                        cout << "\t\"" << *closure->get_source_name()
-                        << "\" -> \"" << this->name << "\" [ label=\""
-                        << transitions[idx]->get_token() << "\"";
-                        if (this->get_end_state()) {
-                                cout << " shape=doublecircle";
-                        } else {
-                                cout << " shape=circle";
-                        }
-
-                        cout << " ];" << endl;
-                }
-        }
-
-        /* put yourself in the recursion safety list */
-        closure->put_e_transition(this);
-
-        /* If we're an end state, label the closure as such */
-        if (this->get_end_state()) {
-                closure->set_endstate();
-        }
-
-        /* So long as the state isn't in the recursion safety list,
-         * add epsilon state to this closure */
-        for (int idx = 0; idx < epsilons.size(); idx++) {
-                if (!closure->has_e_transition(epsilons[idx]->get_dest())) {
-                        epsilons[idx]->get_dest()->build_closure_state(closure);
-                }
-        }
+    std::vector<NFA::State*> seen = std::vector<NFA::State*>();
+    return includes_end_state(seen);
 }
 
-DFA::IntState* State::build_closure_state(bool is_epsilon)
+std::vector<State*>* State::get_states_for(char c, std::vector<State*>* seen)
 {
-        /* Make sure we don't run more than 1 time */
-        if (closure != NULL) {
-                return this->closure;
+    for (int i = 0; i < seen->size(); i++) {
+        if (seen->at(i) == this) {
+            return seen;
         }
+    }
 
-        /* If we came in through an epsilon, cancel */
-        if (!is_epsilon) {
-                closure = new DFA::IntState(
-                                Alphabet::get_alphabet()->get_size(),
-                                this->name);
-                this->build_closure_state(closure);
+    seen->push_back(this);
+    for (auto t : transitions) {
+       if (t->get_token() == c)  {
+           seen->push_back(t->get_dest());
+       } else if (t->get_epsilon()) {
+           t->get_dest()->get_states_for(c, seen);
+       }
+    }
+    return seen;
+}
+
+std::vector<State*>* State::get_states_for(char c)
+{
+    std::vector<NFA::State*>* seen = new std::vector<State*>();
+
+    return get_states_for(c, seen);
+}
+
+
+void State::get_all_character_transitions(std::map<char, std::vector<State*>>& transition_map, std::vector<NFA::State*>& seen)
+{
+    for (State* s : seen) {
+        if (s == this) {
+            return;
         }
+    }
+    seen.push_back(this);
 
-        /* Make all of our links do stuff */
-        closure->build_int_states();
-
-        /* Couple all of our intermediate states into a fully functioning DFA */
-
-        return closure;
-}
-
-void State::build_DFA_state()
-{
-        Alphabet* alpha = Alphabet::get_alphabet();
-}
-
-State* State::get_DFA_state()
-{
-        return NULL;
-}
-
-DFA::IntState* State::get_closure()
-{
-        return this->closure;
-}
-
-void State::set_closure(DFA::IntState* closure)
-{
-        this->closure = closure;
+    for (Transition* t : this->transitions) {
+        if (t->get_epsilon()) {
+            State* s = t->get_dest();
+            s->get_all_character_transitions(transition_map, seen);
+        } else {
+            transition_map[t->get_token()].push_back(t->get_dest());
+        }
+    }
 }
 
 } /* namespace NFA */

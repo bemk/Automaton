@@ -17,10 +17,11 @@
 using namespace std;
 
 bool simple_graph = false;
+bool reset_id_alloc = false;
 
 bool verbose = false;
-bool dot_graph = false;
-const char *dotname;
+bool symbol_graph = false;
+const char *symbol_name;
 
 std::string graph_text = "digraph {\n";
 
@@ -43,6 +44,53 @@ void help()
 #endif
     system("less help.doc");
     exit(0);
+}
+
+void writeParseGraph(IGraphable* graphable, const char* file_name, const char* ropt)
+{
+    ofstream dot_file;
+    dot_file.open(symbol_name);
+
+    string sym_text = "";
+    graphable->get_dot_graph(&sym_text);
+    graph_text.append(sym_text);
+
+    graph_text.append("label=\"");
+    graph_text.append(ropt);
+    graph_text.append("\";\nlabelloc=top\n");
+
+    graph_text.push_back('}');
+
+    dot_file << graph_text << endl;
+    dot_file.close();
+}
+
+void writeStateDiagram(NFA::State* start, vector<NFA::State*> end, const char* file_name, const char* ropt, std::string top_text) {
+    ofstream dot_file;
+    dot_file.open(file_name);
+    string node_text = "";
+
+    start->get_dot_graph(&node_text);
+
+    node_text.append("label=\"");
+    node_text.append(ropt);
+    node_text.append("\";\nlabelloc=top;\n");
+
+    node_text.append("}\n");
+
+    if (end.size() > 0) {
+
+        top_text.append("node [shape = doublecircle]; ");
+        for (NFA::State* accept : end) {
+            top_text.append(*accept->get_name());
+            top_text.append(";\n");
+        }
+    }
+
+    top_text.append("node [shape = circle];\n");
+    top_text.append(node_text);
+    dot_file <<  top_text << endl;
+    dot_file.close();
 }
 
 int main(int argc, char **argv)
@@ -70,8 +118,8 @@ int main(int argc, char **argv)
             break;
 
         case 'g':
-            dot_graph = true;
-            dotname = optarg;
+            symbol_graph = true;
+            symbol_name = optarg;
             break;
 
         case 'n':
@@ -108,15 +156,15 @@ int main(int argc, char **argv)
         cout << "depth with value " << repetition_depth << endl;
     }
     /* Start interpreting the regular expression */
-    lexer::Lexer *p = new lexer::Lexer(0);
+    Lexer::Lexer *p = new Lexer::Lexer(0);
     p->build_grammar(new string(ropt));
     p->enforceGrammar(new string(ropt));
 
     /* Get the tokens */
-    lexer::Token *symbols = p->get_tokens();
+    Lexer::Token *symbols = p->get_tokens();
     symbols->set_parser(NULL);
 
-    /* Remove the main lexter */
+    /* Remove the main Lexer */
     delete p;
 
     if (verbose) {
@@ -125,22 +173,8 @@ int main(int argc, char **argv)
     }
 
     /* If requested, write a dot-graph for the regular expression */
-    if (dot_graph) {
-        ofstream dot_file;
-        dot_file.open(dotname);
-
-        string sym_text = "";
-        symbols->get_dot_graph(&sym_text);
-        graph_text.append(sym_text);
-
-        graph_text.append("label=\"");
-        graph_text.append(ropt);
-        graph_text.append("\";\nlabelloc=top\n");
-
-        graph_text.push_back('}');
-
-        dot_file << graph_text << endl;
-        dot_file.close();
+    if (symbol_graph) {
+        writeParseGraph(symbols, symbol_name, ropt);
     }
 
     /*
@@ -150,74 +184,34 @@ int main(int argc, char **argv)
 
     /* Build a dot graph for the NFA if requested */
     if (NFA_graph) {
-        ofstream dot_file;
-        dot_file.open(NFA_name);
-        string node_text = "";
-
-        symbols->get_ll_next()->get_start_symbol()->get_dotgraph(&node_text);
-
-        node_text.append("label=\"");
-        node_text.append(ropt);
-        node_text.append("\";\nlabelloc=top\n");
-
-        node_text.push_back('}');
-
-        NFA::State *accept = symbols->get_ll_next()->get_accept_symbol();
-
-        NFA_text.append("node [shape = doublecircle]; ");
-        NFA_text.append(*accept->get_name());
-        NFA_text.append(" ;\nnode [shape = circle];\n");
-
-        NFA_text.append(node_text);
-
-        dot_file << NFA_text << endl;
-        dot_file.close();
+        NFA::State* start = symbols->get_ll_next()->get_start_symbol();
+        NFA::State* end = symbols->get_ll_next()->get_accept_symbol();
+        std::vector<NFA::State*> ends = std::vector<NFA::State*>();
+        ends.push_back(end);
+        writeStateDiagram(start, ends, NFA_name, ropt, NFA_text);
     }
 
-    /* Build a parser for the NFA */
-    DFA::Parser parser = DFA::Parser(symbols->get_ll_next());
-    /* Buid a DFA out of the NFA */
-    parser.parse();
+    /* Generate the DFA */
+    reset_id_alloc = true;
+    DFA::Parser parser = DFA::Parser(symbols->get_ll_next()->get_start_symbol());
 
-    /* Get the DFA reference */
-    DFA::State *dfa = parser.get_dfa();
-
-    /* Build a DFA dot graph if requested. */
+    NFA::State* dfa = parser.build_DFA();
     if (DFA_graph) {
-        ofstream dot_file;
-        dot_file.open(DFA_name);
-        string node_text = "";
-        string end_claim = "";
-
-        dfa->get_dot_graph(&node_text, &end_claim);
-        end_claim.append("node [shape = circle];");
-
-        node_text.append("label=\"");
-        node_text.append(ropt);
-        node_text.append("\";\nlabelloc=top\n");
-        node_text.append("\"\" [ shape=\"none\"]; \"\" -> q_0;");
-        node_text.push_back('}');
-
-        DFA_text.append(end_claim);
-        DFA_text.append(node_text);
-
-        dot_file << DFA_text << endl;
-        dot_file.close();
+        std::vector<NFA::State*> ends = parser.get_end_states();
+        writeStateDiagram(dfa, ends, DFA_name, ropt, DFA_text);
     }
 
-    /* If requested, see if input string matches rules */
     if (enforce) {
-        string rule = string(enforcement_rule);
-        if (dfa->enforce(rule)) {
-            cout << "Rule accepted!" << endl;
+        if (((DFA::DFA_State*)dfa)->enforce(enforcement_rule)) {
+            cout << "Rule '" << enforcement_rule << "' matched!" << endl;
         } else {
-            cout << "Rule denied!" << endl;
+            cout << "Rule '" << enforcement_rule << "' did not match!" << endl;
         }
     }
 
     if (repetition_depth > 0) {
-        string str = "";
-        dfa->build_word(inverted, &str, repetition_depth);
+        cout << "Words to depth: " << repetition_depth << endl;
+        ((DFA::DFA_State*)dfa)->build_word(repetition_depth);
     }
 
 #ifndef __GNUC__

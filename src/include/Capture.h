@@ -13,7 +13,7 @@
 #include "Lexer.h"
 #include "Token.h"
 
-namespace lexer {
+namespace Lexer {
 
 class Capture: public Token {
 private:

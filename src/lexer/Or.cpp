@@ -10,7 +10,7 @@
 #include <sstream>
 using namespace std;
 
-namespace lexer {
+namespace Lexer {
 
 Or::Or(Lexer *p) : Token(p)
 {

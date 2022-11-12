@@ -1,36 +1,43 @@
 /*
  * Parser.h
  *
- *  Created on: 10 Jun 2015
+ *  Created on: 9 Nov 2022
  *      Author: bemk
  */
+
+#include <map>
+#include <unordered_set>
+
+#include "../NFA/State.h"
+#include "DFAState.h"
 
 #ifndef SRC_INCLUDE_DFA_PARSER_H_
 #define SRC_INCLUDE_DFA_PARSER_H_
 
-#include "../Token.h"
-#include "State.h"
-#include <vector>
-
 namespace DFA {
 
-class Parser {
-private:
-        lexer::Token* tokens;
-        std::vector<State*> states;
+    class Parser {
+    private:
+        NFA::State* nfa = NULL;
+        DFA_State* dfa = NULL;
 
-        State* DFA;
+        std::map<std::string, DFA_State*> dfa_states = std::map<std::string, DFA_State*>();
+        std::unordered_set<NFA::State*> set_end_states = std::unordered_set<NFA::State*>();
+        std::vector<NFA::State*> vector_end_states = std::vector<NFA::State*>();
 
-public:
-        Parser(lexer::Token* tokens);
-        virtual ~Parser();
+        std::string generate_name(std::vector<NFA::State*> sources);
+        void build_DFA(DFA_State* dfa);
+    public:
+        Parser(NFA::State* nfa);
+        ~Parser();
 
-        void parse();
+        NFA::State* build_DFA();
 
-        State* get_dfa();
+        std::vector<NFA::State*> get_end_states() {return vector_end_states;}
+
+    };
 
 };
 
-} /* namespace DFA */
 
 #endif /* SRC_INCLUDE_DFA_PARSER_H_ */

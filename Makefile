@@ -20,7 +20,7 @@ NFA_OBJ_FILES := $(addprefix src/NFA/,$(notdir $(NFA_FILES:.cpp=.o)))
 DFA_FILES := $(wildcard src/DFA/*.cpp)
 DFA_OBJ_FILES := $(addprefix src/DFA/,$(notdir $(DFA_FILES:.cpp=.o)))
 
-TARGETS := $(OBJ_FILES) $(COBJ_FILES) $(LEXER_OBJ_FILES) $(NFA_OBJ_FILES) $(DFA_OBJ_FILES)
+TARGETS := $(OBJ_FILES) $(COBJ_FILES) $(LEXER_OBJ_FILES) $(NFA_OBJ_FILES) $(DFA_OBJ_FILES) 
 
 .PHONY: all clean test
 
@@ -34,8 +34,8 @@ clean:
 	rm -rfv doc/*
 
 png: all
-	./automaton -d 2 -r "ca+a(bb|((cc|f.f)*|ee))d?d" -g dot.dot -n nfa.dot -s -o dfa.dot $(AUTOFLAGS)
-	dot -Tpng dot.dot -o dot.png
+	./automaton -d 8 -r "ca+a(bb|((cc|f.f)*|ee))d?d" -g parsetree.dot -n nfa.dot -o dfa.dot $(AUTOFLAGS)
+	dot -Tpng parsetree.dot -o parsetree.png
 	dot -Tpng nfa.dot -o nfa.png
 	dot -Tpng dfa.dot -o dfa.png
 	eog *.png

@@ -12,8 +12,9 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <map>
 #include "Transition.h"
-#include "../DFA/IntState.h"
+#include "../IGraphable.h"
 
 namespace DFA {
 class IntState;
@@ -23,14 +24,17 @@ namespace NFA {
 
 class Transition;
 
-class State {
+class State : public IGraphable {
 protected:
         bool graphed;
         bool end_state;
+        bool parsed;
         size_t location;
         std::string name;
         std::vector<Transition*> transitions;
         std::vector<Transition*> incoming;
+
+        std::map<char, std::vector<State*>> transition_map = std::map<char, std::vector<State*>>();
         int unique_id;
 
         void get_dot_reference(std::string* s, std::string* caller,
@@ -42,6 +46,8 @@ protected:
         }
 
         DFA::IntState* closure;
+        std::vector<NFA::State*>* get_states_for(char c, std::vector<NFA::State*>* seen);
+        bool includes_end_state(std::vector<NFA::State*>& seen);
 
 public:
         State(size_t location, std::string name);
@@ -49,29 +55,24 @@ public:
 
         void add_transition(char input, State* destination);
         void add_epsilon(State* destination);
-        bool get_dotgraph(std::string* s);
+        bool get_dot_graph(std::string* s) override;
         void set_end_state(bool end_state);
-        bool get_end_state();
+        bool includes_end_state();
 
         std::string* get_name();
 
-        std::vector<Transition*>* get_transitions()
-        {
-                return &this->transitions;
-        }
+        void get_all_character_transitions(std::map<char, std::vector<State*>>& transitions, std::vector<NFA::State*>& seen);
 
         std::vector<Transition*>* get_incoming()
         {
                 return &this->incoming;
         }
 
-        DFA::IntState* build_closure_state(bool is_epsilon);
-        void build_closure_state(DFA::IntState* closure);
-        void build_DFA_state();
-        State* get_DFA_state();
+        void mark_parsed() {this->parsed = true;}
+        bool is_parsed() {return this->parsed;}
+        size_t get_location() {return this->location;}
 
-        DFA::IntState* get_closure();
-        void set_closure(DFA::IntState* closure);
+        std::vector<NFA::State*>* get_states_for(char c);
 };
 
 } /* namespace NFA */

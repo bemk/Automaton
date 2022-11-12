@@ -7,7 +7,7 @@
 
 #include "../include/StartToken.h"
 
-namespace lexer {
+namespace Lexer {
 
 StartToken::StartToken(Lexer *p) : Token(p)
 {

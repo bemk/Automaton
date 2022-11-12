@@ -12,15 +12,16 @@
 #include <iostream>
 #include "Lexer.h"
 #include "NFA/State.h"
+#include "IGraphable.h"
 
 #define STRING_LITTERAL -1
 #define STRING_OPERATOR 0
 
-namespace lexer {
+namespace Lexer {
 
 class Lexer;
 
-class Token {
+class Token : public IGraphable {
     Token *left;
     Token *right;
     Token *top;
@@ -68,7 +69,7 @@ public:
     void setParent(Token*);
 
     void set_parser(Lexer *p);
-    bool get_dot_graph(std::string *s);
+    bool get_dot_graph(std::string *s) override;
 
     void set_ll_next(Token *s);
     void set_ll_prev(Token *s);
