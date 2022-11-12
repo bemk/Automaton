@@ -209,6 +209,11 @@ int main(int argc, char **argv)
         }
     }
 
+    if (repetition_depth > 0) {
+        cout << "Words to depth:" << repetition_depth << endl;
+        ((DFA::DFA_State*)dfa)->build_word(repetition_depth);
+    }
+
 #ifndef __GNUC__
         system("PAUSE");
 #endif

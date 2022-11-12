@@ -60,4 +60,24 @@ bool DFA_State::enforce(const char* input)
     return target->enforce(&input[1]);
 }
 
+void DFA_State::build_word(std::string path, size_t depth)
+{
+    if (end_state) {
+        std::cout << path << std::endl;
+    }
+
+    if (depth == 0) {
+        return;
+    }
+
+    for (auto t: transitions) {
+        ((DFA_State*)t->get_dest())->build_word(path + t->get_token(), depth-1);
+    }
+}
+
+void DFA_State::build_word(size_t depth)
+{
+    build_word("", depth);
+}
+
 } /* namespace DFA */

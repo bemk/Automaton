@@ -20,6 +20,7 @@ private:
 
     void add_source(NFA::State* state);
     void add_sources(std::vector<NFA::State*>&);
+    void build_word(std::string path, size_t depth);
 public:
     DFA_State(std::vector<NFA::State*>& sources, std::string name);
     virtual ~DFA_State();
@@ -27,6 +28,7 @@ public:
     void set_name(std::string name) {this->name = name;}
 
     bool enforce(const char* input);
+    void build_word(size_t depth);
 };
 
 } /* namespace DFA */

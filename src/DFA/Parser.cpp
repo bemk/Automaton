@@ -25,7 +25,6 @@ void Parser::build_DFA(DFA_State* dfa)
 
         bool found_end_state = s->includes_end_state();
         if (found_end_state) {
-            std::cout << *s->get_name() <<" was endstate!" << std::endl;
             this->set_end_states.emplace(dfa);
             dfa->set_end_state(true);
         }
