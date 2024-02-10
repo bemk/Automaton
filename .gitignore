@@ -6,6 +6,7 @@ automaton
 .gdbinit
 *.dot
 *.png
+*.svg
 Debug
 push.sh
 doc/

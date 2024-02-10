@@ -31,6 +31,7 @@ clean:
 	rm -fv $(TARGETS) automaton
 	rm -fv *.dot
 	rm -fv *.png
+	rm -fv *.svg
 	rm -rfv doc/*
 
 png: all
@@ -39,6 +40,14 @@ png: all
 	dot -Tpng nfa.dot -o nfa.png
 	dot -Tpng dfa.dot -o dfa.png
 	eog *.png
+
+svg: all
+	./automaton -d 8 -r "ca+a(bb|((cc|f.f)*|ee))d?d" -g parsetree.dot -n nfa.dot -o dfa.dot $(AUTOFLAGS)
+	dot -Tsvg parsetree.dot -o parsetree.svg
+	dot -Tsvg nfa.dot -o nfa.svg
+	dot -Tsvg dfa.dot -o dfa.svg
+	eog *.svg
+
 
 doxygen:
 	mkdir -p doc/
